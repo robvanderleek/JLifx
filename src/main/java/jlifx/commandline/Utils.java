@@ -1,6 +1,8 @@
 package jlifx.commandline;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
 
@@ -15,13 +17,27 @@ public class Utils {
         return result;
     }
 
+    private static final Map<String, Color> COLORS = new HashMap<String, Color>();
+    static {
+        COLORS.put("black", Color.BLACK);
+        COLORS.put("blue", Color.BLUE);
+        COLORS.put("cyan", Color.CYAN);
+        COLORS.put("darkgray", Color.DARK_GRAY);
+        COLORS.put("gray", Color.GRAY);
+        COLORS.put("green", Color.GREEN);
+        COLORS.put("lightgrey", Color.LIGHT_GRAY);
+        COLORS.put("magenta", Color.MAGENTA);
+        COLORS.put("orange", Color.ORANGE);
+        COLORS.put("pink", Color.PINK);
+        COLORS.put("red", Color.RED);
+        COLORS.put("white", Color.WHITE);
+        COLORS.put("yellow", Color.YELLOW);
+    }
+
     public static Color stringToColor(String string) {
-        if (string.equalsIgnoreCase("red")) {
-            return Color.red;
-        } else if (string.equalsIgnoreCase("green")) {
-            return Color.green;
-        } else if (string.equalsIgnoreCase("blue")) {
-            return Color.blue;
+        Color color = COLORS.get(string);
+        if (color != null) {
+            return color;
         } else {
             try {
                 return Color.decode("#" + string);
