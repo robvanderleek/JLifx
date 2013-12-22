@@ -1,4 +1,4 @@
-package lifx;
+package jlifx;
 
 import java.net.InetAddress;
 

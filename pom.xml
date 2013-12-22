@@ -27,7 +27,7 @@
        <configuration>
          <archive>
            <manifest>
-             <mainClass>lifx.Main</mainClass>
+             <mainClass>jlifx.Main</mainClass>
            </manifest>
          </archive>
          <descriptorRefs>

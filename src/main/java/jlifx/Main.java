@@ -1,5 +1,6 @@
-package lifx;
+package jlifx;
 
+import java.awt.Color;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -31,6 +32,8 @@ public class Main {
         OUT.println("    Scan local network for a gateway bulb");
         OUT.println("  switch <mac-address> [on|off]:");
         OUT.println("    Switch selected bulb on/off");
+        OUT.println("  color <mac-address> <rgb>:");
+        OUT.println("    Set selected bulb to selected color (max. brightness)");
     }
 
     public static void main(String[] args) throws IOException {
@@ -45,6 +48,12 @@ public class Main {
                 printUsage();
             } else {
                 new Main().powerSwitchBulb(parseMacAddress(args[1]), args[2].equalsIgnoreCase("on") ? true : false);
+            }
+        } else if (args[0].equalsIgnoreCase("color")) {
+            if (args.length != 3) {
+                printUsage();
+            } else {
+                new Main().colorizeBulb(parseMacAddress(args[1]), Color.decode("#" + args[2]));
             }
         }
     }
@@ -74,6 +83,15 @@ public class Main {
     private void powerSwitchBulb(byte[] macAddress, boolean on) throws IOException {
         Bulb gatewayBulb = discoverGatewayBulb();
         PowerManagementPacket packet = new PowerManagementPacket(macAddress, on);
+        Socket socket = new Socket(gatewayBulb.getInetAddress(), PORT);
+        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        dataOutputStream.write(packet.toByteArray());
+        socket.close();
+    }
+    
+    private void colorizeBulb(byte[] macAddress, Color color) throws IOException {
+        Bulb gatewayBulb = discoverGatewayBulb();
+        Packet packet = new ColorManagementPacket(macAddress, color);
         Socket socket = new Socket(gatewayBulb.getInetAddress(), PORT);
         DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
         dataOutputStream.write(packet.toByteArray());

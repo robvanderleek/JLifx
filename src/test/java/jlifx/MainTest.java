@@ -1,8 +1,9 @@
-package lifx;
+package jlifx;
 
 import java.net.InetAddress;
 import java.util.List;
 
+import jlifx.Main;
 import junit.framework.TestCase;
 
 public class MainTest extends TestCase {

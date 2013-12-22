@@ -1,4 +1,4 @@
-package lifx;
+package jlifx;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -45,10 +45,8 @@ public class ColorManagementPacket extends Packet {
     }
     
     private byte[] colorToBytes(Color color) {
-    	int byteValue = 0;
-    	byteValue = (color.getRed() & 0x1f) << 11;
-        byteValue |= (color.getGreen() & 0x3f) << 5;
-        byteValue |= (color.getBlue() & 0x1f) << 0;
+    	float[] hsbValues = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+    	int byteValue = (int)(hsbValues[0] * 65535);
     	byte[] result = new byte[2];
     	result[0] = (byte)(byteValue >> 8);
     	result[1] = (byte)byteValue;
