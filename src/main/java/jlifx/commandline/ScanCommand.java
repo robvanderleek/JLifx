@@ -10,25 +10,23 @@ import jlifx.bulb.GatewayBulb;
 
 public class ScanCommand implements CommandLineCommand {
 
-    public String getCommandName() {
-        return "scan";
-    }
-
-    public boolean execute(String[] args, PrintStream out) throws IOException {
-        GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
-        if (gatewayBulb == null) {
-            out.println("No LIFX gateway bulb found!");
-        } else {
-            out.println("Found LIFX gateway bulb!");
-            out.println("IP address : " + gatewayBulb.getInetAddress().getHostAddress());
-            out.println("Mac address: " + gatewayBulb.getMacAddressAsString());
-        }
-        List<Bulb> allBulbs = DiscoveryService.discoverAllBulbs(gatewayBulb);
-        out.println("Found " + allBulbs.size() + " bulbs in network:");
-        for (Bulb bulb : allBulbs) {
-            out.println("Mac address: " + bulb.getMacAddressAsString());
-        }
-        return true;
-    }
+	public boolean execute(String[] args, PrintStream out) throws IOException {
+		GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
+		if (gatewayBulb == null) {
+			out.println("No LIFX gateway bulb found!");
+		} else {
+			out.println("Found LIFX gateway bulb!");
+			out.println("IP address  : "
+					+ gatewayBulb.getInetAddress().getHostAddress());
+			out.println("Mac address : " + gatewayBulb.getMacAddressAsString());
+		}
+		List<Bulb> allBulbs = DiscoveryService.discoverAllBulbs(gatewayBulb);
+		out.println("Found " + allBulbs.size() + " bulb(s) in network:");
+		for (Bulb bulb : allBulbs) {
+			out.println("Name        : " + bulb.getName());
+			out.println("Mac address : " + bulb.getMacAddressAsString());
+		}
+		return true;
+	}
 
 }

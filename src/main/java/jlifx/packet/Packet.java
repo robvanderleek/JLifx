@@ -9,94 +9,105 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class Packet {
-    private static final Log LOG = LogFactory.getLog(Packet.class);
-    private byte[] protocol = new byte[] {0x00, 0x34};
-    private byte[] reserved = new byte[] {0x00, 0x00, 0x00, 0x00};
-    private byte[] targetMac = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    private byte[] reserved2 = new byte[] {0x00, 0x00};
-    private byte[] gatewayMac = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    private byte[] reserved3 = new byte[] {0x00, 0x00};
-    private byte[] timestamp = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    private byte[] type = new byte[] {0x02, 0x00};
-    private byte[] reserved4 = new byte[] {0x00, 0x00};
-    private byte[] payload = new byte[] {};
+	private static final Log LOG = LogFactory.getLog(Packet.class);
+	private byte[] protocol = new byte[] { 0x00, 0x34 };
+	private byte[] reserved = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+	private byte[] targetMac = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	private byte[] reserved2 = new byte[] { 0x00, 0x00 };
+	private byte[] gatewayMac = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	private byte[] reserved3 = new byte[] { 0x00, 0x00 };
+	private byte[] timestamp = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00 };
+	private byte[] type = new byte[] { 0x02, 0x00 };
+	private byte[] reserved4 = new byte[] { 0x00, 0x00 };
+	private byte[] payload = new byte[] {};
 
-    public Packet() {}
+	public Packet() {
+	}
 
-    public Packet(byte[] targetMac, byte[] gatewayMac, byte[] timestamp, byte[] type) {
-        this.targetMac = targetMac;
-        this.gatewayMac = gatewayMac;
-        this.timestamp = timestamp;
-        this.type = type;
-    }
+	public Packet(byte[] targetMac, byte[] gatewayMac, byte[] timestamp,
+			byte[] type) {
+		this.targetMac = targetMac;
+		this.gatewayMac = gatewayMac;
+		this.timestamp = timestamp;
+		this.type = type;
+	}
 
-    public byte[] getTargetMac() {
-        return targetMac;
-    }
+	public byte[] getTargetMac() {
+		return targetMac;
+	}
 
-    public void setTargetMac(byte[] targetMac) {
-        this.targetMac = targetMac;
-    }
+	public void setTargetMac(byte[] targetMac) {
+		this.targetMac = targetMac;
+	}
 
-    public byte[] getGatewayMac() {
-        return gatewayMac;
-    }
+	public byte[] getGatewayMac() {
+		return gatewayMac;
+	}
 
-    public void setGatewayMac(byte[] gatewayMac) {
-        this.gatewayMac = gatewayMac;
-    }
+	public void setGatewayMac(byte[] gatewayMac) {
+		this.gatewayMac = gatewayMac;
+	}
 
-    public byte[] getTimestamp() {
-        return timestamp;
-    }
+	public byte[] getTimestamp() {
+		return timestamp;
+	}
 
-    public void setTimestamp(byte[] timestamp) {
-        this.timestamp = timestamp;
-    }
+	public void setTimestamp(byte[] timestamp) {
+		this.timestamp = timestamp;
+	}
 
-    public byte[] getType() {
-        return type;
-    }
+	public byte[] getType() {
+		return type;
+	}
 
-    public void setType(byte type) {
-        this.type = new byte[] {type, 0x00};
-    }
+	public void setType(byte type) {
+		this.type = new byte[] { type, 0x00 };
+	}
 
-    public void setPayload(byte[] payload) {
-        this.payload = payload;
-    }
+	public byte[] getPayload() {
+		return payload;
+	}
 
-    public byte[] toByteArray() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try {
-            outputStream.write(new byte[] {(byte)(0x24 + payload.length), 0x00});
-            outputStream.write(protocol);
-            outputStream.write(reserved);
-            outputStream.write(targetMac);
-            outputStream.write(reserved2);
-            outputStream.write(gatewayMac);
-            outputStream.write(reserved3);
-            outputStream.write(timestamp);
-            outputStream.write(type);
-            outputStream.write(reserved4);
-            outputStream.write(payload);
-        } catch (IOException e) {
-            LOG.error("Could not build LIFX packet");
-        }
-        return outputStream.toByteArray();
-    }
+	public void setPayload(byte[] payload) {
+		this.payload = payload;
+	}
 
-    public static Packet fromDatagramPacket(DatagramPacket datagramPacket) {
-        return fromByteArray(datagramPacket.getData());
-    }
+	public byte[] toByteArray() {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		try {
+			outputStream.write(new byte[] { (byte) (0x24 + payload.length),
+					0x00 });
+			outputStream.write(protocol);
+			outputStream.write(reserved);
+			outputStream.write(targetMac);
+			outputStream.write(reserved2);
+			outputStream.write(gatewayMac);
+			outputStream.write(reserved3);
+			outputStream.write(timestamp);
+			outputStream.write(type);
+			outputStream.write(reserved4);
+			outputStream.write(payload);
+		} catch (IOException e) {
+			LOG.error("Could not build LIFX packet");
+		}
+		return outputStream.toByteArray();
+	}
 
-    public static Packet fromByteArray(byte[] data) {
-        Packet result = new Packet();
-        result.setType(data[31]);
-        result.setTargetMac(ArrayUtils.subarray(data, 8, 14));
-        result.setGatewayMac(ArrayUtils.subarray(data, 16, 22));
-        result.setTimestamp(ArrayUtils.subarray(data, 23, 31));
-        return result;
-    }
+	public static Packet fromDatagramPacket(DatagramPacket datagramPacket) {
+		return fromByteArray(datagramPacket.getData());
+	}
+
+	public static Packet fromByteArray(byte[] data) {
+		Packet result = new Packet();
+		result.setType(data[31]);
+		result.setTargetMac(ArrayUtils.subarray(data, 8, 14));
+		result.setGatewayMac(ArrayUtils.subarray(data, 16, 22));
+		result.setTimestamp(ArrayUtils.subarray(data, 23, 31));
+		if (data.length > 31) {
+			result.setPayload(ArrayUtils.subarray(data, 31, data.length));
+		}
+		return result;
+	}
 
 }

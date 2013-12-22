@@ -8,28 +8,27 @@ import java.util.List;
 import jlifx.bulb.Bulb;
 
 public class ColorCommand extends AbstractBulbCommand {
-    public String getCommandName() {
-        return "color";
-    }
 
-    @Override
-    public boolean execute(List<Bulb> bulbs, String[] args, PrintStream out) throws Exception {
-        if (args.length != 3) {
-            return false;
-        } else {
-            Color color = Utils.stringToColor(args[2]);
-            if (color == null) {
-                return false;
-            } else {
-                colorizeBulbs(bulbs, color);
-            }
-        }
-        return true;
-    }
+	@Override
+	public boolean execute(List<Bulb> bulbs, String[] commandArgs,
+			PrintStream out) throws Exception {
+		if (commandArgs.length != 1) {
+			return false;
+		} else {
+			Color color = Utils.stringToColor(commandArgs[0]);
+			if (color == null) {
+				return false;
+			} else {
+				colorizeBulbs(bulbs, color);
+			}
+		}
+		return true;
+	}
 
-    private void colorizeBulbs(List<Bulb> bulbs, Color color) throws IOException {
-        for (Bulb bulb : bulbs) {
-            bulb.colorize(color);
-        }
-    }
+	private void colorizeBulbs(List<Bulb> bulbs, Color color)
+			throws IOException {
+		for (Bulb bulb : bulbs) {
+			bulb.colorize(color);
+		}
+	}
 }
