@@ -1,7 +1,7 @@
 JLifx
 =====
 
-Small Lifx control utility in Java.
+Small LIFX Wifi LED bulb control utility in Java.
 
 Usage
 -----
