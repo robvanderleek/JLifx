@@ -1,5 +1,5 @@
 #!/bin/sh
-TARGET_DIR="$HOME/Desktop/"
+TARGET_DIR="$HOME/Desktop"
 mvn clean compile assembly:single
 cp target/*with-dependencies.jar $TARGET_DIR/jlifx.jar
 ./jar2sh "$TARGET_DIR/jlifx" $TARGET_DIR/jlifx.jar
