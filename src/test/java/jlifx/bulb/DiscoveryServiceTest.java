@@ -1,8 +1,9 @@
-package jlifx;
+package jlifx.bulb;
 
 import java.net.InetAddress;
 import java.util.List;
 
+import jlifx.bulb.DiscoveryService;
 import junit.framework.TestCase;
 
 public class DiscoveryServiceTest extends TestCase {
