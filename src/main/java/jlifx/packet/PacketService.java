@@ -14,6 +14,8 @@ import jlifx.bulb.DiscoveryService;
 import jlifx.bulb.GatewayBulb;
 
 public class PacketService {
+    private static Socket socket;
+    private static DataOutputStream outputStream;
 
     public static void sendPowerManagementPacket(Bulb bulb, boolean on) throws IOException {
         Packet packet = new PowerManagementPacket(bulb.getMacAddress(), on);
@@ -25,17 +27,19 @@ public class PacketService {
         return sendPacketAndWaitForResponse(bulb.getGatewayBulb(), packet);
     }
 
-    public static void sendColorManagementPacket(Bulb bulb, Color color) throws IOException {
-        Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color);
+    public static void sendColorManagementPacket(Bulb bulb, Color color, int fadetime) throws IOException {
+        Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color, fadetime);
         sendPacket(bulb.getGatewayBulb(), packet);
     }
 
     private static void sendPacket(GatewayBulb bulb, Packet packet) throws IOException {
         packet.setGatewayMac(bulb.getMacAddress());
-        Socket socket = new Socket(bulb.getInetAddress(), DiscoveryService.PORT);
-        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-        dataOutputStream.write(packet.toByteArray());
-        socket.close();
+        if (socket == null || !socket.isConnected()) {
+            socket = new Socket(bulb.getInetAddress(), DiscoveryService.PORT);
+            socket.setReuseAddress(true);
+            outputStream = new DataOutputStream(socket.getOutputStream());
+        }
+        outputStream.write(packet.toByteArray());
     }
 
     private static List<Packet> sendPacketAndWaitForResponse(GatewayBulb bulb, Packet packet) throws IOException {
@@ -59,4 +63,11 @@ public class PacketService {
         socket.close();
         return result;
     }
+
+    public static void closeSocket() throws IOException {
+        if (socket != null && !socket.isClosed()) {
+            socket.close();
+        }
+    }
+
 }

@@ -28,7 +28,7 @@ public class ColorCommand extends AbstractBulbCommand {
 
     private void colorizeBulbs(Collection<Bulb> bulbs, Color color) throws IOException {
         for (Bulb bulb : bulbs) {
-            bulb.colorize(color);
+            bulb.colorize(color, 3);
         }
     }
 }

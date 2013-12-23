@@ -19,12 +19,12 @@ public class ScanCommand implements CommandLineCommand {
         } else {
             out.println("Found LIFX gateway bulb:");
             out.println("IP address  : " + gatewayBulb.getInetAddress().getHostAddress());
-            out.println("Mac address : " + gatewayBulb.getMacAddressAsString());
+            out.println("MAC address : " + gatewayBulb.getMacAddressAsString());
             Collection<Bulb> allBulbs = DiscoveryService.discoverAllBulbs(gatewayBulb);
             out.println("Found " + allBulbs.size() + " bulb(s) in network:");
             for (Bulb bulb : allBulbs) {
                 out.println("Name        : " + bulb.getName());
-                out.println("Mac address : " + bulb.getMacAddressAsString());
+                out.println("MAC address : " + bulb.getMacAddressAsString());
             }
         }
         return true;

@@ -22,18 +22,18 @@ public class RainbowCommand extends AbstractBulbCommand {
             }
             for (Bulb bulb : bulbs) {
                 Color color = spectrumColors.get(i);
-                bulb.colorize(color);
+                bulb.colorize(color, 3);
             }
-            Thread.sleep(50);
+            Thread.sleep(3000);
             i++;
         }
         return true;
     }
 
-    private List<Color> getSpectrumColors() {
+    List<Color> getSpectrumColors() {
         List<Color> colors = new ArrayList<Color>();
-        for (int i = 0; i < 512; i++) {
-            double factor = ((2 * Math.PI) * i) / 512;
+        for (int i = 0; i < 16; i++) {
+            double factor = ((2 * Math.PI) * i) / 16;
             int red = (int)(Math.sin(factor + 0) * 127 + 128);
             int green = (int)(Math.sin(factor + 2) * 127 + 128);
             int blue = (int)(Math.sin(factor + 4) * 127 + 128);

@@ -9,6 +9,7 @@ import jlifx.commandline.command.ColorCommand;
 import jlifx.commandline.command.RainbowCommand;
 import jlifx.commandline.command.ScanCommand;
 import jlifx.commandline.command.SwitchCommand;
+import jlifx.packet.PacketService;
 
 public class Main {
     private static PrintStream OUT = System.out;
@@ -31,6 +32,11 @@ public class Main {
         OUT.println("  color   <mac-address|all> <color-name|rgb-hex-value>");
         OUT.println("  blink   <mac-address|all> [times]");
         OUT.println("  rainbow <mac-address|all>");
+        OUT.println("");
+        OUT.println("Examples:");
+        OUT.println("  java -jar jlifx.jar switch all off");
+        OUT.println("  java -jar jlifx.jar blink AA:BB:CC:DD:EE:FF 3");
+        OUT.println("  java -jar jlifx.jar rainbow all");
         System.exit(1);
     }
 
@@ -40,6 +46,7 @@ public class Main {
         } else {
             CommandLineCommand command = commands.get(args[0].toLowerCase());
             if (command != null && command.execute(args, OUT)) {
+                PacketService.closeSocket();
                 return;
             } else {
                 printUsage();

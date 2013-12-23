@@ -4,12 +4,12 @@ import java.awt.Color;
 
 public class ColorManagementPacket extends Packet {
 
-    public ColorManagementPacket(byte[] targetMacAddress, Color color) {
+    public ColorManagementPacket(byte[] targetMacAddress, Color color, int fadetime) {
         setType((byte)0x66);
         setTargetMac(targetMacAddress);
         byte[] colorBytes = colorToBytes(color);
         byte[] payload = new byte[] {0x00, 0x00, colorBytes[0], colorBytes[1], (byte)0xFF, (byte)0xFF, (byte)0xFF,
-            (byte)0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+            (byte)0xFF, 0x00, 0x00, (byte)fadetime, 0x00, 0x00, 0x00};
         setPayload(payload);
     }
 

@@ -41,8 +41,8 @@ public class Bulb {
         PacketService.sendPowerManagementPacket(this, false);
     }
 
-    public void colorize(Color color) throws IOException {
-        PacketService.sendColorManagementPacket(this, color);
+    public void colorize(Color color, int fadetime) throws IOException {
+        PacketService.sendColorManagementPacket(this, color, fadetime);
     }
 
     public String getName() {
