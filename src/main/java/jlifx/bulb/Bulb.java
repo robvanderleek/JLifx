@@ -4,11 +4,12 @@ import java.awt.Color;
 import java.io.IOException;
 
 import jlifx.packet.PacketService;
+import jlifx.packet.StatusResponsePacket;
 
 public class Bulb {
     private final byte[] macAddress;
     private final GatewayBulb gatewayBulb;
-    private String name;
+    private StatusResponsePacket status;
 
     public Bulb(byte[] macAddress, GatewayBulb gatewayBulb) {
         this.macAddress = macAddress;
@@ -45,12 +46,20 @@ public class Bulb {
         PacketService.sendColorManagementPacket(this, color, fadetime);
     }
 
-    public String getName() {
-        return name;
+    public StatusResponsePacket getStatus() {
+        return status;
     }
 
-    public void setName(String bulbName) {
-        name = bulbName;
+    public void setStatus(StatusResponsePacket status) {
+        this.status = status;
+    }
+
+    public String getName() {
+        return getStatus().getBulbName();
+    }
+
+    public int getHue() {
+        return getStatus().getHue();
     }
 
     @Override

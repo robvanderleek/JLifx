@@ -15,7 +15,8 @@ public class ScanCommand implements CommandLineCommand {
         GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
         if (gatewayBulb == null) {
             out.println("No LIFX gateway bulb found!");
-            System.exit(1);
+            out.println("");
+            return false;
         } else {
             out.println("Found LIFX gateway bulb:");
             out.println("IP address  : " + gatewayBulb.getInetAddress().getHostAddress());
@@ -23,7 +24,7 @@ public class ScanCommand implements CommandLineCommand {
             Collection<Bulb> allBulbs = DiscoveryService.discoverAllBulbs(gatewayBulb);
             out.println("Found " + allBulbs.size() + " bulb(s) in network:");
             for (Bulb bulb : allBulbs) {
-                out.println("Name        : " + bulb.getName());
+                out.println("Bulb name   : " + bulb.getName());
                 out.println("MAC address : " + bulb.getMacAddressAsString());
             }
         }

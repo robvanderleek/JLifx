@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Utils {
+public final class Utils {
+
+    private Utils() {}
 
     public static byte[] parseMacAddress(String macAddress) {
         try {

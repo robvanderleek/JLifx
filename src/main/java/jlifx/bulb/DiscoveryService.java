@@ -22,9 +22,11 @@ import jlifx.packet.StatusResponsePacket;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class DiscoveryService {
+public final class DiscoveryService {
     public static final int PORT = 56700;
     private static final Log LOG = LogFactory.getLog(DiscoveryService.class);
+
+    private DiscoveryService() {}
 
     public static GatewayBulb discoverGatewayBulb() throws IOException {
         List<InetAddress> networkBroadcastAddresses = getNetworkBroadcastAddresses();
@@ -57,10 +59,9 @@ public class DiscoveryService {
     private static GatewayBulb waitForReply(DatagramSocket socket) throws IOException {
         GatewayBulb result = null;
         socket.setSoTimeout(500);
-        boolean gatewayResponse = false;
         int retries = 3;
         byte[] byteArray = new byte[128];
-        while (!gatewayResponse && retries > 0) {
+        while (retries > 0) {
             DatagramPacket answer = new DatagramPacket(byteArray, byteArray.length);
             try {
                 socket.receive(answer);
@@ -69,12 +70,9 @@ public class DiscoveryService {
                 continue;
             }
             if (isAnswerFromGatewayBulb(answer)) {
-                gatewayResponse = true;
-                Packet answerLifxPacket = Packet.fromDatagramPacket(answer);
-                result = new GatewayBulb(answer.getAddress(), answerLifxPacket.getGatewayMac());
-            } else {
-                retries--;
+                return new GatewayBulb(answer.getAddress(), Packet.fromDatagramPacket(answer).getGatewayMac());
             }
+            retries--;
         }
         return result;
     }
@@ -95,7 +93,7 @@ public class DiscoveryService {
         for (Packet packet : packets) {
             StatusResponsePacket responsePacket = new StatusResponsePacket(packet);
             Bulb bulb = new Bulb(responsePacket.getTargetMac(), gatewayBulb);
-            bulb.setName(responsePacket.getBulbName());
+            bulb.setStatus(responsePacket);
             result.add(bulb);
         }
         return result;
