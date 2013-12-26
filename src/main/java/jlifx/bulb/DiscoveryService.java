@@ -92,16 +92,13 @@ public final class DiscoveryService {
         List<Packet> packets = PacketService.sendStatusRequestPacket(gatewayBulb);
         for (Packet packet : packets) {
             StatusResponsePacket responsePacket = new StatusResponsePacket(packet);
-            Bulb bulb = new Bulb(responsePacket.getTargetMac(), gatewayBulb);
-            bulb.setStatus(responsePacket);
-            result.add(bulb);
+            if (responsePacket.getType()[0] == 0x6B) {
+                Bulb bulb = new Bulb(responsePacket.getTargetMac(), gatewayBulb);
+                bulb.setStatus(responsePacket);
+                result.add(bulb);
+            }
         }
         return result;
-    }
-
-    public static Bulb lookupBulb(byte[] macAddress) throws IOException {
-        GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
-        return new Bulb(macAddress, gatewayBulb);
     }
 
     static List<InetAddress> getNetworkBroadcastAddresses() {

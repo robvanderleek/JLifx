@@ -96,7 +96,7 @@ public class Packet {
 
     public static Packet fromByteArray(byte[] data) {
         Packet result = new Packet();
-        result.setType(data[31]);
+        result.setType(data[32]);
         result.setTargetMac(ArrayUtils.subarray(data, 8, 14));
         result.setGatewayMac(ArrayUtils.subarray(data, 16, 22));
         result.setTimestamp(ArrayUtils.subarray(data, 24, 32));

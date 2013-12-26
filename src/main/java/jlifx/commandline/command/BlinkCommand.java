@@ -11,8 +11,8 @@ public class BlinkCommand extends AbstractBulbCommand {
 
     @Override
     public boolean execute(Collection<Bulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
-        if (commandArgs.length == 1) {
-            int times = Integer.parseInt(commandArgs[0]);
+        if (commandArgs.length == 2) {
+            int times = Integer.parseInt(commandArgs[1]);
             for (int i = 0; i < times; i++) {
                 blinkBulbs(bulbs);
             }

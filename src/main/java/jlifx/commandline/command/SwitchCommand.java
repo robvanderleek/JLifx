@@ -11,11 +11,11 @@ public class SwitchCommand extends AbstractBulbCommand {
 
     @Override
     public boolean execute(Collection<Bulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
-        if (commandArgs.length != 1
-            || (!(commandArgs[0].equalsIgnoreCase("on") || commandArgs[0].equalsIgnoreCase("off")))) {
+        if (commandArgs.length != 2
+            || (!(commandArgs[1].equalsIgnoreCase("on") || commandArgs[1].equalsIgnoreCase("off")))) {
             return false;
         } else {
-            powerSwitchBulbs(bulbs, commandArgs[0].equalsIgnoreCase("on") ? true : false);
+            powerSwitchBulbs(bulbs, commandArgs[1].equalsIgnoreCase("on") ? true : false);
             return true;
         }
     }

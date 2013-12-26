@@ -42,34 +42,41 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
             return false;
         }
         String[] commandArgs = getCommandArgs(args);
-        if (args[1].equalsIgnoreCase("all")) {
-            return executeForAllBulbs(out, commandArgs);
+        GatewayBulb gatewayBulb;
+        gatewayBulb = DiscoveryService.discoverGatewayBulb();
+        return execute(gatewayBulb, commandArgs, out);
+    }
+
+    private boolean execute(GatewayBulb gatewayBulb, String[] commandArgs, PrintStream out) throws IOException,
+        Exception {
+        if (commandArgs[0].equalsIgnoreCase("all")) {
+            return executeForAllBulbs(gatewayBulb, commandArgs, out);
         } else {
-            return executeForSingleBulb(args, out, commandArgs);
+            return executeForSingleBulb(gatewayBulb, commandArgs, out);
         }
     }
 
-    private boolean executeForAllBulbs(PrintStream out, String[] commandArgs) throws IOException, Exception {
-        GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
+    private boolean executeForAllBulbs(GatewayBulb gatewayBulb, String[] commandArgs, PrintStream out)
+        throws IOException, Exception {
         return execute(DiscoveryService.discoverAllBulbs(gatewayBulb), commandArgs, out);
     }
 
-    private boolean executeForSingleBulb(String[] args, PrintStream out, String[] commandArgs) throws IOException,
-        Exception {
-        byte[] parseMacAddress = Utils.parseMacAddress(args[1]);
-        if (parseMacAddress == null) {
+    private boolean executeForSingleBulb(GatewayBulb gatewayBulb, String[] commandArgs, PrintStream out)
+        throws IOException, Exception {
+        byte[] macAddress = Utils.parseMacAddress(commandArgs[0]);
+        if (macAddress == null) {
             return false;
         }
-        Bulb bulb = DiscoveryService.lookupBulb(parseMacAddress);
+        Bulb bulb = new Bulb(macAddress, gatewayBulb);
         return execute(Collections.singletonList(bulb), commandArgs, out);
     }
 
     private String[] getCommandArgs(String[] args) {
         String[] commandArgs;
-        if (args.length < 3) {
+        if (args.length < 2) {
             commandArgs = new String[] {};
         } else {
-            commandArgs = ArrayUtils.subarray(args, 2, args.length);
+            commandArgs = ArrayUtils.subarray(args, 1, args.length);
         }
         return commandArgs;
     }
