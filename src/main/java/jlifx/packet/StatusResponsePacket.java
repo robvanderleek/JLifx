@@ -16,27 +16,27 @@ public class StatusResponsePacket {
     }
 
     public int getHue() {
-        return (packet.getPayload()[1] << 8) | packet.getPayload()[0];
+        return ((packet.getPayload()[1] << 8) | packet.getPayload()[0]) & 0xFFFF;
     }
 
     public int getSaturation() {
-        return (packet.getPayload()[3] << 8) | packet.getPayload()[2];
+        return ((packet.getPayload()[3] << 8) | packet.getPayload()[2]) & 0xFFFF;
     }
 
     public int getBrightness() {
-        return (packet.getPayload()[5] << 8) | packet.getPayload()[4];
+        return ((packet.getPayload()[5] << 8) | packet.getPayload()[4]) & 0xFFFF;
     }
 
     public int getKelvin() {
-        return (packet.getPayload()[7] << 8) | packet.getPayload()[6];
+        return ((packet.getPayload()[7] << 8) | packet.getPayload()[6]) & 0xFFFF;
     }
 
     public int getDim() {
-        return (packet.getPayload()[8] << 8) | packet.getPayload()[9];
+        return ((packet.getPayload()[8] << 8) | packet.getPayload()[9]) & 0xFFFF;
     }
 
     public int getPower() {
-        return (packet.getPayload()[10] << 8) | packet.getPayload()[11];
+        return ((packet.getPayload()[10] << 8) | packet.getPayload()[11]) & 0xFFFF;
     }
 
     public String getBulbName() {

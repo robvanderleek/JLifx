@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jlifx.commandline.command.BlinkCommand;
+import jlifx.commandline.command.BoblightDaemonCommand;
 import jlifx.commandline.command.ColorCommand;
 import jlifx.commandline.command.RainbowCommand;
 import jlifx.commandline.command.ScanCommand;
@@ -16,6 +17,7 @@ public final class Main {
     private static final PrintStream OUT = System.out;
     private static Map<String, CommandLineCommand> commands = new HashMap<String, CommandLineCommand>();
     static {
+        commands.put("daemon", new BoblightDaemonCommand());
         commands.put("scan", new ScanCommand());
         commands.put("status", new StatusCommand());
         commands.put("switch", new SwitchCommand());
@@ -31,6 +33,7 @@ public final class Main {
         OUT.println("  java -jar jlifx.jar <command>");
         OUT.println("");
         OUT.println("Where command can be:");
+        OUT.println("  daemon (starts Boblight daemon)");
         OUT.println("  scan");
         OUT.println("  status  <mac-address|all>");
         OUT.println("  switch  <mac-address|all> <on|off>");
@@ -40,7 +43,7 @@ public final class Main {
         OUT.println("");
         OUT.println("Examples:");
         OUT.println("  java -jar jlifx.jar switch all off");
-        OUT.println("  java -jar jlifx.jar color -gw 192.168.0.100 all red");
+        OUT.println("  java -jar jlifx.jar color all red");
         OUT.println("  java -jar jlifx.jar blink AA:BB:CC:DD:EE:FF 3");
         OUT.println("  java -jar jlifx.jar rainbow all");
     }
