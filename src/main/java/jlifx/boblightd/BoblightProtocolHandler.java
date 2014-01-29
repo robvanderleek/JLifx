@@ -24,11 +24,18 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf b = (ByteBuf)msg;
+        ByteBuf b = (ByteBuf) msg;
         byte buf[] = new byte[b.readableBytes()];
         b.readBytes(buf);
         b.release();
-        String message = new String(buf);
+        String messageString = new String(buf);
+        String[] messages = messageString.split("\n");
+        for (String message : messages) {
+            handleMessage(ctx, message);
+        }
+    }
+
+    private void handleMessage(ChannelHandlerContext ctx, String message) throws IOException {
         if (message.startsWith("hello")) {
             LOG.info("Hello? Hello!");
             sendReplyMessage(ctx, "hello\n");
@@ -40,12 +47,12 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
             sendReplyMessage(ctx, "ping\n");
         } else if (message.startsWith("set light center rgb")) {
             handleSetLightCenterMessage(message);
+        } else {
+            LOG.info("Received unknown message: " + message);
         }
     }
 
     private void handleSetLightCenterMessage(String message) throws IOException {
-        message = message.substring(0, message.indexOf('\n'));
-        LOG.info("Received message: " + message);
         String values = message.substring(message.indexOf("rgb") + 4);
         StringTokenizer tokenizer = new StringTokenizer(values);
         float r = Float.parseFloat(tokenizer.nextToken());
