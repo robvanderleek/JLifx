@@ -4,17 +4,17 @@ import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Iterator;
 
-import jlifx.bulb.Bulb;
+import jlifx.bulb.IBulb;
 import jlifx.commandline.AbstractBulbCommand;
 import jlifx.commandline.Utils;
 
 public class StatusCommand extends AbstractBulbCommand {
 
     @Override
-    public boolean execute(Collection<Bulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
-        Iterator<Bulb> bulbIterator = bulbs.iterator();
+    public boolean execute(Collection<IBulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
+        Iterator<IBulb> bulbIterator = bulbs.iterator();
         while (bulbIterator.hasNext()) {
-            Bulb bulb = bulbIterator.next();
+            IBulb bulb = bulbIterator.next();
             out.println("Bulb name   : " + bulb.getName());
             out.println("MAC address : " + bulb.getMacAddressAsString());
             out.println("Hue         : " + Utils.wordToHexString(bulb.getHue()));

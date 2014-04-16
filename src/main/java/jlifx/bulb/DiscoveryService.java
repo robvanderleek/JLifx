@@ -87,8 +87,8 @@ public final class DiscoveryService {
         }
     }
 
-    public static Collection<Bulb> discoverAllBulbs(GatewayBulb gatewayBulb) throws IOException {
-        Set<Bulb> result = new HashSet<Bulb>();
+    public static Collection<IBulb> discoverAllBulbs(GatewayBulb gatewayBulb) throws IOException {
+        Set<IBulb> result = new HashSet<IBulb>();
         List<Packet> packets = PacketService.sendStatusRequestPacket(gatewayBulb);
         for (Packet packet : packets) {
             StatusResponsePacket responsePacket = new StatusResponsePacket(packet);

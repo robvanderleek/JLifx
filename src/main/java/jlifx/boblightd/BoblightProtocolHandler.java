@@ -9,22 +9,22 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-import jlifx.bulb.Bulb;
+import jlifx.bulb.IBulb;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class BoblightProtocolHandler extends ChannelHandlerAdapter {
     private static final Log LOG = LogFactory.getLog(BoblightProtocolHandler.class);
-    private final Collection<Bulb> bulbs;
+    private final Collection<IBulb> bulbs;
 
-    public BoblightProtocolHandler(Collection<Bulb> bulbs) {
+    public BoblightProtocolHandler(Collection<IBulb> bulbs) {
         this.bulbs = bulbs;
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf b = (ByteBuf) msg;
+        ByteBuf b = (ByteBuf)msg;
         byte buf[] = new byte[b.readableBytes()];
         b.readBytes(buf);
         b.release();
@@ -58,7 +58,7 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
         float r = Float.parseFloat(tokenizer.nextToken());
         float g = Float.parseFloat(tokenizer.nextToken());
         float b = Float.parseFloat(tokenizer.nextToken());
-        for (Bulb bulb : bulbs) {
+        for (IBulb bulb : bulbs) {
             bulb.colorize(new Color(r, g, b), 0);
         }
     }

@@ -35,15 +35,16 @@ public final class Main {
         OUT.println("Where command can be:");
         OUT.println("  daemon (starts Boblight daemon)");
         OUT.println("  scan");
-        OUT.println("  status  <mac-address|all>");
-        OUT.println("  switch  <mac-address|all> <on|off>");
-        OUT.println("  color   <mac-address|all> <color-name|rgb-hex-value>");
-        OUT.println("  blink   <mac-address|all> [times]");
-        OUT.println("  rainbow <mac-address|all>");
+        OUT.println("  status  <mac-address|gateway|all>");
+        OUT.println("  switch  <mac-address|gateway|all> <on|off>");
+        OUT.println("  color   <mac-address|gateway|all> <color-name|rgb-hex-value>");
+        OUT.println("  blink   <mac-address|gateway|all> [times]");
+        OUT.println("  rainbow <mac-address|gateway|all>");
         OUT.println("");
         OUT.println("Examples:");
         OUT.println("  java -jar jlifx.jar switch all off");
         OUT.println("  java -jar jlifx.jar color all red");
+        OUT.println("  java -jar jlifx.jar blink gateway");
         OUT.println("  java -jar jlifx.jar blink AA:BB:CC:DD:EE:FF 3");
         OUT.println("  java -jar jlifx.jar rainbow all");
     }

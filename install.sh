@@ -1,5 +1,5 @@
 #!/bin/sh
-TARGET_DIR="$HOME/Desktop"
+TARGET_DIR="."
 mvn clean compile assembly:single
 cp target/*with-dependencies.jar $TARGET_DIR/jlifx.jar
 echo "Launchable jar (jlifx.jar) copied to $TARGET_DIR"

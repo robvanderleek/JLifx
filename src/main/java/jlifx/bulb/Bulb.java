@@ -6,7 +6,7 @@ import java.io.IOException;
 import jlifx.packet.PacketService;
 import jlifx.packet.StatusResponsePacket;
 
-public class Bulb {
+public class Bulb implements IBulb {
     private final byte[] macAddress;
     private final GatewayBulb gatewayBulb;
     private StatusResponsePacket status;

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collection;
 
-import jlifx.bulb.Bulb;
+import jlifx.bulb.IBulb;
 import jlifx.commandline.AbstractBulbCommand;
 
 public class BlinkCommand extends AbstractBulbCommand {
 
     @Override
-    public boolean execute(Collection<Bulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
+    public boolean execute(Collection<IBulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
         if (commandArgs.length == 2) {
             int times = Integer.parseInt(commandArgs[1]);
             for (int i = 0; i < times; i++) {
@@ -25,12 +25,12 @@ public class BlinkCommand extends AbstractBulbCommand {
         return true;
     }
 
-    private void blinkBulbs(Collection<Bulb> bulbs) throws IOException, InterruptedException {
-        for (Bulb bulb : bulbs) {
+    private void blinkBulbs(Collection<IBulb> bulbs) throws IOException, InterruptedException {
+        for (IBulb bulb : bulbs) {
             bulb.switchOff();
         }
         Thread.sleep(500);
-        for (Bulb bulb : bulbs) {
+        for (IBulb bulb : bulbs) {
             bulb.switchOn();
         }
         Thread.sleep(500);

@@ -28,7 +28,12 @@ public final class PacketService {
 
     public static List<Packet> sendStatusRequestPacket(GatewayBulb bulb) throws IOException {
         Packet packet = new StatusRequestPacket();
-        return sendPacketAndWaitForResponse(bulb.getGatewayBulb(), packet);
+        return sendPacketAndWaitForResponse(bulb, packet);
+    }
+
+    public static List<Packet> sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {
+        Packet packet = new WifiInfoRequestPacket();
+        return sendPacketAndWaitForResponse(bulb, packet);
     }
 
     public static void sendColorManagementPacket(Bulb bulb, Color color, int fadetime) throws IOException {
@@ -38,9 +43,7 @@ public final class PacketService {
 
     private static void sendPacket(GatewayBulb bulb, Packet packet) throws IOException {
         packet.setGatewayMac(bulb.getMacAddress());
-        if (socket == null || !socket.isConnected()) {
-            connect(bulb.getInetAddress());
-        }
+        connect(bulb.getInetAddress());
         outputStream.write(packet.toByteArray());
     }
 
@@ -48,36 +51,84 @@ public final class PacketService {
         throws IOException {
         List<Packet> result = new ArrayList<Packet>();
         packet.setGatewayMac(gatewayBulb.getMacAddress());
-        if (socket == null || !socket.isConnected()) {
-            connect(gatewayBulb.getInetAddress());
-        }
+        connect(gatewayBulb.getInetAddress());
+        outputStream.write(packet.toByteArray()); // Dummy request to warm up gateway buble
+        wait(500);
+        PacketReaderThread packetReaderThread = new PacketReaderThread(inputStream);
+        packetReaderThread.start();
         outputStream.write(packet.toByteArray());
-        byte[] buffer = new byte[128];
-        try {
-            while (true) {
-                int length = inputStream.read(buffer);
-                if (length > 0) {
-                    result.add(Packet.fromByteArray(buffer));
-                }
-            }
-        } catch (SocketTimeoutException e) {
-            /* do nothing */
-        }
+        packetReaderThread.sync();
+        result = packetReaderThread.getReceivedPackets();
         return result;
     }
 
     private static void connect(InetAddress address) throws IOException {
-        socket = new Socket(address, DiscoveryService.PORT);
-        socket.setSoTimeout(1000);
-        socket.setReuseAddress(true);
-        outputStream = new DataOutputStream(socket.getOutputStream());
-        inputStream = socket.getInputStream();
+        if (socket == null || !socket.isConnected()) {
+            socket = new Socket(address, DiscoveryService.PORT);
+            socket.setSoTimeout(1000);
+            socket.setReuseAddress(true);
+            outputStream = new DataOutputStream(socket.getOutputStream());
+            inputStream = socket.getInputStream();
+        }
     }
 
     public static void closeSocket() throws IOException {
         if (socket != null && !socket.isClosed()) {
             socket.close();
         }
+    }
+
+    private static void wait(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            /* do nothing */
+        }
+    }
+
+    private static class PacketReaderThread extends Thread implements Runnable {
+        private InputStream inputStream;
+        private List<Packet> receivedPackets = new ArrayList<Packet>();
+        private Object monitor = new Object();
+
+        public PacketReaderThread(InputStream inputStream) {
+            this.inputStream = inputStream;
+        }
+
+        public void sync() {
+            try {
+                synchronized (monitor) {
+                    monitor.wait();
+                }
+            } catch (InterruptedException e) {
+                /* do nothing */
+            }
+        }
+
+        @Override
+        public void run() {
+            try {
+                byte[] buffer = new byte[128];
+                while (true) {
+                    int length = inputStream.read(buffer);
+                    if (length > 0) {
+                        receivedPackets.add(Packet.fromByteArray(buffer));
+                    }
+                }
+            } catch (SocketTimeoutException e) {
+                /* do nothing */
+            } catch (IOException e) {
+                /* do nothing */
+            }
+            synchronized (monitor) {
+                monitor.notify();
+            }
+        }
+
+        public List<Packet> getReceivedPackets() {
+            return receivedPackets;
+        }
+
     }
 
 }

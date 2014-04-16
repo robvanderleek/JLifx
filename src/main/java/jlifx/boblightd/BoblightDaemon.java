@@ -11,16 +11,15 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.util.Collection;
 
-import jlifx.bulb.Bulb;
 import jlifx.bulb.DiscoveryService;
 import jlifx.bulb.GatewayBulb;
+import jlifx.bulb.IBulb;
 
 public class BoblightDaemon {
 
     public void run() throws Exception {
         GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
-        final Collection<Bulb> bulbs = DiscoveryService.discoverAllBulbs(gatewayBulb);
-        // final Bulb bulb = new Bulb(new byte[] {(byte)0xd0, 0x73, (byte)0xd5, 0x00, (byte)0xb4, (byte)0xf9}, gatewayBulb);
+        final Collection<IBulb> bulbs = DiscoveryService.discoverAllBulbs(gatewayBulb);
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap server = new ServerBootstrap();
