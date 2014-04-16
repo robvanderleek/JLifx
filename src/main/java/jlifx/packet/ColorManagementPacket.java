@@ -4,14 +4,14 @@ import java.awt.Color;
 
 public class ColorManagementPacket extends Packet {
 
-    public ColorManagementPacket(byte[] targetMacAddress, Color color, int fadetime) {
+    public ColorManagementPacket(byte[] targetMacAddress, Color color, int fadetime, float brightness) {
         float[] hsbValues = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
         setType((byte)0x66);
         setTargetMac(targetMacAddress);
         byte streaming = 0x00;
         byte[] hueBytes = floatToBytes(hsbValues[0]);
         byte[] saturationBytes = floatToBytes(hsbValues[1]);
-        byte[] brightnessBytes = floatToBytes(hsbValues[2]);
+        byte[] brightnessBytes = floatToBytes(brightness);
         byte[] kelvin = new byte[] {0x0a, (byte)0xf0};
         byte[] payload = new byte[] {streaming, //
             hueBytes[1], hueBytes[0], //

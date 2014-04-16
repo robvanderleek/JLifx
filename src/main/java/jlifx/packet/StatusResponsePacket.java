@@ -32,7 +32,7 @@ public class StatusResponsePacket {
     }
 
     public int getDim() {
-        return ((packet.getPayload()[8] << 8) | packet.getPayload()[9]) & 0xFFFF;
+        return ((packet.getPayload()[9] << 8) | packet.getPayload()[8]) & 0xFFFF;
     }
 
     public int getPower() {

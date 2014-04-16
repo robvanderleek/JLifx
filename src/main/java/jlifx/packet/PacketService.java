@@ -10,9 +10,9 @@ import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jlifx.bulb.Bulb;
 import jlifx.bulb.DiscoveryService;
 import jlifx.bulb.GatewayBulb;
+import jlifx.bulb.IBulb;
 
 public final class PacketService {
     private static Socket socket;
@@ -21,7 +21,7 @@ public final class PacketService {
 
     private PacketService() {}
 
-    public static void sendPowerManagementPacket(Bulb bulb, boolean on) throws IOException {
+    public static void sendPowerManagementPacket(IBulb bulb, boolean on) throws IOException {
         Packet packet = new PowerManagementPacket(bulb.getMacAddress(), on);
         sendPacket(bulb.getGatewayBulb(), packet);
     }
@@ -36,8 +36,14 @@ public final class PacketService {
         return sendPacketAndWaitForResponse(bulb, packet);
     }
 
-    public static void sendColorManagementPacket(Bulb bulb, Color color, int fadetime) throws IOException {
-        Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color, fadetime);
+    public static void sendColorManagementPacket(IBulb bulb, Color color, int fadetime, float brightness)
+        throws IOException {
+        Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color, fadetime, brightness);
+        sendPacket(bulb.getGatewayBulb(), packet);
+    }
+
+    public static void sendSetDimAbsolutePacket(IBulb bulb, float brightness) throws IOException {
+        Packet packet = new SetDimAbsolutePacket(brightness);
         sendPacket(bulb.getGatewayBulb(), packet);
     }
 

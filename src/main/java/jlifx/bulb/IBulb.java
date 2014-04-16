@@ -16,7 +16,7 @@ public interface IBulb {
 
     void switchOff() throws IOException;
 
-    void colorize(Color color, int fadetime) throws IOException;
+    void colorize(Color color, int fadetime, float brightness) throws IOException;
 
     StatusResponsePacket getStatus();
 
@@ -33,6 +33,8 @@ public interface IBulb {
     int getKelvin();
 
     int getDim();
+
+    void setDim(float brightness) throws IOException;
 
     int getPower();
 }

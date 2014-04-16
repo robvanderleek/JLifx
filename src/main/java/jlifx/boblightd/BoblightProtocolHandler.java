@@ -59,7 +59,7 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
         float g = Float.parseFloat(tokenizer.nextToken());
         float b = Float.parseFloat(tokenizer.nextToken());
         for (IBulb bulb : bulbs) {
-            bulb.colorize(new Color(r, g, b), 0);
+            bulb.colorize(new Color(r, g, b), 0, 1.0f);
         }
     }
 

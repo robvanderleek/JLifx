@@ -13,22 +13,26 @@ public class ColorCommand extends AbstractBulbCommand {
 
     @Override
     public boolean execute(Collection<IBulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
-        if (commandArgs.length != 2) {
+        if (commandArgs.length < 2) {
             return false;
         } else {
             Color color = Utils.stringToColor(commandArgs[1]);
             if (color == null) {
                 return false;
             } else {
-                colorizeBulbs(bulbs, color);
+                if (commandArgs.length >= 3 && Utils.isFloatValue(commandArgs[2])) {
+                    colorizeBulbs(bulbs, color, Float.parseFloat(commandArgs[2]));
+                } else {
+                    colorizeBulbs(bulbs, color, 1.0f);
+                }
             }
         }
         return true;
     }
 
-    private void colorizeBulbs(Collection<IBulb> bulbs, Color color) throws IOException {
+    private void colorizeBulbs(Collection<IBulb> bulbs, Color color, float brightness) throws IOException {
         for (IBulb bulb : bulbs) {
-            bulb.colorize(color, 3);
+            bulb.colorize(color, 3, brightness);
         }
     }
 }

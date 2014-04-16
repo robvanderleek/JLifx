@@ -42,8 +42,8 @@ public class Bulb implements IBulb {
         PacketService.sendPowerManagementPacket(this, false);
     }
 
-    public void colorize(Color color, int fadetime) throws IOException {
-        PacketService.sendColorManagementPacket(this, color, fadetime);
+    public void colorize(Color color, int fadetime, float brightness) throws IOException {
+        PacketService.sendColorManagementPacket(this, color, fadetime, brightness);
     }
 
     public StatusResponsePacket getStatus() {
@@ -76,6 +76,10 @@ public class Bulb implements IBulb {
 
     public int getDim() {
         return getStatus().getDim();
+    }
+
+    public void setDim(float brightness) throws IOException {
+        PacketService.sendSetDimAbsolutePacket(this, brightness);
     }
 
     public int getPower() {

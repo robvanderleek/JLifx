@@ -12,7 +12,7 @@ public class StatusResponsePacketTest extends TestCase {
             0x43, 0x21, // saturation (LE)
             0x12, 0x34, // brightness (LE)
             0x12, 0x34, // kelvin (LE)
-            0x01, 0x02, // dim
+            0x02, 0x01, // dim (LE)
             (byte)0xFF, (byte)0xFF, // power
             'h', 'e', 'l', 'l', 'o', 0x00 // label
         };

@@ -22,7 +22,7 @@ public class RainbowCommand extends AbstractBulbCommand {
             }
             for (IBulb bulb : bulbs) {
                 Color color = spectrumColors.get(i);
-                bulb.colorize(color, 3);
+                bulb.colorize(color, 3, 1.0f);
             }
             Thread.sleep(3000);
             i++;

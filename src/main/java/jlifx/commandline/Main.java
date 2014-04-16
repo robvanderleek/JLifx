@@ -22,6 +22,7 @@ public final class Main {
         commands.put("status", new StatusCommand());
         commands.put("switch", new SwitchCommand());
         commands.put("color", new ColorCommand());
+        // commands.put("dim", new DimCommand());
         commands.put("blink", new BlinkCommand());
         commands.put("rainbow", new RainbowCommand());
     }
@@ -38,12 +39,19 @@ public final class Main {
         OUT.println("  status  <mac-address|gateway|all>");
         OUT.println("  switch  <mac-address|gateway|all> <on|off>");
         OUT.println("  color   <mac-address|gateway|all> <color-name|rgb-hex-value>");
+        OUT.println("          [brightness (0.0 - 1.0)]");
+        // OUT.println("  dim     <mac-address|gateway|all> <0.0 - 1.0>");
         OUT.println("  blink   <mac-address|gateway|all> [times]");
         OUT.println("  rainbow <mac-address|gateway|all>");
         OUT.println("");
+        printExamples();
+    }
+
+    private static void printExamples() {
         OUT.println("Examples:");
         OUT.println("  java -jar jlifx.jar switch all off");
         OUT.println("  java -jar jlifx.jar color all red");
+        // OUT.println("  java -jar jlifx.jar dim all 0.5");
         OUT.println("  java -jar jlifx.jar blink gateway");
         OUT.println("  java -jar jlifx.jar blink AA:BB:CC:DD:EE:FF 3");
         OUT.println("  java -jar jlifx.jar rainbow all");
