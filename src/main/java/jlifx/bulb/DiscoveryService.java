@@ -28,6 +28,10 @@ public final class DiscoveryService {
 
     private DiscoveryService() {}
 
+    /**
+     * Returns the first valid Gateway bulb discovered, or null if no gateway bulb was 
+     * discovered in any of the networks.
+     */
     public static GatewayBulb discoverGatewayBulb() throws IOException {
         List<InetAddress> networkBroadcastAddresses = getNetworkBroadcastAddresses();
         for (InetAddress broadcastAddress : networkBroadcastAddresses) {

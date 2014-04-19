@@ -8,12 +8,13 @@ import java.util.List;
 
 import jlifx.bulb.IBulb;
 import jlifx.commandline.AbstractBulbCommand;
+import jlifx.commandline.Utils;
 
 public class RainbowCommand extends AbstractBulbCommand {
 
     @Override
     public boolean execute(Collection<IBulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
-        startKeyListenerThread(out);
+        startTerminatorThread(commandArgs, out);
         List<Color> spectrumColors = getSpectrumColors();
         int i = 0;
         while (!isInterrupted()) {
@@ -28,6 +29,14 @@ public class RainbowCommand extends AbstractBulbCommand {
             i++;
         }
         return true;
+    }
+
+    private void startTerminatorThread(String[] commandArgs, PrintStream out) {
+        if (commandArgs.length == 2 && Utils.isIntegerValue(commandArgs[1])) {
+            startTimer(Integer.parseInt(commandArgs[1]));
+        } else {
+            startKeyListenerThread(out);
+        }
     }
 
     List<Color> getSpectrumColors() {

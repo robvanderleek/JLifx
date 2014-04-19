@@ -42,7 +42,7 @@ public final class Main {
         OUT.println("          [brightness (0.0 - 1.0)]");
         // OUT.println("  dim     <mac-address|gateway|all> <0.0 - 1.0>");
         OUT.println("  blink   <mac-address|gateway|all> [times]");
-        OUT.println("  rainbow <mac-address|gateway|all>");
+        OUT.println("  rainbow <mac-address|gateway|all> [duration (sec)]");
         OUT.println("");
         printExamples();
     }
@@ -55,6 +55,7 @@ public final class Main {
         OUT.println("  java -jar jlifx.jar blink gateway");
         OUT.println("  java -jar jlifx.jar blink AA:BB:CC:DD:EE:FF 3");
         OUT.println("  java -jar jlifx.jar rainbow all");
+        OUT.println("  java -jar jlifx.jar rainbow all 30");
     }
 
     public static void main(String[] args) throws Exception {

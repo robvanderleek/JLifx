@@ -28,6 +28,25 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
         }
     }
 
+    private class Timer implements Runnable {
+        private final int duration;
+
+        public Timer(int duration) {
+            this.duration = duration;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(duration * 1000);
+            } catch (InterruptedException e) {
+                interrupted = true;
+            }
+            interrupted = true;
+        }
+
+    }
+
     protected boolean isInterrupted() {
         return interrupted;
     }
@@ -37,14 +56,21 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
         new Thread(new KeyListener()).start();
     }
 
+    protected void startTimer(int duration) {
+        new Thread(new Timer(duration)).start();
+    }
+
     @Override
     public boolean execute(String[] args, PrintStream out) throws Exception {
         if (args.length < 2) {
             return false;
         }
         String[] commandArgs = getCommandArgs(args);
-        GatewayBulb gatewayBulb;
-        gatewayBulb = DiscoveryService.discoverGatewayBulb();
+        GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
+        if (gatewayBulb == null) {
+            out.println("Could not discover a gateway bulb!");
+            return false;
+        }
         return dispatchExecute(gatewayBulb, commandArgs, out);
     }
 

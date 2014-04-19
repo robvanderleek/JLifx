@@ -73,4 +73,17 @@ public final class Utils {
         return result;
     }
 
+    /**
+     * Returns true if the given string is a valid integer value, false otherwise.
+     */
+    public static boolean isIntegerValue(String s) {
+        boolean result = true;
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            result = false;
+        }
+        return result;
+    }
+
 }
