@@ -61,6 +61,14 @@ public final class Utils {
     }
 
     /**
+     * Returns a string containing the string representation of the given MAC address. 
+     */
+    public static String getMacAddressAsString(byte[] macAddress) {
+        return String.format("%02x:%02x:%02x:%02x:%02x:%02x", macAddress[0], macAddress[1], macAddress[2],
+            macAddress[3], macAddress[4], macAddress[5]);
+    }
+
+    /**
      * Returns true if the given string is a valid float value, false otherwise.
      */
     public static boolean isFloatValue(String s) {
@@ -84,6 +92,20 @@ public final class Utils {
             result = false;
         }
         return result;
+    }
+
+    /**
+     * Returns an integer with the value of 16-bits little endian formatted byte pair.   
+     */
+    public static int from16bitsLittleEndian(byte b1, byte b2) {
+        return ((b2 << 8) | b1) & 0xFFFF;
+    }
+
+    /**
+     * Returns an integer with the value of 32-bits little endian formatted byte quadruple.   
+     */
+    public static int from32bitsLittleEndian(byte b1, byte b2, byte b3, byte b4) {
+        return ((b4 << 24) | (b3 << 8) | (b2 >>> 8) | (b1 >>> 24)) & 0xFFFF;
     }
 
 }

@@ -37,4 +37,6 @@ public interface IBulb {
     void setDim(float brightness) throws IOException;
 
     int getPower();
+
+    BulbMeshFirmwareStatus getMeshFirmwareStatus() throws IOException;
 }

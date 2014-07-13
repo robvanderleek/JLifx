@@ -74,7 +74,8 @@ public final class DiscoveryService {
                 continue;
             }
             if (isAnswerFromGatewayBulb(answer)) {
-                return new GatewayBulb(answer.getAddress(), Packet.fromDatagramPacket(answer).getGatewayMac());
+                Packet packet = Packet.fromDatagramPacket(answer);
+                return new GatewayBulb(answer.getAddress(), packet.getGatewayMac(), packet.getTargetMac());
             }
             retries--;
         }

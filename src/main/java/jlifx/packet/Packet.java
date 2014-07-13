@@ -3,6 +3,10 @@ package jlifx.packet;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.InetAddress;
+
+import jlifx.bulb.DiscoveryService;
+import jlifx.commandline.Utils;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
@@ -32,6 +36,10 @@ public class Packet {
 
     public byte[] getTargetMac() {
         return targetMac;
+    }
+
+    public String getTargetMacAsString() {
+        return Utils.getMacAddressAsString(targetMac);
     }
 
     public void setTargetMac(byte[] targetMac) {
@@ -92,6 +100,11 @@ public class Packet {
 
     public static Packet fromDatagramPacket(DatagramPacket datagramPacket) {
         return fromByteArray(datagramPacket.getData());
+    }
+
+    public DatagramPacket toDatagramPacket(InetAddress address) {
+        byte[] data = toByteArray();
+        return new DatagramPacket(data, data.length, address, DiscoveryService.PORT);
     }
 
     public static Packet fromByteArray(byte[] data) {

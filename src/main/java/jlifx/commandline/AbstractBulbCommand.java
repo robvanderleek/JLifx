@@ -69,7 +69,7 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
         GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
         if (gatewayBulb == null) {
             out.println("Could not discover a gateway bulb!");
-            return false;
+            System.exit(0);
         }
         return dispatchExecute(gatewayBulb, commandArgs, out);
     }
