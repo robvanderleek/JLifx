@@ -1,34 +1,37 @@
 package jlifx.commandline.command;
 
 import java.io.PrintStream;
-import java.util.Collection;
 import java.util.Iterator;
 
 import jlifx.bulb.BulbMeshFirmwareStatus;
+import jlifx.bulb.DiscoveryService;
+import jlifx.bulb.GatewayBulb;
 import jlifx.bulb.IBulb;
-import jlifx.commandline.AbstractBulbCommand;
+import jlifx.commandline.CommandLineCommand;
 import jlifx.commandline.Utils;
 
-public class StatusCommand extends AbstractBulbCommand {
+public class StatusCommand implements CommandLineCommand {
 
     @Override
-    public boolean execute(Collection<IBulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
-        if (bulbs.isEmpty()) {
-            out.println("No bulbs discovered!");
-        } else {
-            Iterator<IBulb> bulbIterator = bulbs.iterator();
-            while (bulbIterator.hasNext()) {
-                IBulb bulb = bulbIterator.next();
-                printBulbStatus(out, bulb);
-                if (bulbIterator.hasNext()) {
-                    out.println();
-                }
-            }
-            IBulb bulb = bulbs.iterator().next();
-            BulbMeshFirmwareStatus firmwareStatus = bulb.getGatewayBulb().getMeshFirmwareStatus();
-            out.println();
-            out.println("Mesh firmware version : " + firmwareStatus.getVersion());
+    public boolean execute(String[] args, PrintStream out) throws Exception {
+        GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
+        if (gatewayBulb == null) {
+            out.println("No LIFX gateway bulb found!");
+            out.println("");
+            return false;
         }
+
+        Iterator<IBulb> bulbIterator = DiscoveryService.discoverAllBulbs(gatewayBulb).iterator();
+        while (bulbIterator.hasNext()) {
+            IBulb bulb = bulbIterator.next();
+            printBulbStatus(out, bulb);
+            if (bulbIterator.hasNext()) {
+                out.println();
+            }
+        }
+        BulbMeshFirmwareStatus firmwareStatus = gatewayBulb.getMeshFirmwareStatus();
+        out.println();
+        out.println("Mesh firmware version : " + firmwareStatus.getVersion());
         return true;
     }
 

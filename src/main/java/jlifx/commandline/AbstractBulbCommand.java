@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.InetAddress;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -18,6 +19,7 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
     private boolean interrupted = false;
 
     private class KeyListener implements Runnable {
+        @Override
         public void run() {
             try {
                 new BufferedReader(new InputStreamReader(System.in)).readLine();
@@ -65,12 +67,19 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
         if (args.length < 2) {
             return false;
         }
-        String[] commandArgs = getCommandArgs(args);
-        GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
+        GatewayBulb gatewayBulb;
+        if (args[1].equals("-gw") && Utils.isValidIpv4Address(args[2]) && Utils.isValidMacAddress(args[3])) {
+            gatewayBulb = new GatewayBulb(InetAddress.getByAddress(Utils.parseIpv4Address(args[2])),
+                Utils.parseMacAddress(args[3]), Utils.parseMacAddress(args[3]));
+            args = ArrayUtils.removeAll(args, 1, 2, 3);
+        } else {
+            gatewayBulb = DiscoveryService.discoverGatewayBulb();
+        }
         if (gatewayBulb == null) {
             out.println("Could not discover a gateway bulb!");
             System.exit(0);
         }
+        String[] commandArgs = getCommandArgs(args);
         return dispatchExecute(gatewayBulb, commandArgs, out);
     }
 

@@ -23,6 +23,20 @@ public final class Utils {
         }
     }
 
+    public static byte[] parseIpv4Address(String ipv4Address) {
+        try {
+            byte[] result = new byte[4];
+            String[] parts = ipv4Address.split("[.]");
+            result[0] = (byte)(Integer.parseInt(parts[0]));
+            result[1] = (byte)(Integer.parseInt(parts[1]));
+            result[2] = (byte)(Integer.parseInt(parts[2]));
+            result[3] = (byte)(Integer.parseInt(parts[3]));
+            return result;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
     private static final Map<String, Color> COLORS = new HashMap<String, Color>();
     static {
         COLORS.put("black", Color.BLACK);
@@ -92,6 +106,20 @@ public final class Utils {
             result = false;
         }
         return result;
+    }
+
+    /** 
+     * Return true if the given string is a valid IPv4 address, false otherwise.
+     */
+    public static boolean isValidIpv4Address(String s) {
+        return s.matches("(\\d{1,3}[.]){3}\\d{1,3}");
+    }
+
+    /** 
+     * Return true if the given string is a valid MAC address, false otherwise.
+     */
+    public static boolean isValidMacAddress(String s) {
+        return s.matches("([0-9A-Fa-f]{2}[:]){5}[0-9A-Fa-f]{2}");
     }
 
     /**
