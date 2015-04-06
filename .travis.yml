@@ -6,4 +6,5 @@ deploy:
   file: target/JLifx-1.0-SNAPSHOT-jar-with-dependencies.jar
   skip_cleanup: true
   on:
-    repo: robvanderleek/JLifx
+    tags: true
+    all_branches: true
