@@ -1,4 +1,6 @@
 language: java
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report -DrepoToken=$COVERALLS_REPO_TOKEN
 deploy:
   provider: releases
   api_key:
