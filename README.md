@@ -1,6 +1,7 @@
 JLifx
 =====
 [![Build Status](https://travis-ci.org/robvanderleek/JLifx.svg?branch=master)](https://travis-ci.org/robvanderleek/JLifx)
+[![Coverage Status](https://coveralls.io/repos/robvanderleek/JLifx/badge.svg?branch=master)](https://coveralls.io/r/robvanderleek/JLifx?branch=master)
 
 Small LIFX Wifi LED bulb control utility in Java.
 
