@@ -18,8 +18,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.8</source>
+          <target>1.8</target>
        </configuration>
      </plugin>
      <plugin>
@@ -60,7 +60,7 @@
      <plugin>
        <groupId>org.codehaus.mojo</groupId>
        <artifactId>cobertura-maven-plugin</artifactId>
-       <version>2.6</version>
+       <version>2.7</version>
        <configuration>
          <format>xml</format>
          <maxmem>256m</maxmem>
@@ -93,6 +93,15 @@
      </testResource>
    </testResources>
   </build>
+  <reporting>
+    <plugins>   
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+    </plugins>
+  </reporting>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

@@ -94,12 +94,11 @@ public final class DiscoveryService {
 
     public static Collection<IBulb> discoverAllBulbs(GatewayBulb gatewayBulb) throws IOException {
         Set<IBulb> result = new HashSet<IBulb>();
-        List<Packet> packets = PacketService.sendStatusRequestPacket(gatewayBulb);
-        for (Packet packet : packets) {
-            StatusResponsePacket responsePacket = new StatusResponsePacket(packet);
-            if (responsePacket.getType()[0] == 0x6B) {
-                Bulb bulb = new Bulb(responsePacket.getTargetMac(), gatewayBulb);
-                bulb.setStatus(responsePacket);
+        List<StatusResponsePacket> packets = PacketService.sendStatusRequestPacket(gatewayBulb);
+        for (StatusResponsePacket packet : packets) {
+            if (packet.getType() == 0x6B) {
+                Bulb bulb = new Bulb(packet.getTargetMac(), gatewayBulb);
+                bulb.setStatus(packet);
                 result.add(bulb);
             }
         }

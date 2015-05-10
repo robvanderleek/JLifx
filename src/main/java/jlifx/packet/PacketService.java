@@ -30,9 +30,12 @@ public final class PacketService {
         sendPacket(bulb.getGatewayBulb(), packet);
     }
 
-    public static List<Packet> sendStatusRequestPacket(GatewayBulb bulb) throws IOException {
+    public static List<StatusResponsePacket> sendStatusRequestPacket(GatewayBulb bulb) throws IOException {
         Packet packet = new StatusRequestPacket();
-        return sendPacketAndWaitForResponse(bulb, packet);
+        List<Packet> responsePackets = sendPacketAndWaitForResponse(bulb, packet);
+        List<StatusResponsePacket> result = new ArrayList<StatusResponsePacket>();
+        responsePackets.forEach(p -> result.add(new StatusResponsePacket(p)));
+        return result;
     }
 
     public static List<Packet> sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {

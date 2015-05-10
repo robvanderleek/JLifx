@@ -27,11 +27,11 @@ public class Packet {
 
     public Packet() {}
 
-    public Packet(byte[] targetMac, byte[] gatewayMac, byte[] timestamp, byte[] type) {
-        this.targetMac = targetMac;
-        this.gatewayMac = gatewayMac;
-        this.timestamp = timestamp;
-        this.type = type;
+    public Packet(byte[] targetMac, byte[] gatewayMac, byte[] timestamp, byte type) {
+        setTargetMac(targetMac);
+        setGatewayMac(gatewayMac);
+        setTimestamp(timestamp);
+        setType(type);
     }
 
     public byte[] getTargetMac() {
@@ -62,8 +62,8 @@ public class Packet {
         this.timestamp = timestamp;
     }
 
-    public byte[] getType() {
-        return type;
+    public byte getType() {
+        return type[0];
     }
 
     public void setType(byte type) {
