@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 import jlifx.packet.Packet;
-import jlifx.packet.PacketService;
 import jlifx.packet.StatusResponsePacket;
 
 import org.apache.commons.logging.Log;
@@ -94,7 +93,7 @@ public final class DiscoveryService {
 
     public static Collection<IBulb> discoverAllBulbs(GatewayBulb gatewayBulb) throws IOException {
         Set<IBulb> result = new HashSet<IBulb>();
-        List<StatusResponsePacket> packets = PacketService.sendStatusRequestPacket(gatewayBulb);
+        List<StatusResponsePacket> packets = gatewayBulb.getPacketService().sendStatusRequestPacket(gatewayBulb);
         for (StatusResponsePacket packet : packets) {
             if (packet.getType() == 0x6B) {
                 Bulb bulb = new Bulb(packet.getTargetMac(), gatewayBulb);

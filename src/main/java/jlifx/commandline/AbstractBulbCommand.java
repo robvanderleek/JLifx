@@ -80,7 +80,9 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
             System.exit(0);
         }
         String[] commandArgs = getCommandArgs(args);
-        return dispatchExecute(gatewayBulb, commandArgs, out);
+        boolean result = dispatchExecute(gatewayBulb, commandArgs, out);
+        gatewayBulb.getPacketService().close();
+        return result;
     }
 
     private boolean dispatchExecute(GatewayBulb gatewayBulb, String[] commandArgs, PrintStream out) throws IOException,

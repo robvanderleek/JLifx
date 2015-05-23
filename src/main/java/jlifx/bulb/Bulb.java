@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.io.IOException;
 
 import jlifx.commandline.Utils;
-import jlifx.packet.PacketService;
 import jlifx.packet.StatusResponsePacket;
 
 public class Bulb implements IBulb {
@@ -36,15 +35,15 @@ public class Bulb implements IBulb {
     }
 
     public void switchOn() throws IOException {
-        PacketService.sendPowerManagementPacket(this, true);
+        gatewayBulb.getPacketService().sendPowerManagementPacket(this, true);
     }
 
     public void switchOff() throws IOException {
-        PacketService.sendPowerManagementPacket(this, false);
+        gatewayBulb.getPacketService().sendPowerManagementPacket(this, false);
     }
 
     public void colorize(Color color, int fadetime, float brightness) throws IOException {
-        PacketService.sendColorManagementPacket(this, color, fadetime, brightness);
+        gatewayBulb.getPacketService().sendColorManagementPacket(this, color, fadetime, brightness);
     }
 
     public StatusResponsePacket getStatus() {
@@ -80,7 +79,7 @@ public class Bulb implements IBulb {
     }
 
     public void setDim(float brightness) throws IOException {
-        PacketService.sendSetDimAbsolutePacket(this, brightness);
+        gatewayBulb.getPacketService().sendSetDimAbsolutePacket(this, brightness);
     }
 
     public int getPower() {
@@ -89,7 +88,7 @@ public class Bulb implements IBulb {
 
     public BulbMeshFirmwareStatus getMeshFirmwareStatus() throws IOException {
         if (meshFirmwareStatus == null) {
-            meshFirmwareStatus = PacketService.getMeshFirmwareStatus(this.getGatewayBulb());
+            meshFirmwareStatus = gatewayBulb.getPacketService().getMeshFirmwareStatus(this.getGatewayBulb());
         }
         return meshFirmwareStatus;
     }

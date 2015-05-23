@@ -11,7 +11,6 @@ import jlifx.commandline.command.RainbowCommand;
 import jlifx.commandline.command.ScanCommand;
 import jlifx.commandline.command.StatusCommand;
 import jlifx.commandline.command.SwitchCommand;
-import jlifx.packet.PacketService;
 
 public final class Main {
     private static final PrintStream OUT = System.out;
@@ -63,7 +62,6 @@ public final class Main {
         } else {
             CommandLineCommand command = commands.get(args[0].toLowerCase());
             if (command != null && command.execute(args, OUT)) {
-                PacketService.closeSocket();
                 return;
             } else {
                 printUsage();
