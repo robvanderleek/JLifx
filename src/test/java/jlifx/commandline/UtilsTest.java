@@ -9,6 +9,19 @@ import org.junit.Test;
 public class UtilsTest {
 
     @Test
+    public void testParseMacAddress() throws Exception {
+        byte[] macAddress = Utils.parseMacAddress("AA:BB:CC:DD:EE:FF");
+
+        assertEquals((byte)0xAA, macAddress[0]);
+        assertEquals((byte)0xDD, macAddress[3]);
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testParseInvalidMacAddress() throws Exception {
+        Utils.parseMacAddress("GG:HH:CC:DD:EE:FF");
+    }
+
+    @Test
     public void testIsValidIpv4Address() {
         assertTrue(Utils.isValidIpv4Address("127.0.0.1"));
         assertFalse(Utils.isValidIpv4Address("127.0.0"));

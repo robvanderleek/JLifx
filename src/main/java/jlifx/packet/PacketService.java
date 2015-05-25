@@ -22,6 +22,18 @@ public final class PacketService {
         packetWriter.sendPacket(bulb.getGatewayBulb(), packet);
     }
 
+    public void sendColorManagementPacket(IBulb bulb, Color color, int fadetime, float brightness) throws IOException {
+        Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color, fadetime, brightness);
+        packetWriter.connect(bulb.getGatewayBulb().getInetAddress());
+        packetWriter.sendPacket(bulb.getGatewayBulb(), packet);
+    }
+
+    public void sendSetDimAbsolutePacket(IBulb bulb, float brightness) throws IOException {
+        Packet packet = new SetDimAbsolutePacket(brightness);
+        packetWriter.connect(bulb.getGatewayBulb().getInetAddress());
+        packetWriter.sendPacket(bulb.getGatewayBulb(), packet);
+    }
+
     public List<StatusResponsePacket> sendStatusRequestPacket(GatewayBulb bulb) throws IOException {
         Packet packet = new StatusRequestPacket();
         List<Packet> responsePackets = packetWriter.sendPacketAndWaitForResponse(bulb, packet);
@@ -35,13 +47,6 @@ public final class PacketService {
         return packetWriter.sendPacketAndWaitForResponse(bulb, packet);
     }
 
-    public void sendColorManagementPacket(IBulb bulb, Color color, int fadetime, float brightness)
-        throws IOException {
-        Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color, fadetime, brightness);
-        packetWriter.connect(bulb.getGatewayBulb().getInetAddress());
-        packetWriter.sendPacket(bulb.getGatewayBulb(), packet);
-    }
-
     public BulbMeshFirmwareStatus getMeshFirmwareStatus(GatewayBulb bulb) throws IOException {
         Packet packet = new MeshFirmwareRequestPacket();
         List<Packet> responsePackets = packetWriter.sendPacketAndWaitForResponse(bulb, packet);
@@ -50,12 +55,6 @@ public final class PacketService {
         } else {
             return null;
         }
-    }
-
-    public void sendSetDimAbsolutePacket(IBulb bulb, float brightness) throws IOException {
-        Packet packet = new SetDimAbsolutePacket(brightness);
-        packetWriter.connect(bulb.getGatewayBulb().getInetAddress());
-        packetWriter.sendPacket(bulb.getGatewayBulb(), packet);
     }
 
     public void close() throws IOException {
