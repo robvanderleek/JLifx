@@ -3,6 +3,8 @@ jdk:
   - oraclejdk8
 after_success:
   - mvn clean cobertura:cobertura coveralls:report -DrepoToken=$COVERALLS_REPO_TOKEN
+before_deploy:
+  - mvn -DskipTests clean compile assembly:single
 deploy:
   provider: releases
   api_key:
