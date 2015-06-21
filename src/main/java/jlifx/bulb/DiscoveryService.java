@@ -64,7 +64,7 @@ public final class DiscoveryService {
         socket.setSoTimeout(500);
         int retries = 3;
         byte[] byteArray = new byte[128];
-        while (retries > 0) {
+        while (retries-- > 0) {
             DatagramPacket answer = new DatagramPacket(byteArray, byteArray.length);
             try {
                 socket.receive(answer);
@@ -76,7 +76,6 @@ public final class DiscoveryService {
                 Packet packet = Packet.fromDatagramPacket(answer);
                 return new GatewayBulb(answer.getAddress(), packet.getGatewayMac(), packet.getTargetMac());
             }
-            retries--;
         }
         return result;
     }

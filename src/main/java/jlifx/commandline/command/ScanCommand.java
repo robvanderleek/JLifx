@@ -19,10 +19,7 @@ public class ScanCommand implements CommandLineCommand {
             out.println("");
             return false;
         } else {
-            out.println("Found LIFX gateway bulb:");
-            out.println("IP address     : " + gatewayBulb.getInetAddress().getHostAddress());
-            out.println("GW MAC address : " + gatewayBulb.getMacAddressAsString());
-            out.println("MAC address    : " + gatewayBulb.getGatewayMacAddressAsString());
+            showGatewayBulbInfo(out, gatewayBulb);
             Collection<IBulb> allBulbs = DiscoveryService.discoverAllBulbs(gatewayBulb);
             out.println("Found " + allBulbs.size() + " bulb(s) in network:");
             for (IBulb bulb : allBulbs) {
@@ -31,6 +28,13 @@ public class ScanCommand implements CommandLineCommand {
             }
         }
         return true;
+    }
+
+    private void showGatewayBulbInfo(PrintStream out, GatewayBulb gatewayBulb) {
+        out.println("Found LIFX gateway bulb:");
+        out.println("IP address     : " + gatewayBulb.getInetAddress().getHostAddress());
+        out.println("GW MAC address : " + gatewayBulb.getMacAddressAsString());
+        out.println("MAC address    : " + gatewayBulb.getGatewayMacAddressAsString());
     }
 
 }

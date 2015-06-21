@@ -22,7 +22,7 @@ public class PacketServiceTest extends EasyMockSupport {
     private static final byte[] TEST_MAC_ADDRESS_1 = new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
     private static final byte[] TEST_MAC_ADDRESS_2 = new byte[] {0x06, 0x05, 0x04, 0x03, 0x02, 0x01};
 
-    private PacketWriter buildSimplePacketWriterMock(Class<? extends Packet> packetClass) throws UnknownHostException,
+    private PacketWriter buildPacketWriterMock(Class<? extends Packet> packetClass) throws UnknownHostException,
         IOException {
         PacketWriter result = createMock(PacketWriter.class);
         result.connect(InetAddress.getLocalHost());
@@ -31,11 +31,20 @@ public class PacketServiceTest extends EasyMockSupport {
         return result;
     }
 
+    private PacketWriter buildPacketWriterMockWithResponse(Class<? extends Packet> packetClass, Packet responsePacket)
+        throws UnknownHostException, IOException {
+        PacketWriter result = createMock(PacketWriter.class);
+        List<Packet> returnValue = Collections.singletonList(responsePacket);
+        EasyMock.expect(result.sendPacketAndWaitForResponse(isA(GatewayBulb.class), isA(packetClass)))
+            .andReturn(returnValue);
+        return result;
+    }
+
     @Test
     public void testSendPowerManagementPacket() throws Exception {
         GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1, TEST_MAC_ADDRESS_2);
         PacketService packetService = new PacketService();
-        packetService.setPacketWriter(buildSimplePacketWriterMock(PowerManagementPacket.class));
+        packetService.setPacketWriter(buildPacketWriterMock(PowerManagementPacket.class));
         replayAll();
 
         packetService.sendPowerManagementPacket(bulb, true);
@@ -47,7 +56,7 @@ public class PacketServiceTest extends EasyMockSupport {
     public void testSendColorManagementPacket() throws Exception {
         GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1, TEST_MAC_ADDRESS_2);
         PacketService packetService = new PacketService();
-        packetService.setPacketWriter(buildSimplePacketWriterMock(ColorManagementPacket.class));
+        packetService.setPacketWriter(buildPacketWriterMock(ColorManagementPacket.class));
         replayAll();
 
         packetService.sendColorManagementPacket(bulb, Color.BLUE, 3, 0.5F);
@@ -59,7 +68,7 @@ public class PacketServiceTest extends EasyMockSupport {
     public void testSendSetDimAbsolutePacket() throws Exception {
         GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1, TEST_MAC_ADDRESS_2);
         PacketService packetService = new PacketService();
-        packetService.setPacketWriter(buildSimplePacketWriterMock(SetDimAbsolutePacket.class));
+        packetService.setPacketWriter(buildPacketWriterMock(SetDimAbsolutePacket.class));
         replayAll();
 
         packetService.sendSetDimAbsolutePacket(bulb, 0.5F);
@@ -71,16 +80,26 @@ public class PacketServiceTest extends EasyMockSupport {
     public void testSendStatusRequestPacket() throws Exception {
         GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1, TEST_MAC_ADDRESS_2);
         PacketService packetService = new PacketService();
-        PacketWriter packetWriter = createMock(PacketWriter.class);
-        List<Packet> returnValue = Collections.singletonList(new StatusResponsePacket(new Packet()));
-        EasyMock.expect(
-            packetWriter.sendPacketAndWaitForResponse(isA(GatewayBulb.class), isA(StatusRequestPacket.class)))
-            .andReturn(
-            returnValue);
-        packetService.setPacketWriter(packetWriter);
+        packetService.setPacketWriter(buildPacketWriterMockWithResponse(StatusRequestPacket.class,
+            new StatusResponsePacket(new Packet())));
         replayAll();
-        
+
         List<StatusResponsePacket> result = packetService.sendStatusRequestPacket(bulb);
+
+        verifyAll();
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    public void testSendWifiInfoRequestPacket() throws Exception {
+        GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1, TEST_MAC_ADDRESS_2);
+        PacketService packetService = new PacketService();
+        packetService.setPacketWriter(buildPacketWriterMockWithResponse(WifiInfoRequestPacket.class,
+            new WifiInfoResponsePacket(new Packet())));
+        replayAll();
+
+        List<Packet> result = packetService.sendWifiInfoRequestPacket(bulb);
 
         verifyAll();
         assertNotNull(result);

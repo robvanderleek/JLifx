@@ -34,6 +34,14 @@ public class Packet {
         setType(type);
     }
 
+    public Packet(Packet packet) {
+        setTargetMac(packet.getTargetMac());
+        setGatewayMac(packet.getGatewayMac());
+        setTimestamp(packet.getTimestamp());
+        setType(packet.getType());
+        setPayload(packet.getPayload());
+    }
+
     public byte[] getTargetMac() {
         return targetMac;
     }
