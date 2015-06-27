@@ -4,12 +4,14 @@ jdk:
 after_success:
   - mvn clean cobertura:cobertura coveralls:report -DrepoToken=$COVERALLS_REPO_TOKEN
 before_deploy:
-  - mvn -DskipTests clean compile assembly:single
+  - ./build.sh
 deploy:
   provider: releases
   api_key:
     secure: mMtGv7bpZFfcO0CxbClGzv3pym0D1ad1mEP5TUrCkEMrX6s9WtBOmUb8bPMcRFKh7m65w58TMk/L28iogz4DypVWENASExrneHrxHAjU7J1clY1XY16JVxBuU6Gf5ruzL+LQUecMOWQocBiHdUJn3Io3uSHbeXJbI2igRYL6fzk=
-  file: target/JLifx-1.0-SNAPSHOT-jar-with-dependencies.jar
+  file: 
+    - jlifx
+    - target/*-jar-with-dependencies.jar
   skip_cleanup: true
   on:
     tags: true
