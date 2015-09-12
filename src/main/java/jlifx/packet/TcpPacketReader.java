@@ -10,6 +10,7 @@ class TcpPacketReader extends Thread implements Runnable, PacketReader {
     private InputStream inputStream;
     private List<Packet> receivedPackets = new ArrayList<Packet>();
     private Object monitor = new Object();
+    private boolean keepRunning = true;
 
     public TcpPacketReader(InputStream inputStream) {
         this.inputStream = inputStream;
@@ -29,7 +30,7 @@ class TcpPacketReader extends Thread implements Runnable, PacketReader {
     public void run() {
         try {
             byte[] buffer = new byte[128];
-            while (true) {
+            while (keepRunning) {
                 int length = inputStream.read(buffer);
                 if (length > 0) {
                     receivedPackets.add(Packet.fromByteArray(buffer));
@@ -43,6 +44,10 @@ class TcpPacketReader extends Thread implements Runnable, PacketReader {
         synchronized (monitor) {
             monitor.notify();
         }
+    }
+
+    public void stopRunning() {
+        keepRunning = false;
     }
 
     public List<Packet> getReceivedPackets() {

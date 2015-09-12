@@ -12,15 +12,13 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
 
-import jlifx.bulb.GatewayBulb;
-
 import org.easymock.EasyMock;
-import org.easymock.EasyMockSupport;
 import org.junit.Test;
 
-public class PacketServiceTest extends EasyMockSupport {
-    private static final byte[] TEST_MAC_ADDRESS_1 = new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
-    private static final byte[] TEST_MAC_ADDRESS_2 = new byte[] {0x06, 0x05, 0x04, 0x03, 0x02, 0x01};
+import jlifx.bulb.AbstractJLifxTestCase;
+import jlifx.bulb.GatewayBulb;
+
+public class PacketServiceTest extends AbstractJLifxTestCase {
 
     private PacketWriter buildPacketWriterMock(Class<? extends Packet> packetClass) throws UnknownHostException,
         IOException {

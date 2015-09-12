@@ -11,6 +11,7 @@ class UdpPacketReader extends Thread implements Runnable, PacketReader {
     private DatagramSocket datagramSocket;
     private List<Packet> receivedPackets = new ArrayList<Packet>();
     private Object monitor = new Object();
+    private boolean keepRunning = true;
 
     public UdpPacketReader(DatagramSocket datagramSocket) {
         this.datagramSocket = datagramSocket;
@@ -30,7 +31,7 @@ class UdpPacketReader extends Thread implements Runnable, PacketReader {
     public void run() {
         try {
             byte[] buffer = new byte[128];
-            while (true) {
+            while (keepRunning) {
                 DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
                 datagramSocket.receive(datagramPacket);
                 receivedPackets.add(Packet.fromDatagramPacket(datagramPacket));
@@ -43,6 +44,10 @@ class UdpPacketReader extends Thread implements Runnable, PacketReader {
         synchronized (monitor) {
             monitor.notify();
         }
+    }
+
+    public void stopRunning() {
+        keepRunning = false;
     }
 
     public List<Packet> getReceivedPackets() {
