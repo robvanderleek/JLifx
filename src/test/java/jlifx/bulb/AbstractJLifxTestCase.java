@@ -7,6 +7,7 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.easymock.EasyMockSupport;
 
 import jlifx.commandline.AbstractBulbCommand;
+import jlifx.packet.PacketService;
 
 public class AbstractJLifxTestCase extends EasyMockSupport {
     public static final byte[] TEST_MAC_ADDRESS_1 = new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
@@ -17,6 +18,14 @@ public class AbstractJLifxTestCase extends EasyMockSupport {
         return mockedBulb;
     }
 
+    protected GatewayBulb getMockedGatewayBulb() {
+        return createMock(GatewayBulb.class);
+    }
+
+    protected PacketService getMockedPacketService() {
+        return createMock(PacketService.class);
+    }
+
     protected PrintStream getPrintStream() {
         return new PrintStream(new ByteArrayOutputStream());
     }
@@ -25,11 +34,4 @@ public class AbstractJLifxTestCase extends EasyMockSupport {
         command.execute(Collections.singletonList(bulb), commandArgs, getPrintStream());
     }
 
-    protected void startTestBulb() {
-
-    }
-
-    protected void stopTestBulb() {
-
-    }
 }

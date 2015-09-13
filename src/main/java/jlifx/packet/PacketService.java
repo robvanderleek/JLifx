@@ -9,7 +9,7 @@ import jlifx.bulb.BulbMeshFirmwareStatus;
 import jlifx.bulb.GatewayBulb;
 import jlifx.bulb.IBulb;
 
-public final class PacketService {
+public class PacketService {
     private PacketWriter packetWriter = new UdpTcpPacketWriter();
 
     public void setPacketWriter(PacketWriter packetWriter) {
