@@ -141,6 +141,12 @@ if [ -z "${JAR2SH_JAVA}" ]; then
   exit 1
 fi
 
+MD5_CMD="md5"
+if [ ! -x /sbin/md5 ]
+then
+    MD5_CMD="md5sum"
+fi    
+
 echo "Bundling jars..."
 # build a tar file with no leading path info
 TMPFILE="jar2sh-$$.tgz"
@@ -159,7 +165,7 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 
-MD5=`md5 $TMPFILE | sed -e 's/ .*//'`
+MD5=`$MD5_CMD $TMPFILE | sed -e 's/ .*//'`
 BUNDLEID="${JAR2SH_SCRIPT}-$MD5-`date +%s`"
 echo "Bundle ID: $BUNDLEID"
 BUNDLESIZE=`stat -f "%z" $TMPFILE`
