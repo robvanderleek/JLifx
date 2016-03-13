@@ -20,4 +20,8 @@ public class PowerManagementPacket extends Packet {
         return getPayload()[0] == 0x1;
     }
 
+    public static PowerManagementPacket fromByteArray(byte[] data) {
+        return new PowerManagementPacket(Packet.fromByteArray(data));
+    }
+
 }

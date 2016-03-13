@@ -1,12 +1,12 @@
 package jlifx.packet;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class StatusResponsePacketTest extends TestCase {
 
-    private StatusResponsePacket makeTestPacket() {
+    public static StatusResponsePacket makeTestPacket() {
         Packet packet = new Packet();
         byte[] payload = new byte[] {0x12, 0x34, // hue (LE)
             0x43, 0x21, // saturation (LE)

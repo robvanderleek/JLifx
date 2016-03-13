@@ -119,17 +119,10 @@ public final class Utils {
     }
 
     /**
-     * Returns an integer with the value of 16-bits little endian formatted byte pair.   
-     */
-    public static int from16bitsLittleEndian(byte b1, byte b2) {
-        return ((b2 << 8) | b1) & 0xFFFF;
-    }
-
-    /**
      * Returns an integer with the value of 32-bits little endian formatted byte quadruple.   
      */
     public static int from32bitsLittleEndian(byte b1, byte b2, byte b3, byte b4) {
-        return ((b4 << 24) | (b3 << 8) | (b2 >>> 8) | (b1 >>> 24)) & 0xFFFF;
+        return (((b4 << 24) | (b3 << 16) | (b2 << 8)) | b1);
     }
 
 }

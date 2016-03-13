@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-import jlifx.bulb.DiscoveryService;
-import jlifx.commandline.Utils;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import jlifx.bulb.DiscoveryService;
+import jlifx.commandline.Utils;
 
 public class Packet {
     private static final Log LOG = LogFactory.getLog(Packet.class);

@@ -16,7 +16,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 public final class NetworkUtils {
     private NetworkUtils() {}
 
-    public static void startTcpServer(int port, ChannelHandlerAdapter channelHandlerAdapter)
+    public static ChannelFuture startTcpServer(int port, ChannelHandlerAdapter channelHandlerAdapter)
         throws InterruptedException {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -28,7 +28,7 @@ public final class NetworkUtils {
                 };
             }).option(ChannelOption.SO_BACKLOG, 100);
         ChannelFuture f = server.bind(port).sync();
-        f.channel().closeFuture().sync();
+        return f;
     }
 
     public static void startUdpServer(int port, ChannelHandler channelHandler) throws InterruptedException {

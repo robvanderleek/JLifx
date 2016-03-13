@@ -14,10 +14,11 @@ import jlifx.bulb.DiscoveryService;
 import jlifx.bulb.GatewayBulb;
 
 public class UdpTcpPacketWriter implements PacketWriter {
-    private static Socket tcpSocket;
-    private static DatagramSocket udpSocket;
-    private static DataOutputStream outputStream;
-    private static InputStream inputStream;
+    private Socket tcpSocket;
+    private DatagramSocket udpSocket;
+    private DataOutputStream outputStream;
+    private InputStream inputStream;
+    private int port = DiscoveryService.PORT;
 
     public List<Packet> sendPacketAndWaitForResponse(GatewayBulb gatewayBulb, Packet packet) //
         throws IOException {
@@ -63,8 +64,8 @@ public class UdpTcpPacketWriter implements PacketWriter {
 
     private void connectUdp(InetAddress address) throws IOException {
         if (udpSocket == null || !udpSocket.isConnected()) {
-            udpSocket = new DatagramSocket(DiscoveryService.PORT);
-            udpSocket.connect(address, DiscoveryService.PORT);
+            udpSocket = new DatagramSocket(port);
+            udpSocket.connect(address, port);
             udpSocket.setSoTimeout(1000);
             udpSocket.setReuseAddress(true);
         }
@@ -72,7 +73,7 @@ public class UdpTcpPacketWriter implements PacketWriter {
 
     private void connectTcp(InetAddress address) throws IOException {
         if (tcpSocket == null || !tcpSocket.isConnected()) {
-            tcpSocket = new Socket(address, DiscoveryService.PORT);
+            tcpSocket = new Socket(address, port);
             tcpSocket.setSoTimeout(1000);
             tcpSocket.setReuseAddress(true);
             outputStream = new DataOutputStream(tcpSocket.getOutputStream());
@@ -95,6 +96,10 @@ public class UdpTcpPacketWriter implements PacketWriter {
         } catch (InterruptedException e) {
             e = null; /* do nothing */
         }
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 
 }
