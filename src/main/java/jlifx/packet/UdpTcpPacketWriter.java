@@ -18,7 +18,7 @@ public class UdpTcpPacketWriter implements PacketWriter {
     private DatagramSocket udpSocket;
     private DataOutputStream outputStream;
     private InputStream inputStream;
-    private int port = DiscoveryService.PORT;
+    private int port = DiscoveryService.getGatewayDiscoveryPort();
 
     public List<Packet> sendPacketAndWaitForResponse(GatewayBulb gatewayBulb, Packet packet) //
         throws IOException {

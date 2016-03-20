@@ -31,12 +31,11 @@ public final class NetworkUtils {
         return f;
     }
 
-    public static void startUdpServer(int port, ChannelHandler channelHandler) throws InterruptedException {
+    public static ChannelFuture startUdpServer(int port, ChannelHandler channelHandler) throws InterruptedException {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         Bootstrap server = new Bootstrap();
-        server.group(eventLoopGroup).channel(NioDatagramChannel.class).handler(channelHandler)
-            .option(ChannelOption.SO_BACKLOG, 100);
+        server.group(eventLoopGroup).channel(NioDatagramChannel.class).handler(channelHandler);
         ChannelFuture f = server.bind(port).sync();
-        f.channel().closeFuture().sync();
+        return f;
     }
 }

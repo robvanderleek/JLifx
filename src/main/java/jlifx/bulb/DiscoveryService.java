@@ -15,15 +15,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import jlifx.packet.Packet;
-import jlifx.packet.StatusResponsePacket;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import jlifx.packet.Packet;
+import jlifx.packet.StatusResponsePacket;
+
 public final class DiscoveryService {
-    public static final int PORT = 56700;
+    public static final int DISCOVERY_SERVICE_PORT = 56700;
     private static final Log LOG = LogFactory.getLog(DiscoveryService.class);
+    private static int gatewayDiscoveryPort = 56700;
+    private static boolean ignoreGatewaysOnLocalhost = true;
 
     private DiscoveryService() {}
 
@@ -46,9 +48,10 @@ public final class DiscoveryService {
         GatewayBulb result = null;
         Packet packet = new Packet();
         byte[] byteArray = packet.toByteArray();
-        DatagramSocket socket = new DatagramSocket(PORT);
+        DatagramSocket socket = new DatagramSocket(DISCOVERY_SERVICE_PORT);
         socket.setReuseAddress(true);
-        DatagramPacket datagramPacket = new DatagramPacket(byteArray, byteArray.length, broadcastAddress, PORT);
+        DatagramPacket datagramPacket = new DatagramPacket(byteArray, byteArray.length, broadcastAddress,
+            gatewayDiscoveryPort);
         int retries = 3;
         while (result == null && retries > 0) {
             socket.send(datagramPacket);
@@ -81,6 +84,8 @@ public final class DiscoveryService {
     }
 
     private static boolean isAnswerFromGatewayBulb(DatagramPacket packet) throws SocketException {
+        if (!ignoreGatewaysOnLocalhost)
+            return true;
         InetAddress inetAddress = packet.getAddress();
         if (inetAddress.isAnyLocalAddress() || inetAddress.isLoopbackAddress()
             || NetworkInterface.getByInetAddress(inetAddress) != null) {
@@ -122,5 +127,17 @@ public final class DiscoveryService {
             LOG.error("Could not retreive broadcast addresses from available network interfaces");
         }
         return result;
+    }
+
+    public static int getGatewayDiscoveryPort() {
+        return gatewayDiscoveryPort;
+    }
+
+    public static void setGatewayDiscoveryPort(int port) {
+        gatewayDiscoveryPort = port;
+    }
+
+    public static void setIgnoreGatewaysOnLocalhost(boolean ignore) {
+        ignoreGatewaysOnLocalhost = ignore;
     }
 }

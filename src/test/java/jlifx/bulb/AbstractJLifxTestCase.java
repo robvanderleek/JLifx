@@ -1,6 +1,8 @@
 package jlifx.bulb;
 
+import java.io.IOException;
 import java.io.PrintStream;
+import java.net.ServerSocket;
 import java.util.Collections;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -32,6 +34,18 @@ public class AbstractJLifxTestCase extends EasyMockSupport {
 
     protected void executeCommand(AbstractBulbCommand command, IBulb bulb, String... commandArgs) throws Exception {
         command.execute(Collections.singletonList(bulb), commandArgs, getPrintStream());
+    }
+
+    protected int getFreeLocalPort() {
+        int result;
+        try {
+            ServerSocket serverSocket = new ServerSocket(0);
+            result = serverSocket.getLocalPort();
+            serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
 }

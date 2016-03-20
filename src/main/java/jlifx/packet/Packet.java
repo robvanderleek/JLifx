@@ -112,7 +112,7 @@ public class Packet {
 
     public DatagramPacket toDatagramPacket(InetAddress address) {
         byte[] data = toByteArray();
-        return new DatagramPacket(data, data.length, address, DiscoveryService.PORT);
+        return new DatagramPacket(data, data.length, address, DiscoveryService.DISCOVERY_SERVICE_PORT);
     }
 
     public static Packet fromByteArray(byte[] data) {

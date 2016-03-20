@@ -1,18 +1,17 @@
 package jlifx.boblightd;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerAdapter;
-import io.netty.channel.ChannelHandlerContext;
-
 import java.awt.Color;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-import jlifx.bulb.IBulb;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+import jlifx.bulb.IBulb;
 
 public class BoblightProtocolHandler extends ChannelHandlerAdapter {
     private static final Log LOG = LogFactory.getLog(BoblightProtocolHandler.class);
@@ -35,7 +34,7 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
         }
     }
 
-    private void handleMessage(ChannelHandlerContext ctx, String message) throws IOException {
+    void handleMessage(ChannelHandlerContext ctx, String message) throws IOException {
         if (message.startsWith("hello")) {
             LOG.info("Hello? Hello!");
             sendReplyMessage(ctx, "hello\n");
@@ -52,7 +51,7 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
         }
     }
 
-    private void handleSetLightCenterMessage(String message) throws IOException {
+    void handleSetLightCenterMessage(String message) throws IOException {
         String values = message.substring(message.indexOf("rgb") + 4);
         StringTokenizer tokenizer = new StringTokenizer(values);
         float r = Float.parseFloat(tokenizer.nextToken());
