@@ -1,10 +1,11 @@
 package jlifx.bulb;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
@@ -26,17 +27,16 @@ public class BulbTest extends AbstractJLifxTestCase {
     public void testSwitchBulbOnOff() throws Exception {
         GatewayBulb gatewayBulb = getMockedGatewayBulb();
         PacketService packetService = getMockedPacketService();
-        expect(gatewayBulb.getPacketService()).andReturn(packetService);
-        expectLastCall().times(2);
         Bulb bulb = new Bulb(TEST_MAC_ADDRESS_1, gatewayBulb);
         packetService.sendPowerManagementPacket(bulb, true);
         packetService.sendPowerManagementPacket(bulb, false);
-        replayAll();
+
+        when(gatewayBulb.getPacketService()).thenReturn(packetService);
 
         bulb.switchOn();
         bulb.switchOff();
 
-        verifyAll();
+        verify(gatewayBulb, times(2)).getPacketService();
     }
 
 }

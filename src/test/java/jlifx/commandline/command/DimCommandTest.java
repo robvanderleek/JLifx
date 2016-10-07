@@ -1,24 +1,24 @@
 package jlifx.commandline.command;
 
-import static org.easymock.EasyMock.expectLastCall;
-import jlifx.bulb.AbstractJLifxTestCase;
-import jlifx.bulb.IBulb;
+import static org.mockito.Mockito.atLeastOnce;
 
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import jlifx.bulb.AbstractJLifxTestCase;
+import jlifx.bulb.IBulb;
 
 public class DimCommandTest extends AbstractJLifxTestCase {
 
     @Test
     public void testDimBulb() throws Exception {
         DimCommand command = new DimCommand();
+
         IBulb bulb = getMockedBulb();
-        bulb.setDim(0.5F);
-        expectLastCall().once();
-        replayAll();
 
         executeCommand(command, bulb, "dim", "0.5");
 
-        verifyAll();
+        Mockito.verify(bulb, atLeastOnce()).setDim(0.5F);
     }
 
 }
