@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import jlifx.packet.StatusResponsePacket;
 
-public interface IBulb {
+public iface IBulb {
     byte[] getMacAddress();
 
     String getMacAddressAsString();
