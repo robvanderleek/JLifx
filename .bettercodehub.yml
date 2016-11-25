@@ -1,3 +1,4 @@
 component_depth: 5
 languages:
 - java
+- clojure
