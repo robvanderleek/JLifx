@@ -35,3 +35,4 @@ Examples:
 	java -jar jlifx.jar color all red
 	java -jar jlifx.jar blink AA:BB:CC:DD:EE:FF 3
 	java -jar jlifx.jar rainbow all
+
