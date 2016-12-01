@@ -37,3 +37,4 @@ Examples:
 	java -jar jlifx.jar rainbow all
 
 
+next
