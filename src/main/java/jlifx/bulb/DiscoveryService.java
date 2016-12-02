@@ -100,6 +100,25 @@ public final class DiscoveryService {
             result = waitForReply(socket);
             retries--;
         }
+        int retries = 3;
+        while (result == null && retries > 0) {
+            socket.send(datagramPacket);
+            result = waitForReply(socket);
+            retries--;
+        }
+        int retries = 3;
+        while (result == null && retries > 0) {
+            socket.send(datagramPacket);
+            result = waitForReply(socket);
+            retries--;
+        }
+        int retries = 3;
+        while (result == null && retries > 0) {
+            socket.send(datagramPacket);
+            result = waitForReply(socket);
+            retries--;
+        }
+        socket.close();
         return result;
     }
 
