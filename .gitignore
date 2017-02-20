@@ -4,5 +4,5 @@
 .settings
 target
 target-eclipse
-jlifx
+./jlifx
 jlifx.jar
