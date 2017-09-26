@@ -1,17 +1,5 @@
 package jlifx.bulb;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.List;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -19,6 +7,17 @@ import io.netty.channel.socket.DatagramPacket;
 import jlifx.boblightd.NetworkUtils;
 import jlifx.packet.StatusResponsePacket;
 import jlifx.packet.StatusResponsePacketTest;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class DiscoveryServiceTest extends AbstractJLifxTestCase {
     private int testDiscoveryPort;

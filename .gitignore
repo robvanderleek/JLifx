@@ -6,3 +6,5 @@ target
 target-eclipse
 jlifx
 jlifx.jar
+.idea
+*.iml

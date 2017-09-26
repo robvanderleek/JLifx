@@ -5,7 +5,6 @@ JLifx
 [![Build Status](https://travis-ci.org/robvanderleek/JLifx.svg?branch=master)](https://travis-ci.org/robvanderleek/JLifx)
 [![Coverage Status](https://coveralls.io/repos/robvanderleek/JLifx/badge.svg?branch=master)](https://coveralls.io/r/robvanderleek/JLifx?branch=master)
 
-
 Small LIFX Wifi LED bulb control utility in Java.
 
 This project is not, in any way, affiliated or related to LIFX Labs.
@@ -35,3 +34,4 @@ Examples:
 	java -jar jlifx.jar color all red
 	java -jar jlifx.jar blink AA:BB:CC:DD:EE:FF 3
 	java -jar jlifx.jar rainbow all
+
