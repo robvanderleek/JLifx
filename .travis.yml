@@ -3,6 +3,7 @@ jdk:
   - oraclejdk8
 after_success:
   - mvn clean cobertura:cobertura coveralls:report -DrepoToken=$COVERALLS_REPO_TOKEN
+  - bash <(curl -s https://codecov.io/bash)
 before_deploy:
   - ./build.sh
 deploy:
