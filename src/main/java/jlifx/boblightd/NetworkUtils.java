@@ -14,28 +14,29 @@ import io.netty.channel.socket.nio.NioDatagramChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public final class NetworkUtils {
-    private NetworkUtils() {}
+    private NetworkUtils() {
+    }
 
     public static ChannelFuture startTcpServer(int port, ChannelHandlerAdapter channelHandlerAdapter)
         throws InterruptedException {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap server = new ServerBootstrap();
-        server.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+        server.group(bossGroup, workerGroup)
+            .channel(NioServerSocketChannel.class)
             .childHandler(new ChannelInitializer<SocketChannel>() {
-                public void initChannel(SocketChannel ch) throws Exception {
+                public void initChannel(SocketChannel ch) {
                     ch.pipeline().addLast(channelHandlerAdapter);
-                };
-            }).option(ChannelOption.SO_BACKLOG, 100);
-        ChannelFuture f = server.bind(port).sync();
-        return f;
+                }
+            })
+            .option(ChannelOption.SO_BACKLOG, 100);
+        return server.bind(port).sync();
     }
 
     public static ChannelFuture startUdpServer(int port, ChannelHandler channelHandler) throws InterruptedException {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         Bootstrap server = new Bootstrap();
         server.group(eventLoopGroup).channel(NioDatagramChannel.class).handler(channelHandler);
-        ChannelFuture f = server.bind(port).sync();
-        return f;
+        return server.bind(port).sync();
     }
 }
