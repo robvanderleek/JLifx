@@ -17,7 +17,7 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
     private static final Log LOG = LogFactory.getLog(BoblightProtocolHandler.class);
     private final Collection<IBulb> bulbs;
 
-    public BoblightProtocolHandler(Collection<IBulb> bulbs) {
+    BoblightProtocolHandler(Collection<IBulb> bulbs) {
         this.bulbs = bulbs;
     }
 
@@ -34,7 +34,7 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
         }
     }
 
-    void handleMessage(ChannelHandlerContext ctx, String message) throws IOException {
+    private void handleMessage(ChannelHandlerContext ctx, String message) throws IOException {
         if (message.startsWith("hello")) {
             LOG.info("Hello? Hello!");
             sendReplyMessage(ctx, "hello\n");
@@ -51,7 +51,7 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
         }
     }
 
-    void handleSetLightCenterMessage(String message) throws IOException {
+    private void handleSetLightCenterMessage(String message) throws IOException {
         String values = message.substring(message.indexOf("rgb") + 4);
         StringTokenizer tokenizer = new StringTokenizer(values);
         float r = Float.parseFloat(tokenizer.nextToken());
