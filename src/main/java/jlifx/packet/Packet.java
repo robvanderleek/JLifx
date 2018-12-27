@@ -15,6 +15,7 @@ import static jlifx.commandline.Utils.byteArrayToString;
 
 public class Packet {
     private static final Log LOG = LogFactory.getLog(Packet.class);
+    private static final byte[] JLIFX_CLIENT_ID = new byte[]{0x0B, 0x0E, 0x0E, 0x0F};
     private final BitField origin = new BitField(2);
     private final BitField tagged = new BitField(1);
     private final BitField addressable = new BitField(1);
@@ -26,10 +27,13 @@ public class Packet {
         protocol.set(1, true);
     }
 
-    private final byte[] clientID = new byte[]{0x00, 0x00, 0x00, 0x00};
+    private final byte[] clientID = JLIFX_CLIENT_ID;
     private MacAddress targetMac = MacAddress.ALL_BULBS;
-    private final byte[] reserved = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    private final byte[] reserved2 = new byte[]{0x00, 0x00};
+    private final byte[] reserved1 = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    private final BitField reserved2 = new BitField(6);
+    private final BitField ackRequired = new BitField(1);
+    private final BitField resRequired = new BitField(1);
+    private final byte sequence = 0x00;
     private final byte[] reserved3 = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     private byte[] type = new byte[]{0x02, 0x00};
     private final byte[] reserved4 = new byte[]{0x00, 0x00};
@@ -62,6 +66,10 @@ public class Packet {
         this.targetMac = targetMac;
     }
 
+    public void setAckRequired(boolean b) {
+        ackRequired.set(0, b);
+    }
+
     public byte getType() {
         return type[0];
     }
@@ -85,8 +93,9 @@ public class Packet {
             outputStream.write(origin.concat(tagged).concat(addressable).concat(protocol).toByteArray());
             outputStream.write(clientID);
             outputStream.write(targetMac.toByteArray());
-            outputStream.write(reserved);
-            outputStream.write(reserved2);
+            outputStream.write(reserved1);
+            outputStream.write(reserved2.concat(ackRequired).concat(resRequired).toByteArray());
+            outputStream.write(sequence);
             outputStream.write(reserved3);
             outputStream.write(type);
             outputStream.write(reserved4);

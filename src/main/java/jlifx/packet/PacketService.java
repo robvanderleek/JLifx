@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PacketService {
-    private PacketWriter packetWriter = new UdpTcpPacketWriter();
+    private PacketWriter packetWriter = new PacketWriter();
 
     void setPacketWriter(PacketWriter packetWriter) {
         this.packetWriter = packetWriter;
@@ -19,7 +19,7 @@ public class PacketService {
     public void sendPowerManagementPacket(IBulb bulb, boolean on) throws IOException {
         Packet packet = new PowerManagementPacket(bulb.getMacAddress(), on);
         packetWriter.connect(bulb.getGatewayBulb().getInetAddress());
-        packetWriter.sendPacket(bulb.getGatewayBulb(), packet);
+        packetWriter.sendPacketAndWaitForAcknowledgement(bulb.getGatewayBulb(), packet);
     }
 
     public void sendColorManagementPacket(IBulb bulb, Color color, int fadetime, float brightness) throws IOException {
@@ -36,7 +36,7 @@ public class PacketService {
 
     public List<StatusResponsePacket> sendStatusRequestPacket(GatewayBulb bulb) throws IOException {
         Packet packet = new StatusRequestPacket();
-        List<Packet> responsePackets = packetWriter.sendPacketAndWaitForResponse(bulb, packet);
+        List<Packet> responsePackets = packetWriter.sendPacketAndGetResponse(bulb, packet);
         List<StatusResponsePacket> result = new ArrayList<StatusResponsePacket>();
         responsePackets.forEach(p -> result.add(new StatusResponsePacket(p)));
         return result;
@@ -44,12 +44,12 @@ public class PacketService {
 
     List<Packet> sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {
         Packet packet = new WifiInfoRequestPacket();
-        return packetWriter.sendPacketAndWaitForResponse(bulb, packet);
+        return packetWriter.sendPacketAndGetResponse(bulb, packet);
     }
 
     public BulbMeshFirmwareStatus getMeshFirmwareStatus(GatewayBulb bulb) throws IOException {
         Packet packet = new MeshFirmwareRequestPacket();
-        List<Packet> responsePackets = packetWriter.sendPacketAndWaitForResponse(bulb, packet);
+        List<Packet> responsePackets = packetWriter.sendPacketAndGetResponse(bulb, packet);
         if (!responsePackets.isEmpty()) {
             return BulbMeshFirmwareStatus.fromPacket(responsePackets.get(0));
         } else {

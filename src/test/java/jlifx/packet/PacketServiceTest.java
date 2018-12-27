@@ -23,7 +23,8 @@ public class PacketServiceTest extends AbstractJLifxTestCase {
         packetService.sendPowerManagementPacket(bulb, true);
 
         Mockito.verify(packetWriter)
-               .sendPacket(Mockito.isA(GatewayBulb.class), Mockito.isA(PowerManagementPacket.class));
+               .sendPacketAndWaitForAcknowledgement(Mockito.isA(GatewayBulb.class),
+                       Mockito.isA(PowerManagementPacket.class));
     }
 
     @Test
@@ -62,7 +63,7 @@ public class PacketServiceTest extends AbstractJLifxTestCase {
         packetService.sendStatusRequestPacket(bulb);
 
         Mockito.verify(packetWriter)
-               .sendPacketAndWaitForResponse(Mockito.isA(GatewayBulb.class), Mockito.isA(StatusRequestPacket.class));
+               .sendPacketAndGetResponse(Mockito.isA(GatewayBulb.class), Mockito.isA(StatusRequestPacket.class));
     }
 
     @Test
@@ -75,7 +76,7 @@ public class PacketServiceTest extends AbstractJLifxTestCase {
         packetService.sendWifiInfoRequestPacket(bulb);
 
         Mockito.verify(packetWriter)
-               .sendPacketAndWaitForResponse(Mockito.isA(GatewayBulb.class), Mockito.isA(WifiInfoRequestPacket.class));
+               .sendPacketAndGetResponse(Mockito.isA(GatewayBulb.class), Mockito.isA(WifiInfoRequestPacket.class));
     }
 
 }
