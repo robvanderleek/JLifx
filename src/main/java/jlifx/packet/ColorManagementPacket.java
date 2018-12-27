@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class ColorManagementPacket extends Packet {
 
-    public ColorManagementPacket(byte[] targetMacAddress, Color color, int fadetime, float brightness) {
+    public ColorManagementPacket(MacAddress targetMacAddress, Color color, int fadetime, float brightness) {
         float[] hsbValues = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
         setType((byte)0x66);
         setTargetMac(targetMacAddress);

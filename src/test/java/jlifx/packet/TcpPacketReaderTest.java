@@ -1,25 +1,22 @@
 package jlifx.packet;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import jlifx.bulb.AbstractJLifxTestCase;
+import org.junit.Test;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.junit.Test;
-
-import jlifx.bulb.AbstractJLifxTestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TcpPacketReaderTest extends AbstractJLifxTestCase {
 
     @Test
     public void testNoPacket() throws Exception {
-        InputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(new byte[] {}));
+        InputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(new byte[]{}));
 
         TcpPacketReader packetReader = new TcpPacketReader(inputStream);
         packetReader.start();
@@ -47,7 +44,7 @@ public class TcpPacketReaderTest extends AbstractJLifxTestCase {
 
         PowerManagementPacket receivedPacket = new PowerManagementPacket(receivedPackets.get(0));
 
-        assertArrayEquals(TEST_MAC_ADDRESS_1, receivedPacket.getTargetMac());
+        assertEquals(TEST_MAC_ADDRESS_1, receivedPacket.getTargetMac());
         assertTrue(receivedPacket.on());
     }
 
@@ -55,26 +52,23 @@ public class TcpPacketReaderTest extends AbstractJLifxTestCase {
         private int request = 0;
 
         @Override
-        public int read() throws IOException {
+        public int read() {
             return 0;
         }
 
         private int copy(byte[] src, byte[] dst) {
-            for (int i = 0; i < src.length; i++) {
-                dst[i] = src[i];
-            }
+            System.arraycopy(src, 0, dst, 0, src.length);
             return src.length;
         }
 
         @Override
-        public int read(byte[] b) throws IOException {
+        public int read(byte[] b) {
             if (request == 0) {
                 request++;
                 PowerManagementPacket packet = new PowerManagementPacket(TEST_MAC_ADDRESS_1, true);
                 byte[] bytes = packet.toByteArray();
                 return copy(bytes, b);
-            } else
-                if (request == 1) {
+            } else if (request == 1) {
                 request++;
                 PowerManagementPacket packet = new PowerManagementPacket(TEST_MAC_ADDRESS_2, false);
                 byte[] bytes = packet.toByteArray();
@@ -100,12 +94,12 @@ public class TcpPacketReaderTest extends AbstractJLifxTestCase {
 
         PowerManagementPacket receivedPacket = new PowerManagementPacket(receivedPackets.get(0));
 
-        assertArrayEquals(TEST_MAC_ADDRESS_1, receivedPacket.getTargetMac());
+        assertEquals(TEST_MAC_ADDRESS_1, receivedPacket.getTargetMac());
         assertTrue(receivedPacket.on());
 
         receivedPacket = new PowerManagementPacket(receivedPackets.get(1));
 
-        assertArrayEquals(TEST_MAC_ADDRESS_2, receivedPacket.getTargetMac());
+        assertEquals(TEST_MAC_ADDRESS_2, receivedPacket.getTargetMac());
         assertFalse(receivedPacket.on());
     }
 

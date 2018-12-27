@@ -1,5 +1,8 @@
 package jlifx.packet;
 
+import jlifx.bulb.DiscoveryService;
+import jlifx.bulb.GatewayBulb;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,9 +13,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import jlifx.bulb.DiscoveryService;
-import jlifx.bulb.GatewayBulb;
-
 public class UdpTcpPacketWriter implements PacketWriter {
     private Socket tcpSocket;
     private DatagramSocket udpSocket;
@@ -21,7 +21,7 @@ public class UdpTcpPacketWriter implements PacketWriter {
     private int port = DiscoveryService.getGatewayDiscoveryPort();
 
     public List<Packet> sendPacketAndWaitForResponse(GatewayBulb gatewayBulb, Packet packet) //
-        throws IOException {
+            throws IOException {
         List<Packet> result = new ArrayList<Packet>();
         connect(gatewayBulb.getInetAddress());
         PacketReader packetReader;
@@ -41,7 +41,6 @@ public class UdpTcpPacketWriter implements PacketWriter {
 
     @Override
     public void sendPacket(GatewayBulb gatewayBulb, Packet packet) throws IOException {
-        packet.setGatewayMac(gatewayBulb.getMacAddress());
         if (useTcp()) {
             outputStream.write(packet.toByteArray());
         } else {

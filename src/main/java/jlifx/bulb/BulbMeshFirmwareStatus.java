@@ -1,16 +1,16 @@
 package jlifx.bulb;
 
-import java.util.Date;
-
 import jlifx.commandline.Utils;
 import jlifx.packet.Packet;
+
+import java.util.Date;
 
 public class BulbMeshFirmwareStatus {
     private final Date buildTimestamp;
     private final Date installTimestamp;
     private final int version;
 
-    public BulbMeshFirmwareStatus(Date buildTimestamp, Date installTimestamp, int version) {
+    private BulbMeshFirmwareStatus(Date buildTimestamp, Date installTimestamp, int version) {
         this.buildTimestamp = buildTimestamp;
         this.installTimestamp = installTimestamp;
         this.version = version;

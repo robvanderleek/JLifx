@@ -1,15 +1,12 @@
 package jlifx.bulb;
 
-import static org.junit.Assert.assertArrayEquals;
+import jlifx.packet.PacketService;
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import org.junit.Test;
-
-import jlifx.packet.PacketService;
 
 public class BulbTest extends AbstractJLifxTestCase {
 
@@ -18,9 +15,9 @@ public class BulbTest extends AbstractJLifxTestCase {
         GatewayBulb gatewayBulb = getMockedGatewayBulb();
         Bulb bulb = new Bulb(TEST_MAC_ADDRESS_1, gatewayBulb);
 
-        assertArrayEquals(TEST_MAC_ADDRESS_1, bulb.getMacAddress());
+        assertEquals(TEST_MAC_ADDRESS_1, bulb.getMacAddress());
         assertEquals(gatewayBulb, bulb.getGatewayBulb());
-        assertTrue(bulb.equals(bulb));
+        assertEquals(bulb, bulb);
     }
 
     @Test

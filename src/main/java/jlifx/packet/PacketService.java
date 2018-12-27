@@ -1,18 +1,18 @@
 package jlifx.packet;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import jlifx.bulb.BulbMeshFirmwareStatus;
 import jlifx.bulb.GatewayBulb;
 import jlifx.bulb.IBulb;
 
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class PacketService {
     private PacketWriter packetWriter = new UdpTcpPacketWriter();
 
-    public void setPacketWriter(PacketWriter packetWriter) {
+    void setPacketWriter(PacketWriter packetWriter) {
         this.packetWriter = packetWriter;
     }
 
@@ -42,7 +42,7 @@ public class PacketService {
         return result;
     }
 
-    public List<Packet> sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {
+    List<Packet> sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {
         Packet packet = new WifiInfoRequestPacket();
         return packetWriter.sendPacketAndWaitForResponse(bulb, packet);
     }
