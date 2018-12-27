@@ -136,4 +136,20 @@ public final class Utils {
         return (((b4 << 24) | (b3 << 16) | (b2 << 8)) | b1);
     }
 
+    /**
+     * Returns an integer with the value of a 64-bits little endian formatted byte sequence.
+     */
+    public static long from64bitsLittleEndian(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8) {
+        long value = 0;
+        value += ((long) b1 & 0xffL);
+        value += ((long) b2 & 0xffL) << (8);
+        value += ((long) b3 & 0xffL) << (16);
+        value += ((long) b4 & 0xffL) << (24);
+        value += ((long) b5 & 0xffL) << (32);
+        value += ((long) b6 & 0xffL) << (40);
+        value += ((long) b7 & 0xffL) << (48);
+        value += ((long) b8 & 0xffL) << (56);
+        return value;
+    }
+
 }

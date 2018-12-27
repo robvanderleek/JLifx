@@ -32,6 +32,7 @@ public class StatusCommand implements CommandLineCommand {
         BulbMeshFirmwareStatus firmwareStatus = gatewayBulb.getMeshFirmwareStatus();
         out.println();
         out.println("Mesh firmware version : " + firmwareStatus.getVersion());
+        out.println("Mesh firmware build time: " + firmwareStatus.getBuildTimestamp());
         return true;
     }
 

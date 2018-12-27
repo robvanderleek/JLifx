@@ -7,21 +7,15 @@ import java.util.Date;
 
 public class BulbMeshFirmwareStatus {
     private final Date buildTimestamp;
-    private final Date installTimestamp;
     private final int version;
 
-    private BulbMeshFirmwareStatus(Date buildTimestamp, Date installTimestamp, int version) {
+    private BulbMeshFirmwareStatus(Date buildTimestamp, int version) {
         this.buildTimestamp = buildTimestamp;
-        this.installTimestamp = installTimestamp;
         this.version = version;
     }
 
     public Date getBuildTimestamp() {
         return buildTimestamp;
-    }
-
-    public Date getInstallTimestamp() {
-        return installTimestamp;
     }
 
     public int getVersion() {
@@ -30,9 +24,10 @@ public class BulbMeshFirmwareStatus {
 
     public static BulbMeshFirmwareStatus fromPacket(Packet packet) {
         byte[] payload = packet.getPayload();
-        // 8 byte first date
-        // 8 byte second date
+        long nanoSecondsSinceEpoch = Utils.from64bitsLittleEndian(payload[0], payload[1], payload[2], payload[3],
+                payload[4], payload[5], payload[6], payload[7]);
+        Date buildTimestamp = new Date(nanoSecondsSinceEpoch / 1000000);
         int version = Utils.from32bitsLittleEndian(payload[16], payload[17], payload[18], payload[19]);
-        return new BulbMeshFirmwareStatus(new Date(), new Date(), version);
+        return new BulbMeshFirmwareStatus(buildTimestamp, version);
     }
 }

@@ -29,7 +29,7 @@ public class Bulb implements IBulb {
         return gatewayBulb;
     }
 
-    public void setGatewayBulb(GatewayBulb gatewayBulb) {
+    void setGatewayBulb(GatewayBulb gatewayBulb) {
         this.gatewayBulb = gatewayBulb;
     }
 
