@@ -5,16 +5,33 @@
   <packaging>jar</packaging>
   <version>0.3-SNAPSHOT</version>
   <name>JLifx</name>
+  <description>Simple LIFX control library for Java</description>
   <url>https://github.com/robvanderleek/JLifx</url>
+  <licenses>
+    <license>
+	  <name>MIT License</name>
+	  <url>http://www.opensource.org/licenses/mit-license.php</url>
+	  <distribution>repo</distribution>
+    </license>
+  </licenses>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <scm>
+    <url>https://github.com/robvanderleek/JLifx</url>
     <connection>scm:git:git@github.com:robvanderleek/JLifx</connection>
     <developerConnection>scm:git:git@github.com:robvanderleek/JLifx</developerConnection>
     <tag>HEAD</tag>
   </scm>
+  <developers>
+    <developer>
+	  <email>robvanderleek@gmail.com</email>
+	  <name>Rob van der Leek</name>
+	  <url>https://github.com/robvanderleek</url>
+	  <id>robvanderleek</id>
+	</developer>
+  </developers>
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
