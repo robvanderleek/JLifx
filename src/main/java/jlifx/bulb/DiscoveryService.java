@@ -1,5 +1,10 @@
 package jlifx.bulb;
 
+import jlifx.packet.Packet;
+import jlifx.packet.StatusResponsePacket;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -15,30 +20,32 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import jlifx.packet.Packet;
-import jlifx.packet.StatusResponsePacket;
-
 public final class DiscoveryService {
     public static final int DISCOVERY_SERVICE_PORT = 56700;
     private static final Log LOG = LogFactory.getLog(DiscoveryService.class);
     private static int gatewayDiscoveryPort = 56700;
     private static boolean ignoreGatewaysOnLocalhost = true;
 
-    private DiscoveryService() {}
+    private DiscoveryService() {
+    }
 
     /**
-     * Returns the first valid Gateway bulb discovered, or null if no gateway bulb was 
+     * Returns the first valid Gateway bulb discovered, or null if no gateway bulb was
      * discovered in any of the networks.
+     *
+     * @return First Gateway bulb discovered
      */
-    public static GatewayBulb discoverGatewayBulb() throws IOException {
+    public static GatewayBulb discoverGatewayBulb() {
         List<InetAddress> networkBroadcastAddresses = getNetworkBroadcastAddresses();
         for (InetAddress broadcastAddress : networkBroadcastAddresses) {
-            GatewayBulb result = discoverGatewayBulbOnNetwork(broadcastAddress);
-            if (result != null) {
-                return result;
+            try {
+                GatewayBulb result = discoverGatewayBulbOnNetwork(broadcastAddress);
+                if (result != null) {
+                    return result;
+                }
+            } catch (IOException e) {
+                LOG.error(e);
+                throw new RuntimeException(e);
             }
         }
         return null;
@@ -51,7 +58,7 @@ public final class DiscoveryService {
         DatagramSocket socket = new DatagramSocket(DISCOVERY_SERVICE_PORT);
         socket.setReuseAddress(true);
         DatagramPacket datagramPacket = new DatagramPacket(byteArray, byteArray.length, broadcastAddress,
-            gatewayDiscoveryPort);
+                gatewayDiscoveryPort);
         int retries = 3;
         while (result == null && retries > 0) {
             socket.send(datagramPacket);
@@ -84,11 +91,10 @@ public final class DiscoveryService {
     }
 
     private static boolean isAnswerFromGatewayBulb(DatagramPacket packet) throws SocketException {
-        if (!ignoreGatewaysOnLocalhost)
-            return true;
+        if (!ignoreGatewaysOnLocalhost) return true;
         InetAddress inetAddress = packet.getAddress();
-        if (inetAddress.isAnyLocalAddress() || inetAddress.isLoopbackAddress()
-            || NetworkInterface.getByInetAddress(inetAddress) != null) {
+        if (inetAddress.isAnyLocalAddress() || inetAddress.isLoopbackAddress() ||
+                NetworkInterface.getByInetAddress(inetAddress) != null) {
             return false;
         } else {
             return true;

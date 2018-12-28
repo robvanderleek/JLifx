@@ -8,7 +8,7 @@ public final class Utils {
 
     private Utils() {}
 
-    public static byte[] parseMacAddress(String macAddress) {
+    static byte[] parseMacAddress(String macAddress) {
         byte[] result = new byte[6];
         result[0] = (byte)(Integer.parseInt(macAddress.substring(0, 2), 16));
         result[1] = (byte)(Integer.parseInt(macAddress.substring(3, 5), 16));
@@ -19,7 +19,7 @@ public final class Utils {
         return result;
     }
 
-    public static byte[] parseIpv4Address(String ipv4Address) {
+    static byte[] parseIpv4Address(String ipv4Address) {
         try {
             byte[] result = new byte[4];
             String[] parts = ipv4Address.split("[.]");
@@ -65,13 +65,21 @@ public final class Utils {
 
     /**
      * Returns a string containing the hex value of a word.
+     *
+     * @param w Word value
+     *
+     * @return String containing hex value of the word value
      */
     public static String wordToHexString(int w) {
         return "$" + Integer.toHexString(w & 0xFFFF).toUpperCase();
     }
 
     /**
-     * Returns a string containing the string representation of the given MAC address. 
+     * Returns a string containing the string representation of the given MAC address.
+     *
+     * @param macAddress 6-byte MAC address value
+     *
+     * @return String with MAC address
      */
     public static String getMacAddressAsString(byte[] macAddress) {
         return String.format("%02x:%02x:%02x:%02x:%02x:%02x", macAddress[0], macAddress[1], macAddress[2],
@@ -80,6 +88,10 @@ public final class Utils {
 
     /**
      * Returns true if the given string is a valid float value, false otherwise.
+     *
+     * @param s A string value
+     *
+     * @return true if the given string is a float value, false otherwise
      */
     public static boolean isFloatValue(String s) {
         boolean result = true;
@@ -93,6 +105,10 @@ public final class Utils {
 
     /**
      * Returns true if the given string is a valid integer value, false otherwise.
+     *
+     * @param s A string value
+     *
+     * @return true if the given string is a float value, false otherwise
      */
     public static boolean isIntegerValue(String s) {
         boolean result = true;
@@ -106,20 +122,35 @@ public final class Utils {
 
     /** 
      * Return true if the given string is a valid IPv4 address, false otherwise.
+     *
+     * @param s A string value
+     *
+     * @return true if the given string is a valid IPv4 address
      */
-    public static boolean isValidIpv4Address(String s) {
+    static boolean isValidIpv4Address(String s) {
         return s.matches("(\\d{1,3}[.]){3}\\d{1,3}");
     }
 
     /** 
      * Return true if the given string is a valid MAC address, false otherwise.
+     *
+     * @param s A string value
+     *
+     * @return true if the given string is a valid MAC address
      */
-    public static boolean isValidMacAddress(String s) {
+    static boolean isValidMacAddress(String s) {
         return s.matches("([0-9A-Fa-f]{2}[:]){5}[0-9A-Fa-f]{2}");
     }
 
     /**
-     * Returns an integer with the value of 32-bits little endian formatted byte quadruple.   
+     * Returns an integer with the value of 32-bits little endian formatted byte quadruple.
+     *
+     * @param b1 First byte
+     * @param b2 Second byte
+     * @param b3 Third byte
+     * @param b4 Fourth byte
+     *
+     * @return 32-bits integer value from the 4 LE formatted byte quadruple
      */
     public static int from32bitsLittleEndian(byte b1, byte b2, byte b3, byte b4) {
         return (((b4 << 24) | (b3 << 16) | (b2 << 8)) | b1);
