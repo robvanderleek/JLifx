@@ -4,9 +4,9 @@
   <groupId>io.github.robvanderleek</groupId>
   <artifactId>JLifx</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>Lifx</name>
-  <url>http://maven.apache.org</url>
+  <version>0.1-SNAPSHOT</version>
+  <name>JLifx</name>
+  <url>https://github.com/robvanderleek/JLifx</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
