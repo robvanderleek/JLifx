@@ -14,7 +14,6 @@
   <scm>
     <connection>scm:git:git@github.com:robvanderleek/JLifx</connection>
     <developerConnection>scm:git:git@github.com:robvanderleek/JLifx</developerConnection>
-    <tag>JLifx-0.1</tag>
   </scm>
   <distributionManagement>
     <snapshotRepository>
