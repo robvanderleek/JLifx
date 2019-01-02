@@ -31,8 +31,22 @@ The supported commands are:
 
 Examples:
 
-	java -jar jlifx.jar switch all off
+    java -jar jlifx.jar switch all off
 	java -jar jlifx.jar color all red
 	java -jar jlifx.jar blink AA:BB:CC:DD:EE:FF 3
 	java -jar jlifx.jar rainbow all
 
+## Development
+
+### Make release
+
+This project uses the Maven release plugin. Before creating a new release make
+sure the master branch contains no local changes, then perform these steps:
+
+1. Prepare the release:
+
+    `mvn release:clean release:prepare`
+    
+2. Peform the release:
+
+    `mvn release:perform`
