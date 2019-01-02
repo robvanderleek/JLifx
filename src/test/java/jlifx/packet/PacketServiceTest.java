@@ -6,77 +6,52 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.awt.*;
-import java.net.InetAddress;
-
-import static org.mockito.Mockito.mock;
 
 public class PacketServiceTest extends AbstractJLifxTestCase {
 
     @Test
     public void testSendPowerManagementPacket() throws Exception {
-        GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1);
-        PacketService packetService = new PacketService();
-        PacketWriter packetWriter = mock(PacketWriter.class);
+        GatewayBulb bulb = getMockedGatewayBulb();
 
-        packetService.setPacketWriter(packetWriter);
+        new PacketService().sendPowerManagementPacket(bulb, true);
 
-        packetService.sendPowerManagementPacket(bulb, true);
-
-        Mockito.verify(packetWriter)
-               .sendPacketAndWaitForAcknowledgement(Mockito.isA(GatewayBulb.class),
-                       Mockito.isA(PowerManagementPacket.class));
+        Mockito.verify(bulb).sendPacket(Mockito.isA(PowerManagementPacket.class));
     }
 
     @Test
     public void testSendColorManagementPacket() throws Exception {
-        GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1);
-        PacketService packetService = new PacketService();
-        PacketWriter packetWriter = mock(PacketWriter.class);
-        packetService.setPacketWriter(packetWriter);
+        GatewayBulb bulb = getMockedGatewayBulb();
 
-        packetService.sendColorManagementPacket(bulb, Color.BLUE, 3, 0.5F);
+        new PacketService().sendColorManagementPacket(bulb, Color.BLUE, 3, 0.5F);
 
-        Mockito.verify(packetWriter)
-               .sendPacket(Mockito.isA(GatewayBulb.class), Mockito.isA(ColorManagementPacket.class));
+        Mockito.verify(bulb).sendPacket(Mockito.isA(ColorManagementPacket.class));
     }
 
     @Test
     public void testSendSetDimAbsolutePacket() throws Exception {
-        GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1);
-        PacketService packetService = new PacketService();
-        PacketWriter packetWriter = mock(PacketWriter.class);
-        packetService.setPacketWriter(packetWriter);
+        GatewayBulb bulb = getMockedGatewayBulb();
 
-        packetService.sendSetDimAbsolutePacket(bulb, 0.5F);
+        new PacketService().sendSetDimAbsolutePacket(bulb, 0.5F);
 
-        Mockito.verify(packetWriter)
-               .sendPacket(Mockito.isA(GatewayBulb.class), Mockito.isA(SetDimAbsolutePacket.class));
+        Mockito.verify(bulb).sendPacket(Mockito.isA(SetDimAbsolutePacket.class));
     }
 
     @Test
     public void testSendStatusRequestPacket() throws Exception {
-        GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1);
-        PacketService packetService = new PacketService();
-        PacketWriter packetWriter = mock(PacketWriter.class);
-        packetService.setPacketWriter(packetWriter);
+        GatewayBulb bulb = getMockedGatewayBulb();
 
-        packetService.sendStatusRequestPacket(bulb);
+        new PacketService().sendStatusRequestPacket(bulb);
 
-        Mockito.verify(packetWriter)
-               .sendPacketAndGetResponse(Mockito.isA(GatewayBulb.class), Mockito.isA(StatusRequestPacket.class));
+        Mockito.verify(bulb).sendPacketAndGetResponses(Mockito.isA(StatusRequestPacket.class));
     }
 
     @Test
     public void testSendWifiInfoRequestPacket() throws Exception {
-        GatewayBulb bulb = new GatewayBulb(InetAddress.getLocalHost(), TEST_MAC_ADDRESS_1);
-        PacketService packetService = new PacketService();
-        PacketWriter packetWriter = mock(PacketWriter.class);
-        packetService.setPacketWriter(packetWriter);
+        GatewayBulb bulb = getMockedGatewayBulb();
 
-        packetService.sendWifiInfoRequestPacket(bulb);
+        new PacketService().sendWifiInfoRequestPacket(bulb);
 
-        Mockito.verify(packetWriter)
-               .sendPacketAndGetResponse(Mockito.isA(GatewayBulb.class), Mockito.isA(WifiInfoRequestPacket.class));
+        Mockito.verify(bulb).sendPacketAndGetResponse(Mockito.isA(WifiInfoRequestPacket.class));
     }
 
 }

@@ -11,6 +11,7 @@ import java.net.ServerSocket;
 import java.util.Collections;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AbstractJLifxTestCase {
     public static final MacAddress TEST_MAC_ADDRESS_1 = new MacAddress(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05, 0x06});
@@ -22,7 +23,10 @@ public class AbstractJLifxTestCase {
     }
 
     protected GatewayBulb getMockedGatewayBulb() {
-        return mock(GatewayBulb.class);
+        GatewayBulb result = mock(GatewayBulb.class);
+        when(result.getMacAddress()).thenReturn(TEST_MAC_ADDRESS_1);
+        when(result.getGatewayBulb()).thenReturn(result);
+        return result;
     }
 
     protected PacketService getMockedPacketService() {

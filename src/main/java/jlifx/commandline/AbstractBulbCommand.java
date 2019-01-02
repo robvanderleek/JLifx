@@ -81,7 +81,7 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
         }
         String[] commandArgs = getCommandArgs(args);
         boolean result = dispatchExecute(gatewayBulb, commandArgs, out);
-        gatewayBulb.getPacketService().close();
+        gatewayBulb.disconnect();
         return result;
     }
 

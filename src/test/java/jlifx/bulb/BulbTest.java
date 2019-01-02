@@ -4,7 +4,6 @@ import jlifx.packet.PacketService;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,15 +24,13 @@ public class BulbTest extends AbstractJLifxTestCase {
         GatewayBulb gatewayBulb = getMockedGatewayBulb();
         PacketService packetService = getMockedPacketService();
         Bulb bulb = new Bulb(TEST_MAC_ADDRESS_1, gatewayBulb);
-        packetService.sendPowerManagementPacket(bulb, true);
-        packetService.sendPowerManagementPacket(bulb, false);
-
         when(gatewayBulb.getPacketService()).thenReturn(packetService);
 
         bulb.switchOn();
         bulb.switchOff();
 
-        verify(gatewayBulb, times(2)).getPacketService();
+        verify(packetService).sendPowerManagementPacket(bulb, true);
+        verify(packetService).sendPowerManagementPacket(bulb, false);
     }
 
 }

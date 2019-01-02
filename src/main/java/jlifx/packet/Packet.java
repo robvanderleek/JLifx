@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-import static jlifx.commandline.Utils.byteArrayToString;
-
 
 public class Packet {
     private static final Log LOG = LogFactory.getLog(Packet.class);
@@ -33,7 +31,7 @@ public class Packet {
     private final BitField reserved2 = new BitField(6);
     private final BitField ackRequired = new BitField(1);
     private final BitField resRequired = new BitField(1);
-    private final byte sequence = 0x00;
+    private byte sequenceNumber = 0x00;
     private final byte[] reserved3 = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     private byte[] type = new byte[]{0x02, 0x00};
     private final byte[] reserved4 = new byte[]{0x00, 0x00};
@@ -50,6 +48,7 @@ public class Packet {
     public Packet(Packet packet) {
         setTargetMac(packet.getTargetMac());
         setType(packet.getType());
+        setSequenceNumber(packet.getSequenceNumber());
         setPayload(packet.getPayload());
     }
 
@@ -70,8 +69,16 @@ public class Packet {
         ackRequired.set(0, b);
     }
 
+    public void setResponseRequired(boolean b) {
+        resRequired.set(0, b);
+    }
+
     public byte getType() {
         return type[0];
+    }
+
+    public byte getResponseType() {
+        return (byte) (getType() + 1);
     }
 
     void setType(byte type) {
@@ -86,6 +93,14 @@ public class Packet {
         this.payload = payload;
     }
 
+    public byte getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(byte sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
     public byte[] toByteArray() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
@@ -95,7 +110,7 @@ public class Packet {
             outputStream.write(targetMac.toByteArray());
             outputStream.write(reserved1);
             outputStream.write(reserved2.concat(ackRequired).concat(resRequired).toByteArray());
-            outputStream.write(sequence);
+            outputStream.write(sequenceNumber);
             outputStream.write(reserved3);
             outputStream.write(type);
             outputStream.write(reserved4);
@@ -119,6 +134,7 @@ public class Packet {
         Packet result = new Packet();
         result.setType(data[32]);
         result.setTargetMac(new MacAddress(ArrayUtils.subarray(data, 8, 14)));
+        result.setSequenceNumber(data[23]);
         if (data.length > 36) {
             result.setPayload(ArrayUtils.subarray(data, 36, data.length));
         }
@@ -129,14 +145,9 @@ public class Packet {
     public String toString() {
         StringBuilder result = new StringBuilder();
         byte[] bytes = toByteArray();
-        byte[] frameBytes = ArrayUtils.subarray(bytes, 0, 8);
-        result.append("Frame: ").append(byteArrayToString(frameBytes)).append(", ");
-        byte[] targetMacAddress = ArrayUtils.subarray(bytes, 8, 14);
-        result.append("target MAC address: ").append(byteArrayToString(targetMacAddress)).append(", ");
-        byte[] messageTypeBytes = ArrayUtils.subarray(bytes, 32, 34);
-        result.append("message type: ").append(byteArrayToString(messageTypeBytes)).append(", ");
-        byte[] payloadBytes = ArrayUtils.subarray(bytes, 36, bytes.length);
-        result.append("payload: ").append(byteArrayToString(payloadBytes));
+        result.append("MAC address: ").append(targetMac).append(", ");
+        result.append("message type: ").append(getType() & 0xFF).append(", ");
+        result.append("sequence number: ").append(sequenceNumber & 0xFF);
         return result.toString();
     }
 }

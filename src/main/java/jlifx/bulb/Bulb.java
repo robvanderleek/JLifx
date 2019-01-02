@@ -12,6 +12,7 @@ public class Bulb implements IBulb {
     private StatusResponsePacket status;
     private BulbMeshFirmwareStatus meshFirmwareStatus;
 
+
     public Bulb(MacAddress macAddress, GatewayBulb gatewayBulb) {
         this.macAddress = macAddress;
         this.gatewayBulb = gatewayBulb;

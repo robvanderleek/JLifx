@@ -6,59 +6,41 @@ import jlifx.bulb.IBulb;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PacketService {
-    private PacketWriter packetWriter = new PacketWriter();
-
-    void setPacketWriter(PacketWriter packetWriter) {
-        this.packetWriter = packetWriter;
-    }
 
     public void sendPowerManagementPacket(IBulb bulb, boolean on) throws IOException {
         Packet packet = new PowerManagementPacket(bulb.getMacAddress(), on);
-        packetWriter.connect(bulb.getGatewayBulb().getInetAddress());
-        packetWriter.sendPacketAndWaitForAcknowledgement(bulb.getGatewayBulb(), packet);
+        bulb.getGatewayBulb().sendPacket(packet);
     }
 
     public void sendColorManagementPacket(IBulb bulb, Color color, int fadetime, float brightness) throws IOException {
         Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color, fadetime, brightness);
-        packetWriter.connect(bulb.getGatewayBulb().getInetAddress());
-        packetWriter.sendPacket(bulb.getGatewayBulb(), packet);
+        bulb.getGatewayBulb().sendPacket(packet);
     }
 
     public void sendSetDimAbsolutePacket(IBulb bulb, float brightness) throws IOException {
         Packet packet = new SetDimAbsolutePacket(brightness);
-        packetWriter.connect(bulb.getGatewayBulb().getInetAddress());
-        packetWriter.sendPacket(bulb.getGatewayBulb(), packet);
+        bulb.getGatewayBulb().sendPacket(packet);
     }
 
     public List<StatusResponsePacket> sendStatusRequestPacket(GatewayBulb bulb) throws IOException {
         Packet packet = new StatusRequestPacket();
-        List<Packet> responsePackets = packetWriter.sendPacketAndGetResponse(bulb, packet);
-        List<StatusResponsePacket> result = new ArrayList<StatusResponsePacket>();
-        responsePackets.forEach(p -> result.add(new StatusResponsePacket(p)));
-        return result;
+        List<Packet> responsePackets = bulb.sendPacketAndGetResponses(packet);
+        return responsePackets.stream().map(StatusResponsePacket::new).collect(Collectors.toList());
     }
 
-    List<Packet> sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {
+    Packet sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {
         Packet packet = new WifiInfoRequestPacket();
-        return packetWriter.sendPacketAndGetResponse(bulb, packet);
+        return bulb.sendPacketAndGetResponse(packet);
     }
 
     public BulbMeshFirmwareStatus getMeshFirmwareStatus(GatewayBulb bulb) throws IOException {
         Packet packet = new MeshFirmwareRequestPacket();
-        List<Packet> responsePackets = packetWriter.sendPacketAndGetResponse(bulb, packet);
-        if (!responsePackets.isEmpty()) {
-            return BulbMeshFirmwareStatus.fromPacket(responsePackets.get(0));
-        } else {
-            return null;
-        }
-    }
-
-    public void close() throws IOException {
-        packetWriter.close();
+        Packet responsePacket = bulb.sendPacketAndGetResponse(packet);
+        return BulbMeshFirmwareStatus.fromPacket(responsePacket);
     }
 
 }

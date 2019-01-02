@@ -27,6 +27,7 @@ public class ScanCommand implements CommandLineCommand {
                 out.println("MAC address : " + bulb.getMacAddressAsString());
             }
         }
+        gatewayBulb.disconnect();
         return true;
     }
 
