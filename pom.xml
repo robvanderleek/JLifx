@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.robvanderleek</groupId>
     <artifactId>JLifx</artifactId>
     <packaging>jar</packaging>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3</version>
     <name>JLifx</name>
     <description>Simple LIFX control library for Java</description>
     <url>https://github.com/robvanderleek/JLifx</url>
@@ -23,7 +22,7 @@
         <url>https://github.com/robvanderleek/JLifx</url>
         <connection>scm:git:git@github.com:robvanderleek/JLifx</connection>
         <developerConnection>scm:git:git@github.com:robvanderleek/JLifx</developerConnection>
-        <tag>JLifx-0.2</tag>
+        <tag>JLifx-0.3</tag>
     </scm>
     <developers>
         <developer>
@@ -153,7 +152,7 @@
                     <format>xml</format>
                     <maxmem>256m</maxmem>
                     <aggregate>true</aggregate>
-                    <check/>
+                    <check />
                 </configuration>
             </plugin>
             <plugin>
