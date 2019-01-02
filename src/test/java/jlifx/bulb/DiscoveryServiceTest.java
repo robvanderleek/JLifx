@@ -15,7 +15,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -41,7 +41,6 @@ public class DiscoveryServiceTest extends AbstractJLifxTestCase {
         protected void messageReceived(ChannelHandlerContext ctx, DatagramPacket msg) throws Exception {
             DatagramSocket socket = new DatagramSocket();
             StatusResponsePacket packet = StatusResponsePacketTest.makeTestPacket();
-            packet.setGatewayMac(TEST_MAC_ADDRESS_1);
             packet.setTargetMac(TEST_MAC_ADDRESS_1);
             socket.send(packet.toDatagramPacket(msg.sender().getAddress()));
             socket.close();
@@ -52,18 +51,18 @@ public class DiscoveryServiceTest extends AbstractJLifxTestCase {
     @Test
     public void testDiscoverGatewayBulb() throws Exception {
         ChannelFuture channelFuture = NetworkUtils.startUdpServer(testDiscoveryPort,
-            new TestGatewayBulbChannelHandlerAdapter());
+                new TestGatewayBulbChannelHandlerAdapter());
 
         GatewayBulb result = DiscoveryService.discoverGatewayBulb();
 
         assertNotNull(result);
-        assertArrayEquals(TEST_MAC_ADDRESS_1, result.getGatewayMacAddress());
+        assertEquals(TEST_MAC_ADDRESS_1, result.getMacAddress());
 
         channelFuture.channel().close().sync();
     }
 
     @Test
-    public void testGetNetworkBroadcastAddresses() throws Exception {
+    public void testGetNetworkBroadcastAddresses() {
         List<InetAddress> result = DiscoveryService.getNetworkBroadcastAddresses();
 
         assertNotNull(result);

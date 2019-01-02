@@ -1,11 +1,15 @@
 package jlifx.packet;
 
 public class StatusRequestPacket extends Packet {
-    public static final byte TYPE = 0x65;
+    static final byte TYPE = 0x65;
 
-    public StatusRequestPacket() {
+    StatusRequestPacket() {
         setType(TYPE);
-        setPayload(new byte[] {0x00, 0x00});
+        setPayload(new byte[]{0x00, 0x00});
     }
 
+    @Override
+    public byte getResponseType() {
+        return 0x6B;
+    }
 }

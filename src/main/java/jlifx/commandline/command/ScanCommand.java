@@ -1,13 +1,13 @@
 package jlifx.commandline.command;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Collection;
-
 import jlifx.bulb.DiscoveryService;
 import jlifx.bulb.GatewayBulb;
 import jlifx.bulb.IBulb;
 import jlifx.commandline.CommandLineCommand;
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Collection;
 
 public class ScanCommand implements CommandLineCommand {
 
@@ -16,7 +16,7 @@ public class ScanCommand implements CommandLineCommand {
         GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
         if (gatewayBulb == null) {
             out.println("No LIFX gateway bulb found!");
-            out.println("");
+            out.println();
             return false;
         } else {
             showGatewayBulbInfo(out, gatewayBulb);
@@ -27,6 +27,7 @@ public class ScanCommand implements CommandLineCommand {
                 out.println("MAC address : " + bulb.getMacAddressAsString());
             }
         }
+        gatewayBulb.disconnect();
         return true;
     }
 
@@ -34,7 +35,6 @@ public class ScanCommand implements CommandLineCommand {
         out.println("Found LIFX gateway bulb:");
         out.println("IP address     : " + gatewayBulb.getInetAddress().getHostAddress());
         out.println("GW MAC address : " + gatewayBulb.getMacAddressAsString());
-        out.println("MAC address    : " + gatewayBulb.getGatewayMacAddressAsString());
     }
 
 }

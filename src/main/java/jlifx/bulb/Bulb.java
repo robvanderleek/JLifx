@@ -1,28 +1,28 @@
 package jlifx.bulb;
 
-import java.awt.Color;
-import java.io.IOException;
-
-import jlifx.commandline.Utils;
+import jlifx.packet.MacAddress;
 import jlifx.packet.StatusResponsePacket;
 
+import java.awt.*;
+import java.io.IOException;
+
 public class Bulb implements IBulb {
-    private final byte[] macAddress;
-    private final GatewayBulb gatewayBulb;
+    private final MacAddress macAddress;
+    private GatewayBulb gatewayBulb;
     private StatusResponsePacket status;
     private BulbMeshFirmwareStatus meshFirmwareStatus;
 
-    public Bulb(byte[] macAddress, GatewayBulb gatewayBulb) {
+
+    public Bulb(MacAddress macAddress, GatewayBulb gatewayBulb) {
         this.macAddress = macAddress;
         this.gatewayBulb = gatewayBulb;
     }
 
-    Bulb(byte[] macAddress) {
+    Bulb(MacAddress macAddress) {
         this.macAddress = macAddress;
-        this.gatewayBulb = null;
     }
 
-    public byte[] getMacAddress() {
+    public MacAddress getMacAddress() {
         return macAddress;
     }
 
@@ -30,8 +30,12 @@ public class Bulb implements IBulb {
         return gatewayBulb;
     }
 
+    void setGatewayBulb(GatewayBulb gatewayBulb) {
+        this.gatewayBulb = gatewayBulb;
+    }
+
     public String getMacAddressAsString() {
-        return Utils.getMacAddressAsString(macAddress);
+        return macAddress.toString();
     }
 
     public void switchOn() throws IOException {
@@ -95,19 +99,16 @@ public class Bulb implements IBulb {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Bulb))
-            return false;
+        if (!(obj instanceof Bulb)) return false;
 
-        Bulb that = (Bulb)obj;
+        Bulb that = (Bulb) obj;
 
-        return that.macAddress[0] == macAddress[0] && that.macAddress[1] == macAddress[1]
-            && that.macAddress[2] == macAddress[2] && that.macAddress[3] == macAddress[3]
-            && that.macAddress[4] == macAddress[4] && that.macAddress[5] == macAddress[5];
+        return that.macAddress.equals(this.macAddress);
     }
 
     @Override
     public int hashCode() {
-        return macAddress[0] + macAddress[1] + macAddress[2] + macAddress[3] + macAddress[4] + macAddress[5];
+        return macAddress.hashCode();
     }
 
 }

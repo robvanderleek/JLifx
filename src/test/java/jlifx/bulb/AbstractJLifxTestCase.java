@@ -1,20 +1,21 @@
 package jlifx.bulb;
 
-import static org.mockito.Mockito.mock;
+import jlifx.commandline.AbstractBulbCommand;
+import jlifx.packet.MacAddress;
+import jlifx.packet.PacketService;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.util.Collections;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
-
-import jlifx.commandline.AbstractBulbCommand;
-import jlifx.packet.PacketService;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AbstractJLifxTestCase {
-    public static final byte[] TEST_MAC_ADDRESS_1 = new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
-    public static final byte[] TEST_MAC_ADDRESS_2 = new byte[] {0x06, 0x05, 0x04, 0x03, 0x02, 0x01};
+    public static final MacAddress TEST_MAC_ADDRESS_1 = new MacAddress(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05, 0x06});
+    public static final MacAddress TEST_MAC_ADDRESS_2 = new MacAddress(new byte[]{0x06, 0x05, 0x04, 0x03, 0x02, 0x01});
     private final IBulb mockedBulb = mock(IBulb.class);
 
     protected IBulb getMockedBulb() {
@@ -22,7 +23,10 @@ public class AbstractJLifxTestCase {
     }
 
     protected GatewayBulb getMockedGatewayBulb() {
-        return mock(GatewayBulb.class);
+        GatewayBulb result = mock(GatewayBulb.class);
+        when(result.getMacAddress()).thenReturn(TEST_MAC_ADDRESS_1);
+        when(result.getGatewayBulb()).thenReturn(result);
+        return result;
     }
 
     protected PacketService getMockedPacketService() {

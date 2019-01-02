@@ -1,27 +1,23 @@
 package jlifx.packet;
 
-public class PowerManagementPacket extends Packet {
-    public static final byte TYPE = 0x15;
+class PowerManagementPacket extends Packet {
+    static final byte TYPE = 0x15;
 
-    public PowerManagementPacket(Packet packet) {
+    PowerManagementPacket(Packet packet) {
         super(packet);
     }
 
-    public PowerManagementPacket(byte[] targetMacAddress, boolean on) {
+    PowerManagementPacket(MacAddress targetMacAddress, boolean on) {
         setType(TYPE);
         setTargetMac(targetMacAddress);
         byte[] payload = new byte[2];
-        payload[0] = (byte)(on ? 0x01 : 0x00);
-        payload[1] = 0x00;
+        payload[0] = (byte) (on ? 0xFF : 0x00);
+        payload[1] = (byte) (on ? 0xFF : 0x00);
         setPayload(payload);
     }
 
-    public boolean on() {
-        return getPayload()[0] == 0x1;
+    boolean on() {
+        byte[] payload = getPayload();
+        return payload[0] == (byte) 0xFF && payload[1] == (byte) 0xFF;
     }
-
-    public static PowerManagementPacket fromByteArray(byte[] data) {
-        return new PowerManagementPacket(Packet.fromByteArray(data));
-    }
-
 }

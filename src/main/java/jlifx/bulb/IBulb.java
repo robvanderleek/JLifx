@@ -1,12 +1,13 @@
 package jlifx.bulb;
 
-import java.awt.Color;
-import java.io.IOException;
-
+import jlifx.packet.MacAddress;
 import jlifx.packet.StatusResponsePacket;
 
+import java.awt.*;
+import java.io.IOException;
+
 public interface IBulb {
-    byte[] getMacAddress();
+    MacAddress getMacAddress();
 
     String getMacAddressAsString();
 

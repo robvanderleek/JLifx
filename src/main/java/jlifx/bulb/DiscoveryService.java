@@ -1,6 +1,7 @@
 package jlifx.bulb;
 
 import jlifx.packet.Packet;
+import jlifx.packet.PacketService;
 import jlifx.packet.StatusResponsePacket;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -84,7 +85,7 @@ public final class DiscoveryService {
             }
             if (isAnswerFromGatewayBulb(answer)) {
                 Packet packet = Packet.fromDatagramPacket(answer);
-                return new GatewayBulb(answer.getAddress(), packet.getGatewayMac(), packet.getTargetMac());
+                return new GatewayBulb(answer.getAddress(), packet.getTargetMac());
             }
         }
         return result;
@@ -103,7 +104,7 @@ public final class DiscoveryService {
 
     public static Collection<IBulb> discoverAllBulbs(GatewayBulb gatewayBulb) throws IOException {
         Set<IBulb> result = new HashSet<IBulb>();
-        List<StatusResponsePacket> packets = gatewayBulb.getPacketService().sendStatusRequestPacket(gatewayBulb);
+        List<StatusResponsePacket> packets = new PacketService().sendStatusRequestPacket(gatewayBulb);
         for (StatusResponsePacket packet : packets) {
             if (packet.getType() == 0x6B) {
                 Bulb bulb = new Bulb(packet.getTargetMac(), gatewayBulb);
@@ -115,7 +116,7 @@ public final class DiscoveryService {
     }
 
     static List<InetAddress> getNetworkBroadcastAddresses() {
-        List<InetAddress> result = new ArrayList<InetAddress>();
+        List<InetAddress> result = new ArrayList<>();
         try {
             List<NetworkInterface> networkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface networkInterface : networkInterfaces) {
@@ -139,11 +140,11 @@ public final class DiscoveryService {
         return gatewayDiscoveryPort;
     }
 
-    public static void setGatewayDiscoveryPort(int port) {
+    static void setGatewayDiscoveryPort(int port) {
         gatewayDiscoveryPort = port;
     }
 
-    public static void setIgnoreGatewaysOnLocalhost(boolean ignore) {
+    static void setIgnoreGatewaysOnLocalhost(boolean ignore) {
         ignoreGatewaysOnLocalhost = ignore;
     }
 }

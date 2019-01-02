@@ -2,8 +2,8 @@ package jlifx.packet;
 
 public class StatusResponsePacket extends Packet {
 
-    public StatusResponsePacket(Packet p) {
-        super(p.getTargetMac(), p.getGatewayMac(), p.getTimestamp(), p.getType());
+    StatusResponsePacket(Packet p) {
+        super(p.getTargetMac(), p.getType());
         setPayload(p.getPayload());
     }
 
@@ -32,13 +32,12 @@ public class StatusResponsePacket extends Packet {
     }
 
     public String getBulbName() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         byte[] payload = getPayload();
         if (payload.length > 12) {
             for (int i = 12; i < payload.length; i++) {
-                if (payload[i] == 0x00)
-                    break;
-                result.append((char)(payload[i] & 0xFF));
+                if (payload[i] == 0x00) break;
+                result.append((char) (payload[i] & 0xFF));
             }
         }
         return result.toString();
