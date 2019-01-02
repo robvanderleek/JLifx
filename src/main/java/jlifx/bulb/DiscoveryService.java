@@ -33,13 +33,20 @@ public final class DiscoveryService {
     /**
      * Returns the first valid Gateway bulb discovered, or null if no gateway bulb was
      * discovered in any of the networks.
+     *
+     * @return First Gateway bulb discovered
      */
-    public static GatewayBulb discoverGatewayBulb() throws IOException {
+    public static GatewayBulb discoverGatewayBulb() {
         List<InetAddress> networkBroadcastAddresses = getNetworkBroadcastAddresses();
         for (InetAddress broadcastAddress : networkBroadcastAddresses) {
-            GatewayBulb result = discoverGatewayBulbOnNetwork(broadcastAddress);
-            if (result != null) {
-                return result;
+            try {
+                GatewayBulb result = discoverGatewayBulbOnNetwork(broadcastAddress);
+                if (result != null) {
+                    return result;
+                }
+            } catch (IOException e) {
+                LOG.error(e);
+                throw new RuntimeException(e);
             }
         }
         return null;
