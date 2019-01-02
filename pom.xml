@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.robvanderleek</groupId>
-    <artifactId>JLifx</artifactId>
+    <artifactId>jlifx</artifactId>
     <packaging>jar</packaging>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <name>JLifx</name>
     <description>Simple LIFX control library for Java</description>
     <url>https://github.com/robvanderleek/JLifx</url>
@@ -22,7 +22,6 @@
         <url>https://github.com/robvanderleek/JLifx</url>
         <connection>scm:git:git@github.com:robvanderleek/JLifx</connection>
         <developerConnection>scm:git:git@github.com:robvanderleek/JLifx</developerConnection>
-        <tag>JLifx-0.2</tag>
     </scm>
     <developers>
         <developer>
@@ -84,13 +83,6 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
-                                <configuration>
-                                    <gpgArguments>
-                                        <arg>--pinentry-mode</arg>
-                                        <arg>loopback</arg>
-                                    </gpgArguments>
-                                    <passphrase>${gpg.keyname}</passphrase>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -118,7 +110,7 @@
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>release</releaseProfiles>
+                    <releaseProfiles>release,gpg</releaseProfiles>
                     <goals>deploy</goals>
                 </configuration>
             </plugin>
