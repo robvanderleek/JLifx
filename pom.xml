@@ -136,7 +136,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>jlifx.commandline.Main</mainClass>
+                            <mainClass>io.github.robvanderleek.jlifx.commandline.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
