@@ -38,9 +38,8 @@ public class GatewayBulb extends Bulb {
 
     private void connect() throws IOException {
         if (socket == null || !socket.isConnected()) {
-            int port = DiscoveryService.getGatewayDiscoveryPort();
-            socket = new DatagramSocket(port);
-            socket.connect(address, port);
+            socket = new DatagramSocket();
+            socket.connect(address, BulbDiscoveryService.getGatewayDiscoveryPort());
             socket.setSoTimeout(0);
             socket.setReuseAddress(true);
             packetReader = new PacketReader(socket);
@@ -105,7 +104,7 @@ public class GatewayBulb extends Bulb {
     }
 
     private void sendPacketFireAndForget(Packet packet) throws IOException {
-        socket.send(packet.toDatagramPacket(address));
+        socket.send(packet.toDatagramPacket(address, BulbDiscoveryService.getGatewayDiscoveryPort()));
     }
 
     private void waitForNetworkLag() {

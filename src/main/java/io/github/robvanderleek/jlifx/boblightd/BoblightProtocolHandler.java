@@ -1,29 +1,28 @@
 package io.github.robvanderleek.jlifx.boblightd;
 
-import java.awt.Color;
+import io.github.robvanderleek.jlifx.bulb.Bulb;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.awt.*;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerAdapter;
-import io.netty.channel.ChannelHandlerContext;
-import io.github.robvanderleek.jlifx.bulb.IBulb;
-
 public class BoblightProtocolHandler extends ChannelHandlerAdapter {
     private static final Log LOG = LogFactory.getLog(BoblightProtocolHandler.class);
-    private final Collection<IBulb> bulbs;
+    private final Collection<Bulb> bulbs;
 
-    BoblightProtocolHandler(Collection<IBulb> bulbs) {
+    BoblightProtocolHandler(Collection<Bulb> bulbs) {
         this.bulbs = bulbs;
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf b = (ByteBuf)msg;
+        ByteBuf b = (ByteBuf) msg;
         byte buf[] = new byte[b.readableBytes()];
         b.readBytes(buf);
         b.release();
@@ -57,7 +56,7 @@ public class BoblightProtocolHandler extends ChannelHandlerAdapter {
         float r = Float.parseFloat(tokenizer.nextToken());
         float g = Float.parseFloat(tokenizer.nextToken());
         float b = Float.parseFloat(tokenizer.nextToken());
-        for (IBulb bulb : bulbs) {
+        for (Bulb bulb : bulbs) {
             bulb.colorize(new Color(r, g, b), 0, 1.0f);
         }
     }

@@ -1,11 +1,11 @@
 package io.github.robvanderleek.jlifx.commandline.command;
 
-import static org.mockito.Mockito.atLeastOnce;
-
 import io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase;
-import io.github.robvanderleek.jlifx.bulb.IBulb;
+import io.github.robvanderleek.jlifx.bulb.Bulb;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import static org.mockito.Mockito.atLeastOnce;
 
 public class DimCommandTest extends AbstractJLifxTestCase {
 
@@ -13,7 +13,7 @@ public class DimCommandTest extends AbstractJLifxTestCase {
     public void testDimBulb() throws Exception {
         DimCommand command = new DimCommand();
 
-        IBulb bulb = getMockedBulb();
+        Bulb bulb = getMockedBulb();
 
         executeCommand(command, bulb, "dim", "0.5");
 

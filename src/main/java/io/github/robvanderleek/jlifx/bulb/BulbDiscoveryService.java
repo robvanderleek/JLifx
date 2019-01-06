@@ -15,19 +15,18 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-public final class DiscoveryService {
-    public static final int DISCOVERY_SERVICE_PORT = 56700;
-    private static final Log LOG = LogFactory.getLog(DiscoveryService.class);
+public final class BulbDiscoveryService {
+    private static final Log LOG = LogFactory.getLog(BulbDiscoveryService.class);
     private static int gatewayDiscoveryPort = 56700;
     private static boolean ignoreGatewaysOnLocalhost = true;
 
-    private DiscoveryService() {
+    private BulbDiscoveryService() {
     }
 
     /**
@@ -52,11 +51,20 @@ public final class DiscoveryService {
         return null;
     }
 
+    /**
+     * Returns the bulb with the given name if it can be discovered, empty otherwise.
+     *
+     * @return Bulb with given name or empty
+     */
+    public static Optional<Bulb> discoverBulbByName(GatewayBulb gatewayBulb, String name) {
+        return discoverAllBulbs(gatewayBulb).stream().filter(b -> b.getName().equals(name)).findAny();
+    }
+
     private static GatewayBulb discoverGatewayBulbOnNetwork(InetAddress broadcastAddress) throws IOException {
         GatewayBulb result = null;
         Packet packet = new Packet();
         byte[] byteArray = packet.toByteArray();
-        DatagramSocket socket = new DatagramSocket(DISCOVERY_SERVICE_PORT);
+        DatagramSocket socket = new DatagramSocket();
         socket.setReuseAddress(true);
         DatagramPacket datagramPacket = new DatagramPacket(byteArray, byteArray.length, broadcastAddress,
                 gatewayDiscoveryPort);
@@ -102,8 +110,8 @@ public final class DiscoveryService {
         }
     }
 
-    public static Collection<IBulb> discoverAllBulbs(GatewayBulb gatewayBulb) throws IOException {
-        Set<IBulb> result = new HashSet<IBulb>();
+    public static Set<Bulb> discoverAllBulbs(GatewayBulb gatewayBulb) {
+        Set<Bulb> result = new HashSet<>();
         List<StatusResponsePacket> packets = new PacketService().sendStatusRequestPacket(gatewayBulb);
         for (StatusResponsePacket packet : packets) {
             if (packet.getType() == 0x6B) {
@@ -147,4 +155,6 @@ public final class DiscoveryService {
     static void setIgnoreGatewaysOnLocalhost(boolean ignore) {
         ignoreGatewaysOnLocalhost = ignore;
     }
+
+
 }

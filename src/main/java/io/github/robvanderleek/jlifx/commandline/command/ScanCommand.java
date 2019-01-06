@@ -1,8 +1,8 @@
 package io.github.robvanderleek.jlifx.commandline.command;
 
-import io.github.robvanderleek.jlifx.bulb.DiscoveryService;
+import io.github.robvanderleek.jlifx.bulb.Bulb;
+import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
 import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
-import io.github.robvanderleek.jlifx.bulb.IBulb;
 import io.github.robvanderleek.jlifx.commandline.CommandLineCommand;
 
 import java.io.IOException;
@@ -13,16 +13,16 @@ public class ScanCommand implements CommandLineCommand {
 
     public boolean execute(String[] args, PrintStream out) throws IOException {
         out.println("Discovering LIFX gateway bulb...");
-        GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
+        GatewayBulb gatewayBulb = BulbDiscoveryService.discoverGatewayBulb();
         if (gatewayBulb == null) {
             out.println("No LIFX gateway bulb found!");
             out.println();
             return false;
         } else {
             showGatewayBulbInfo(out, gatewayBulb);
-            Collection<IBulb> allBulbs = DiscoveryService.discoverAllBulbs(gatewayBulb);
+            Collection<Bulb> allBulbs = BulbDiscoveryService.discoverAllBulbs(gatewayBulb);
             out.println("Found " + allBulbs.size() + " bulb(s) in network:");
-            for (IBulb bulb : allBulbs) {
+            for (Bulb bulb : allBulbs) {
                 out.println("Bulb name   : " + bulb.getName());
                 out.println("MAC address : " + bulb.getMacAddressAsString());
             }

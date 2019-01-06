@@ -1,6 +1,5 @@
 package io.github.robvanderleek.jlifx.packet;
 
-import io.github.robvanderleek.jlifx.bulb.DiscoveryService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -125,9 +124,9 @@ public class Packet {
         return fromByteArray(datagramPacket.getData());
     }
 
-    public DatagramPacket toDatagramPacket(InetAddress address) {
+    public DatagramPacket toDatagramPacket(InetAddress address, int port) {
         byte[] data = toByteArray();
-        return new DatagramPacket(data, data.length, address, DiscoveryService.DISCOVERY_SERVICE_PORT);
+        return new DatagramPacket(data, data.length, address, port);
     }
 
     static Packet fromByteArray(byte[] data) {

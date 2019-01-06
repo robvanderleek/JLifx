@@ -1,71 +1,72 @@
 package io.github.robvanderleek.jlifx.packet;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import junit.framework.TestCase;
-
-public class StatusResponsePacketTest extends TestCase {
+public class StatusResponsePacketTest {
 
     public static StatusResponsePacket makeTestPacket() {
         Packet packet = new Packet();
-        byte[] payload = new byte[] {0x12, 0x34, // hue (LE)
-            0x43, 0x21, // saturation (LE)
-            0x12, 0x34, // brightness (LE)
-            0x12, 0x34, // kelvin (LE)
-            0x02, 0x01, // dim (LE)
-            (byte)0xFF, (byte)0xFF, // power
-            'h', 'e', 'l', 'l', 'o', 0x00 // label
+        byte[] payload = new byte[]{0x12, 0x34, // hue (LE)
+                0x43, 0x21, // saturation (LE)
+                0x12, 0x34, // brightness (LE)
+                0x12, 0x34, // kelvin (LE)
+                0x02, 0x01, // dim (LE)
+                (byte) 0xFF, (byte) 0xFF, // power
+                'h', 'e', 'l', 'l', 'o', 0x00 // label
         };
         packet.setPayload(payload);
+        packet.setType((byte)0x6B);
         return new StatusResponsePacket(packet);
     }
 
     @Test
-    public void testGetBulbName() throws Exception {
+    public void testGetBulbName() {
         StatusResponsePacket packet = makeTestPacket();
 
-        assertEquals("hello", packet.getBulbName());
+        Assert.assertEquals("hello", packet.getBulbName());
     }
 
     @Test
-    public void testGetHue() throws Exception {
+    public void testGetHue() {
         StatusResponsePacket packet = makeTestPacket();
 
-        assertEquals(0x3412, packet.getHue());
+        Assert.assertEquals(0x3412, packet.getHue());
     }
 
     @Test
-    public void testGetSaturation() throws Exception {
+    public void testGetSaturation() {
         StatusResponsePacket packet = makeTestPacket();
 
-        assertEquals(0x2143, packet.getSaturation());
+        Assert.assertEquals(0x2143, packet.getSaturation());
     }
 
     @Test
-    public void testGetBrightness() throws Exception {
+    public void testGetBrightness() {
         StatusResponsePacket packet = makeTestPacket();
 
-        assertEquals(0x3412, packet.getBrightness());
+        Assert.assertEquals(0x3412, packet.getBrightness());
     }
 
     @Test
-    public void testGetKelvin() throws Exception {
+    public void testGetKelvin() {
         StatusResponsePacket packet = makeTestPacket();
 
-        assertEquals(0x3412, packet.getKelvin());
+        Assert.assertEquals(0x3412, packet.getKelvin());
     }
 
     @Test
-    public void testGetDim() throws Exception {
+    public void testGetDim() {
         StatusResponsePacket packet = makeTestPacket();
 
-        assertEquals(0x0102, packet.getDim());
+        Assert.assertEquals(0x0102, packet.getDim());
     }
 
     @Test
-    public void testGetPower() throws Exception {
+    public void testGetPower() {
         StatusResponsePacket packet = makeTestPacket();
 
-        assertEquals(0xFFFF, packet.getPower());
+        Assert.assertEquals(0xFFFF, packet.getPower());
     }
+
 }

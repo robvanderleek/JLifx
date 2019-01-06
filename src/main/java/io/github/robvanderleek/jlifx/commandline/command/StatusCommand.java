@@ -1,29 +1,29 @@
 package io.github.robvanderleek.jlifx.commandline.command;
 
-import java.io.PrintStream;
-import java.util.Iterator;
-
+import io.github.robvanderleek.jlifx.bulb.Bulb;
+import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
 import io.github.robvanderleek.jlifx.bulb.BulbMeshFirmwareStatus;
-import io.github.robvanderleek.jlifx.bulb.DiscoveryService;
 import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
-import io.github.robvanderleek.jlifx.bulb.IBulb;
 import io.github.robvanderleek.jlifx.commandline.CommandLineCommand;
 import io.github.robvanderleek.jlifx.commandline.Utils;
+
+import java.io.PrintStream;
+import java.util.Iterator;
 
 public class StatusCommand implements CommandLineCommand {
 
     @Override
     public boolean execute(String[] args, PrintStream out) throws Exception {
-        GatewayBulb gatewayBulb = DiscoveryService.discoverGatewayBulb();
+        GatewayBulb gatewayBulb = BulbDiscoveryService.discoverGatewayBulb();
         if (gatewayBulb == null) {
             out.println("No LIFX gateway bulb found!");
             out.println("");
             return false;
         }
 
-        Iterator<IBulb> bulbIterator = DiscoveryService.discoverAllBulbs(gatewayBulb).iterator();
+        Iterator<Bulb> bulbIterator = BulbDiscoveryService.discoverAllBulbs(gatewayBulb).iterator();
         while (bulbIterator.hasNext()) {
-            IBulb bulb = bulbIterator.next();
+            Bulb bulb = bulbIterator.next();
             printBulbStatus(out, bulb);
             if (bulbIterator.hasNext()) {
                 out.println();
@@ -36,7 +36,7 @@ public class StatusCommand implements CommandLineCommand {
         return true;
     }
 
-    private void printBulbStatus(PrintStream out, IBulb bulb) {
+    private void printBulbStatus(PrintStream out, Bulb bulb) {
         out.println("Bulb name   : " + bulb.getName());
         out.println("MAC address : " + bulb.getMacAddressAsString());
         out.println("Hue         : " + Utils.wordToHexString(bulb.getHue()));

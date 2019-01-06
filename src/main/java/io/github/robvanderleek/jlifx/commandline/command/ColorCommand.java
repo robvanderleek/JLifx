@@ -1,18 +1,18 @@
 package io.github.robvanderleek.jlifx.commandline.command;
 
-import java.awt.Color;
+import io.github.robvanderleek.jlifx.bulb.Bulb;
+import io.github.robvanderleek.jlifx.commandline.AbstractBulbCommand;
+import io.github.robvanderleek.jlifx.commandline.Utils;
+
+import java.awt.*;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collection;
 
-import io.github.robvanderleek.jlifx.bulb.IBulb;
-import io.github.robvanderleek.jlifx.commandline.AbstractBulbCommand;
-import io.github.robvanderleek.jlifx.commandline.Utils;
-
 public class ColorCommand extends AbstractBulbCommand {
 
     @Override
-    public boolean execute(Collection<IBulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
+    public boolean execute(Collection<Bulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
         if (commandArgs.length < 2) {
             return false;
         } else {
@@ -30,8 +30,8 @@ public class ColorCommand extends AbstractBulbCommand {
         return true;
     }
 
-    private void colorizeBulbs(Collection<IBulb> bulbs, Color color, float brightness) throws IOException {
-        for (IBulb bulb : bulbs) {
+    private void colorizeBulbs(Collection<Bulb> bulbs, Color color, float brightness) throws IOException {
+        for (Bulb bulb : bulbs) {
             bulb.colorize(color, 3, brightness);
         }
     }

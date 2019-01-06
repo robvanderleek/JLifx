@@ -6,7 +6,7 @@ import io.github.robvanderleek.jlifx.packet.StatusResponsePacket;
 import java.awt.*;
 import java.io.IOException;
 
-public class Bulb implements IBulb {
+public class Bulb {
     private final MacAddress macAddress;
     private GatewayBulb gatewayBulb;
     private StatusResponsePacket status;

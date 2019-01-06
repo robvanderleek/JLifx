@@ -1,5 +1,6 @@
 package io.github.robvanderleek.jlifx.packet;
 
+import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
 import org.junit.Test;
 
 import java.awt.*;
@@ -40,7 +41,7 @@ public class PacketTest {
         Packet packet = new Packet(TEST_MAC_ADDRESS, TEST_TYPE);
         InetAddress address = InetAddress.getLoopbackAddress();
 
-        DatagramPacket datagramPacket = packet.toDatagramPacket(address);
+        DatagramPacket datagramPacket = packet.toDatagramPacket(address, BulbDiscoveryService.getGatewayDiscoveryPort());
 
         assertNotNull(datagramPacket);
         assertEquals(address, datagramPacket.getAddress());

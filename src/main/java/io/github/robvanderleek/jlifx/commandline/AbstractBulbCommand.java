@@ -2,9 +2,8 @@ package io.github.robvanderleek.jlifx.commandline;
 
 import io.github.robvanderleek.jlifx.packet.MacAddress;
 import io.github.robvanderleek.jlifx.bulb.Bulb;
-import io.github.robvanderleek.jlifx.bulb.DiscoveryService;
+import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
 import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
-import io.github.robvanderleek.jlifx.bulb.IBulb;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.BufferedReader;
@@ -73,7 +72,7 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
                     Utils.parseMacAddress(args[3]));
             args = ArrayUtils.removeAll(args, 1, 2, 3);
         } else {
-            gatewayBulb = DiscoveryService.discoverGatewayBulb();
+            gatewayBulb = BulbDiscoveryService.discoverGatewayBulb();
         }
         if (gatewayBulb == null) {
             out.println("Could not discover a gateway bulb!");
@@ -98,18 +97,18 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
 
     private boolean executeForAllBulbs(GatewayBulb gatewayBulb, String[] commandArgs,
                                        PrintStream out) throws IOException, Exception {
-        return execute(DiscoveryService.discoverAllBulbs(gatewayBulb), commandArgs, out);
+        return execute(BulbDiscoveryService.discoverAllBulbs(gatewayBulb), commandArgs, out);
     }
 
     private boolean executeForGatewayBulb(GatewayBulb gatewayBulb, String[] commandArgs,
                                           PrintStream out) throws IOException, Exception {
-        return execute(Collections.singletonList((IBulb) gatewayBulb), commandArgs, out);
+        return execute(Collections.singletonList((Bulb) gatewayBulb), commandArgs, out);
     }
 
     private boolean executeForSingleBulb(GatewayBulb gatewayBulb, String[] commandArgs,
                                          PrintStream out) throws IOException, Exception {
         MacAddress macAddress = Utils.parseMacAddress(commandArgs[0]);
-        IBulb bulb = new Bulb(macAddress, gatewayBulb);
+        Bulb bulb = new Bulb(macAddress, gatewayBulb);
         return execute(Collections.singletonList(bulb), commandArgs, out);
     }
 
@@ -123,6 +122,6 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
         return commandArgs;
     }
 
-    public abstract boolean execute(Collection<IBulb> bulbs, String[] commandArgs, PrintStream out) throws Exception;
+    public abstract boolean execute(Collection<Bulb> bulbs, String[] commandArgs, PrintStream out) throws Exception;
 
 }
