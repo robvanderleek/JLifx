@@ -7,10 +7,10 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.times;
 
-public class BlinkCommandTest extends AbstractJLifxTestCase {
+class BlinkCommandTest extends AbstractJLifxTestCase {
 
     @Test
-    public void testBlinkTwoTimes() throws Exception {
+    void testBlinkTwoTimes() throws Exception {
         Bulb bulb = getMockedBulb();
 
         executeCommand(new BlinkCommand(), bulb, "times", "2");
