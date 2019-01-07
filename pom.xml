@@ -3,7 +3,7 @@
     <groupId>io.github.robvanderleek</groupId>
     <artifactId>jlifx</artifactId>
     <packaging>jar</packaging>
-    <version>0.5</version>
+    <version>0.6-SNAPSHOT</version>
     <name>JLifx</name>
     <description>Simple LIFX control library for Java</description>
     <url>https://github.com/robvanderleek/JLifx</url>
@@ -22,7 +22,7 @@
         <url>https://github.com/robvanderleek/JLifx</url>
         <connection>scm:git:git@github.com:robvanderleek/JLifx</connection>
         <developerConnection>scm:git:git@github.com:robvanderleek/JLifx</developerConnection>
-        <tag>jlifx-0.5</tag>
+        <tag>HEAD</tag>
     </scm>
     <developers>
         <developer>
