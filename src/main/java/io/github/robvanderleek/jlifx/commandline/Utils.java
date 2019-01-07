@@ -1,6 +1,7 @@
 package io.github.robvanderleek.jlifx.commandline;
 
 import io.github.robvanderleek.jlifx.packet.MacAddress;
+import org.apache.commons.lang3.Validate;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -67,29 +68,16 @@ public final class Utils {
      * Returns a string containing the hex value of a word.
      *
      * @param w Word value
-     *
      * @return String containing hex value of the word value
      */
     public static String wordToHexString(int w) {
         return "$" + Integer.toHexString(w & 0xFFFF).toUpperCase();
     }
 
-    public static String byteArrayToString(byte[] bytes) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < bytes.length; i++) {
-            result.append(String.format("%02x", bytes[i]));
-            if (i < bytes.length - 1) {
-                result.append(" ");
-            }
-        }
-        return result.toString();
-    }
-
     /**
      * Returns a string containing the string representation of the given MAC address.
      *
      * @param macAddress 6-byte MAC address value
-     *
      * @return String with MAC address
      */
     public static String getMacAddressAsString(byte[] macAddress) {
@@ -101,7 +89,6 @@ public final class Utils {
      * Returns true if the given string is a valid float value, false otherwise.
      *
      * @param s A string value
-     *
      * @return true if the given string is a float value, false otherwise
      */
     public static boolean isFloatValue(String s) {
@@ -118,7 +105,6 @@ public final class Utils {
      * Returns true if the given string is a valid integer value, false otherwise.
      *
      * @param s A string value
-     *
      * @return true if the given string is a float value, false otherwise
      */
     public static boolean isIntegerValue(String s) {
@@ -135,7 +121,6 @@ public final class Utils {
      * Return true if the given string is a valid IPv4 address, false otherwise.
      *
      * @param s A string value
-     *
      * @return true if the given string is a valid IPv4 address
      */
     static boolean isValidIpv4Address(String s) {
@@ -146,7 +131,6 @@ public final class Utils {
      * Return true if the given string is a valid MAC address, false otherwise.
      *
      * @param s A string value
-     *
      * @return true if the given string is a valid MAC address
      */
     static boolean isValidMacAddress(String s) {
@@ -160,7 +144,6 @@ public final class Utils {
      * @param b2 Second byte
      * @param b3 Third byte
      * @param b4 Fourth byte
-     *
      * @return 32-bits integer value from the 4 LE formatted byte quadruple
      */
     public static int from32bitsLittleEndian(byte b1, byte b2, byte b3, byte b4) {
@@ -170,16 +153,17 @@ public final class Utils {
     /**
      * Returns an integer with the value of a 64-bits little endian formatted byte sequence.
      */
-    public static long from64bitsLittleEndian(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8) {
+    public static long from64bitsLittleEndian(byte[] bytes) {
+        Validate.isTrue(bytes.length == 8, "Expected 64-bits value");
         long value = 0;
-        value += ((long) b1 & 0xffL);
-        value += ((long) b2 & 0xffL) << (8);
-        value += ((long) b3 & 0xffL) << (16);
-        value += ((long) b4 & 0xffL) << (24);
-        value += ((long) b5 & 0xffL) << (32);
-        value += ((long) b6 & 0xffL) << (40);
-        value += ((long) b7 & 0xffL) << (48);
-        value += ((long) b8 & 0xffL) << (56);
+        value += ((long) bytes[0] & 0xffL);
+        value += ((long) bytes[1] & 0xffL) << (8);
+        value += ((long) bytes[2] & 0xffL) << (16);
+        value += ((long) bytes[3] & 0xffL) << (24);
+        value += ((long) bytes[4] & 0xffL) << (32);
+        value += ((long) bytes[5] & 0xffL) << (40);
+        value += ((long) bytes[6] & 0xffL) << (48);
+        value += ((long) bytes[7] & 0xffL) << (56);
         return value;
     }
 

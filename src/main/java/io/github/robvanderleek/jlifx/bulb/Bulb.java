@@ -46,7 +46,7 @@ public class Bulb {
         gatewayBulb.getPacketService().sendPowerManagementPacket(this, false);
     }
 
-    public void colorize(Color color, int fadetime, float brightness) throws IOException {
+    public void colorize(Color color, int fadetime, float brightness) {
         gatewayBulb.getPacketService().sendColorManagementPacket(this, color, fadetime, brightness);
     }
 

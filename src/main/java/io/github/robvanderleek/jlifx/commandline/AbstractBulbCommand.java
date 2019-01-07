@@ -1,9 +1,9 @@
 package io.github.robvanderleek.jlifx.commandline;
 
-import io.github.robvanderleek.jlifx.packet.MacAddress;
 import io.github.robvanderleek.jlifx.bulb.Bulb;
 import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
 import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
+import io.github.robvanderleek.jlifx.packet.MacAddress;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.BufferedReader;
@@ -32,7 +32,7 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
     private class Timer implements Runnable {
         private final int duration;
 
-        public Timer(int duration) {
+        Timer(int duration) {
             this.duration = duration;
         }
 
@@ -84,8 +84,7 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
         return result;
     }
 
-    private boolean dispatchExecute(GatewayBulb gatewayBulb, String[] commandArgs,
-                                    PrintStream out) throws IOException, Exception {
+    private boolean dispatchExecute(GatewayBulb gatewayBulb, String[] commandArgs, PrintStream out) throws Exception {
         if (commandArgs[0].equalsIgnoreCase("all")) {
             return executeForAllBulbs(gatewayBulb, commandArgs, out);
         } else if (commandArgs[0].equalsIgnoreCase("gateway")) {
@@ -96,19 +95,25 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
     }
 
     private boolean executeForAllBulbs(GatewayBulb gatewayBulb, String[] commandArgs,
-                                       PrintStream out) throws IOException, Exception {
+                                       PrintStream out) throws Exception {
         return execute(BulbDiscoveryService.discoverAllBulbs(gatewayBulb), commandArgs, out);
     }
 
     private boolean executeForGatewayBulb(GatewayBulb gatewayBulb, String[] commandArgs,
-                                          PrintStream out) throws IOException, Exception {
-        return execute(Collections.singletonList((Bulb) gatewayBulb), commandArgs, out);
+                                          PrintStream out) throws Exception {
+        return execute(Collections.singletonList(gatewayBulb), commandArgs, out);
     }
 
     private boolean executeForSingleBulb(GatewayBulb gatewayBulb, String[] commandArgs,
-                                         PrintStream out) throws IOException, Exception {
-        MacAddress macAddress = Utils.parseMacAddress(commandArgs[0]);
-        Bulb bulb = new Bulb(macAddress, gatewayBulb);
+                                         PrintStream out) throws Exception {
+        Bulb bulb;
+        if (Utils.isValidMacAddress(commandArgs[0])) {
+            MacAddress macAddress = Utils.parseMacAddress(commandArgs[0]);
+            bulb = new Bulb(macAddress, gatewayBulb);
+        } else {
+            bulb = BulbDiscoveryService.discoverBulbByName(gatewayBulb, commandArgs[0])
+                                       .orElseThrow(() -> new RuntimeException("Bulb not found: " + commandArgs[0]));
+        }
         return execute(Collections.singletonList(bulb), commandArgs, out);
     }
 

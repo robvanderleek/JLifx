@@ -57,7 +57,7 @@ public final class BulbDiscoveryService {
      * @return Bulb with given name or empty
      */
     public static Optional<Bulb> discoverBulbByName(GatewayBulb gatewayBulb, String name) {
-        return discoverAllBulbs(gatewayBulb).stream().filter(b -> b.getName().equals(name)).findAny();
+        return discoverAllBulbs(gatewayBulb).stream().filter(b -> b.getName().equalsIgnoreCase(name)).findAny();
     }
 
     private static GatewayBulb discoverGatewayBulbOnNetwork(InetAddress broadcastAddress) throws IOException {

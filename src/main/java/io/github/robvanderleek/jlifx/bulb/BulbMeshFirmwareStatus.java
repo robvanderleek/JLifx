@@ -2,6 +2,7 @@ package io.github.robvanderleek.jlifx.bulb;
 
 import io.github.robvanderleek.jlifx.commandline.Utils;
 import io.github.robvanderleek.jlifx.packet.Packet;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Date;
 
@@ -24,8 +25,7 @@ public class BulbMeshFirmwareStatus {
 
     public static BulbMeshFirmwareStatus fromPacket(Packet packet) {
         byte[] payload = packet.getPayload();
-        long nanoSecondsSinceEpoch = Utils.from64bitsLittleEndian(payload[0], payload[1], payload[2], payload[3],
-                payload[4], payload[5], payload[6], payload[7]);
+        long nanoSecondsSinceEpoch = Utils.from64bitsLittleEndian(ArrayUtils.subarray(payload, 0, 8));
         Date buildTimestamp = new Date(nanoSecondsSinceEpoch / 1000000);
         int version = Utils.from32bitsLittleEndian(payload[16], payload[17], payload[18], payload[19]);
         return new BulbMeshFirmwareStatus(buildTimestamp, version);

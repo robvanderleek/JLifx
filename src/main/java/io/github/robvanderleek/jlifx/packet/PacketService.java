@@ -20,9 +20,13 @@ public class PacketService {
         bulb.getGatewayBulb().sendPacket(packet);
     }
 
-    public void sendColorManagementPacket(Bulb bulb, Color color, int fadetime, float brightness) throws IOException {
+    public void sendColorManagementPacket(Bulb bulb, Color color, int fadetime, float brightness) {
         Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color, fadetime, brightness);
-        bulb.getGatewayBulb().sendPacket(packet);
+        try {
+            bulb.getGatewayBulb().sendPacket(packet);
+        } catch (IOException e) {
+            LOG.error(e);
+        }
     }
 
     public void sendSetDimAbsolutePacket(Bulb bulb, float brightness) throws IOException {
