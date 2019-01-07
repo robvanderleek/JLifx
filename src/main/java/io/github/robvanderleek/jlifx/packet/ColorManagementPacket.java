@@ -1,5 +1,7 @@
 package io.github.robvanderleek.jlifx.packet;
 
+import io.github.robvanderleek.jlifx.common.MacAddress;
+
 import java.awt.Color;
 
 class ColorManagementPacket extends Packet {

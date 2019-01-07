@@ -1,6 +1,6 @@
 package io.github.robvanderleek.jlifx.bulb;
 
-import io.github.robvanderleek.jlifx.packet.MacAddress;
+import io.github.robvanderleek.jlifx.common.MacAddress;
 import io.github.robvanderleek.jlifx.packet.Packet;
 import io.github.robvanderleek.jlifx.packet.PacketReader;
 import io.github.robvanderleek.jlifx.packet.PacketService;

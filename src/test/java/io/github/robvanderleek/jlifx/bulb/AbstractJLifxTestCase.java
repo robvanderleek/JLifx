@@ -1,7 +1,7 @@
 package io.github.robvanderleek.jlifx.bulb;
 
 import io.github.robvanderleek.jlifx.commandline.AbstractBulbCommand;
-import io.github.robvanderleek.jlifx.packet.MacAddress;
+import io.github.robvanderleek.jlifx.common.MacAddress;
 import io.github.robvanderleek.jlifx.packet.PacketService;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 

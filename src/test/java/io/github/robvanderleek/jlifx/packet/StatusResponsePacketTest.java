@@ -1,7 +1,8 @@
 package io.github.robvanderleek.jlifx.packet;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StatusResponsePacketTest {
 
@@ -16,7 +17,7 @@ public class StatusResponsePacketTest {
                 'h', 'e', 'l', 'l', 'o', 0x00 // label
         };
         packet.setPayload(payload);
-        packet.setType((byte)0x6B);
+        packet.setType((byte) 0x6B);
         return new StatusResponsePacket(packet);
     }
 
@@ -24,49 +25,49 @@ public class StatusResponsePacketTest {
     public void testGetBulbName() {
         StatusResponsePacket packet = makeTestPacket();
 
-        Assert.assertEquals("hello", packet.getBulbName());
+        assertEquals("hello", packet.getBulbName());
     }
 
     @Test
     public void testGetHue() {
         StatusResponsePacket packet = makeTestPacket();
 
-        Assert.assertEquals(0x3412, packet.getHue());
+        assertEquals(0x3412, packet.getHue());
     }
 
     @Test
     public void testGetSaturation() {
         StatusResponsePacket packet = makeTestPacket();
 
-        Assert.assertEquals(0x2143, packet.getSaturation());
+        assertEquals(0x2143, packet.getSaturation());
     }
 
     @Test
     public void testGetBrightness() {
         StatusResponsePacket packet = makeTestPacket();
 
-        Assert.assertEquals(0x3412, packet.getBrightness());
+        assertEquals(0x3412, packet.getBrightness());
     }
 
     @Test
     public void testGetKelvin() {
         StatusResponsePacket packet = makeTestPacket();
 
-        Assert.assertEquals(0x3412, packet.getKelvin());
+        assertEquals(0x3412, packet.getKelvin());
     }
 
     @Test
     public void testGetDim() {
         StatusResponsePacket packet = makeTestPacket();
 
-        Assert.assertEquals(0x0102, packet.getDim());
+        assertEquals(0x0102, packet.getDim());
     }
 
     @Test
     public void testGetPower() {
         StatusResponsePacket packet = makeTestPacket();
 
-        Assert.assertEquals(0xFFFF, packet.getPower());
+        assertEquals(0xFFFF, packet.getPower());
     }
 
 }

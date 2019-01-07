@@ -2,7 +2,7 @@ package io.github.robvanderleek.jlifx.packet;
 
 import io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase;
 import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.awt.*;

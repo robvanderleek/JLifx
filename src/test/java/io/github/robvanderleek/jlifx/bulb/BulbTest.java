@@ -1,16 +1,16 @@
 package io.github.robvanderleek.jlifx.bulb;
 
 import io.github.robvanderleek.jlifx.packet.PacketService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class BulbTest extends AbstractJLifxTestCase {
+class BulbTest extends AbstractJLifxTestCase {
 
     @Test
-    public void testBulbOperations() throws Exception {
+    void testBulbOperations() throws Exception {
         GatewayBulb gatewayBulb = getMockedGatewayBulb();
         Bulb bulb = new Bulb(TEST_MAC_ADDRESS_1, gatewayBulb);
 
@@ -20,7 +20,7 @@ public class BulbTest extends AbstractJLifxTestCase {
     }
 
     @Test
-    public void testSwitchBulbOnOff() throws Exception {
+    void testSwitchBulbOnOff() throws Exception {
         GatewayBulb gatewayBulb = getMockedGatewayBulb();
         PacketService packetService = getMockedPacketService();
         Bulb bulb = new Bulb(TEST_MAC_ADDRESS_1, gatewayBulb);

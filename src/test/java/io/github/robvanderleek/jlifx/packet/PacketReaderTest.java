@@ -1,7 +1,7 @@
 package io.github.robvanderleek.jlifx.packet;
 
 import io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -13,9 +13,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PacketReaderTest extends AbstractJLifxTestCase {
 

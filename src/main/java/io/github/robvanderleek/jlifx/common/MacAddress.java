@@ -1,4 +1,4 @@
-package io.github.robvanderleek.jlifx.packet;
+package io.github.robvanderleek.jlifx.common;
 
 import io.github.robvanderleek.jlifx.commandline.Utils;
 

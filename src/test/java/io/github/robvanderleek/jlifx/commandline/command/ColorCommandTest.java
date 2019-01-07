@@ -2,15 +2,15 @@ package io.github.robvanderleek.jlifx.commandline.command;
 
 import io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase;
 import io.github.robvanderleek.jlifx.bulb.Bulb;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.awt.*;
 
-public class ColorCommandTest extends AbstractJLifxTestCase {
+class ColorCommandTest extends AbstractJLifxTestCase {
 
     @Test
-    public void testColorBulbDefaultBrightness() throws Exception {
+    void testColorBulbDefaultBrightness() throws Exception {
         ColorCommand command = new ColorCommand();
         Bulb bulb = getMockedBulb();
 
@@ -20,7 +20,7 @@ public class ColorCommandTest extends AbstractJLifxTestCase {
     }
 
     @Test
-    public void testColorBulbDefaultLowBrightness() throws Exception {
+    void testColorBulbDefaultLowBrightness() throws Exception {
         ColorCommand command = new ColorCommand();
         Bulb bulb = getMockedBulb();
 

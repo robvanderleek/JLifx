@@ -3,7 +3,7 @@ package io.github.robvanderleek.jlifx.commandline;
 import io.github.robvanderleek.jlifx.bulb.Bulb;
 import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
 import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
-import io.github.robvanderleek.jlifx.packet.MacAddress;
+import io.github.robvanderleek.jlifx.common.MacAddress;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.BufferedReader;

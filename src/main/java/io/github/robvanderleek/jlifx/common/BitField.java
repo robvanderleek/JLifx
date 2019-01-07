@@ -1,15 +1,15 @@
-package io.github.robvanderleek.jlifx.packet;
+package io.github.robvanderleek.jlifx.common;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-class BitField {
+public class BitField {
     private final boolean[] bits;
 
-    BitField(int nbits) {
+    public BitField(int nbits) {
         bits = new boolean[nbits];
     }
 
-    BitField concat(BitField bitField) {
+    public BitField concat(BitField bitField) {
         BitField result = new BitField(getNumberOfBits() + bitField.getNumberOfBits());
         int i = 0;
         for (int j = 0; j < getNumberOfBits(); j++) {
@@ -30,11 +30,11 @@ class BitField {
         return bits[index];
     }
 
-    void set(int index, boolean b) {
+    public void set(int index, boolean b) {
         bits[index] = b;
     }
 
-    byte[] toByteArray() {
+    public byte[] toByteArray() {
         int nrOfBytes = (int) Math.ceil(getNumberOfBits() / 8f);
         byte[] result = new byte[nrOfBytes];
         for (int i = 0; i < nrOfBytes; i++) {

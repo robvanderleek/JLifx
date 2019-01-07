@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.robvanderleek</groupId>
     <artifactId>jlifx</artifactId>
@@ -22,8 +23,8 @@
         <url>https://github.com/robvanderleek/JLifx</url>
         <connection>scm:git:git@github.com:robvanderleek/JLifx</connection>
         <developerConnection>scm:git:git@github.com:robvanderleek/JLifx</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     <developers>
         <developer>
             <email>robvanderleek@gmail.com</email>
@@ -88,7 +89,7 @@
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
                                         <arg>loopback</arg>
-                                    </gpgArguments> 
+                                    </gpgArguments>
                                     <passphraseServerId>${gpg.keyname}</passphraseServerId>
                                 </configuration>
                             </execution>
@@ -152,7 +153,7 @@
                     <format>xml</format>
                     <maxmem>256m</maxmem>
                     <aggregate>true</aggregate>
-                    <check />
+                    <check/>
                 </configuration>
             </plugin>
             <plugin>
@@ -192,9 +193,15 @@
     </reporting>
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.3.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>

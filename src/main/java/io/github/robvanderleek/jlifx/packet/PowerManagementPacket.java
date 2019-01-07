@@ -1,5 +1,7 @@
 package io.github.robvanderleek.jlifx.packet;
 
+import io.github.robvanderleek.jlifx.common.MacAddress;
+
 class PowerManagementPacket extends Packet {
     static final byte TYPE = 0x15;
 

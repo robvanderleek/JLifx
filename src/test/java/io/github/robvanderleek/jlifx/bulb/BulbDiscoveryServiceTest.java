@@ -1,30 +1,30 @@
 package io.github.robvanderleek.jlifx.bulb;
 
 import io.github.robvanderleek.jlifx.utils.GatewayBulbMock;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BulbDiscoveryServiceTest extends AbstractJLifxTestCase {
     private int testDiscoveryPort;
 
-    @Before
+    @BeforeEach
     public void setup() {
         testDiscoveryPort = getFreeLocalPort();
         BulbDiscoveryService.setGatewayDiscoveryPort(testDiscoveryPort);
         BulbDiscoveryService.setIgnoreGatewaysOnLocalhost(false);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         BulbDiscoveryService.setGatewayDiscoveryPort(56700);
         BulbDiscoveryService.setIgnoreGatewaysOnLocalhost(true);

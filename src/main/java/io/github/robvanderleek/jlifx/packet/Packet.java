@@ -1,5 +1,7 @@
 package io.github.robvanderleek.jlifx.packet;
 
+import io.github.robvanderleek.jlifx.common.BitField;
+import io.github.robvanderleek.jlifx.common.MacAddress;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -92,7 +94,7 @@ public class Packet {
         this.payload = payload;
     }
 
-    public byte getSequenceNumber() {
+    byte getSequenceNumber() {
         return sequenceNumber;
     }
 
@@ -142,11 +144,7 @@ public class Packet {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        byte[] bytes = toByteArray();
-        result.append("MAC address: ").append(targetMac).append(", ");
-        result.append("message type: ").append(getType() & 0xFF).append(", ");
-        result.append("sequence number: ").append(sequenceNumber & 0xFF);
-        return result.toString();
+        return "MAC address: " + targetMac + ", " + "message type: " + (getType() & 0xFF) + ", " + "sequence number: " +
+                (sequenceNumber & 0xFF);
     }
 }

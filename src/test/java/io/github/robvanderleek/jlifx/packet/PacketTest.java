@@ -1,14 +1,15 @@
 package io.github.robvanderleek.jlifx.packet;
 
 import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
-import org.junit.Test;
+import io.github.robvanderleek.jlifx.common.MacAddress;
+import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 public class PacketTest {
@@ -41,7 +42,8 @@ public class PacketTest {
         Packet packet = new Packet(TEST_MAC_ADDRESS, TEST_TYPE);
         InetAddress address = InetAddress.getLoopbackAddress();
 
-        DatagramPacket datagramPacket = packet.toDatagramPacket(address, BulbDiscoveryService.getGatewayDiscoveryPort());
+        DatagramPacket datagramPacket = packet.toDatagramPacket(address,
+                BulbDiscoveryService.getGatewayDiscoveryPort());
 
         assertNotNull(datagramPacket);
         assertEquals(address, datagramPacket.getAddress());

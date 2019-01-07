@@ -1,6 +1,6 @@
 package io.github.robvanderleek.jlifx.commandline;
 
-import io.github.robvanderleek.jlifx.packet.MacAddress;
+import io.github.robvanderleek.jlifx.common.MacAddress;
 import org.apache.commons.lang3.Validate;
 
 import java.awt.*;

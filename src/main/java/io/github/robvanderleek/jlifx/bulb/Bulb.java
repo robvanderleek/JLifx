@@ -1,6 +1,6 @@
 package io.github.robvanderleek.jlifx.bulb;
 
-import io.github.robvanderleek.jlifx.packet.MacAddress;
+import io.github.robvanderleek.jlifx.common.MacAddress;
 import io.github.robvanderleek.jlifx.packet.StatusResponsePacket;
 
 import java.awt.*;
@@ -50,11 +50,11 @@ public class Bulb {
         gatewayBulb.getPacketService().sendColorManagementPacket(this, color, fadetime, brightness);
     }
 
-    public StatusResponsePacket getStatus() {
+    private StatusResponsePacket getStatus() {
         return status;
     }
 
-    public void setStatus(StatusResponsePacket status) {
+    void setStatus(StatusResponsePacket status) {
         this.status = status;
     }
 

@@ -2,7 +2,7 @@ package io.github.robvanderleek.jlifx.commandline.command;
 
 import io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase;
 import io.github.robvanderleek.jlifx.bulb.Bulb;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.awt.*;
@@ -11,10 +11,10 @@ import static org.mockito.AdditionalMatchers.gt;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-public class RainbowCommandTest extends AbstractJLifxTestCase {
+class RainbowCommandTest extends AbstractJLifxTestCase {
 
     @Test
-    public void testTimed() throws Exception {
+    void testTimed() throws Exception {
         Bulb bulb = getMockedBulb();
 
         executeCommand(new RainbowCommand(), bulb, "duration", "2");

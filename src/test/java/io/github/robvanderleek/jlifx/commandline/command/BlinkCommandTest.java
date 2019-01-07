@@ -2,7 +2,7 @@ package io.github.robvanderleek.jlifx.commandline.command;
 
 import io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase;
 import io.github.robvanderleek.jlifx.bulb.Bulb;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.times;

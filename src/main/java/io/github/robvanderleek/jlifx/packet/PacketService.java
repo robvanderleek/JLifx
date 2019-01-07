@@ -45,9 +45,9 @@ public class PacketService {
         }
     }
 
-    Packet sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {
+    void sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {
         Packet packet = new WifiInfoRequestPacket();
-        return bulb.sendPacketAndGetResponse(packet);
+        bulb.sendPacketAndGetResponse(packet);
     }
 
     public BulbMeshFirmwareStatus getMeshFirmwareStatus(GatewayBulb bulb) throws IOException {

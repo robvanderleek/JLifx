@@ -1,10 +1,10 @@
-package io.github.robvanderleek.jlifx.packet;
+package io.github.robvanderleek.jlifx.common;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BitFieldTest {
 
@@ -55,7 +55,7 @@ public class BitFieldTest {
         byte[] result = b1.toByteArray();
 
         assertEquals(1, result.length);
-        assertEquals((byte)0xA0, result[0]);
+        assertEquals((byte) 0xA0, result[0]);
     }
 
 }
