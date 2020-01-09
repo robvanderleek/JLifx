@@ -2,7 +2,8 @@ JLifx
 =====
 
 [![BCH compliancy](https://bettercodehub.com/edge/badge/robvanderleek/JLifx)](https://bettercodehub.com)
-[![Build Status](https://travis-ci.org/robvanderleek/JLifx.svg?branch=master)](https://travis-ci.org/robvanderleek/JLifx)
+[![Build Status](https://github.com/robvanderleek/create-issue-branch/workflows/CI/badge.svg)](https://github.com/robvanderleek/create-issue-branch/actions)
+[![Build Status](https://github.com/robvanderleek/create-issue-branch/workflows/Release/badge.svg)](https://github.com/robvanderleek/create-issue-branch/actions)
 [![Known Vulnerabilities](https://snyk.io/test/github/robvanderleek/jlifx/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/robvanderleek/jlifx?targetFile=pom.xml)
 [![Coverage Status](https://coveralls.io/repos/robvanderleek/JLifx/badge.svg?branch=master)](https://coveralls.io/r/robvanderleek/JLifx?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.robvanderleek/jlifx/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.robvanderleek/jlifx)
