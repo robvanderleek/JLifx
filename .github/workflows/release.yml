@@ -16,6 +16,8 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_NEXUS_USER
           server-password: MAVEN_NEXUS_PASSWORD
+      - name: checkout
+        uses: actions/checkout@v1
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
@@ -26,8 +28,6 @@ jobs:
       #   uses: s4u/maven-settings-action@v1
        #  with:
         #  servers: '[{"id": "github", "username": "x-access-token", "password": "${GITHUB_TOKEN}"}]'
-      # - name: checkout
-      #  uses: actions/checkout@v1
       # - name: deploy
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
