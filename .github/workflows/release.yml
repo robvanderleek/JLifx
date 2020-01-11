@@ -30,8 +30,8 @@ jobs:
         with:
           java-version: 1.8
           server-id: ossrh
-          server-username: nexus_username
-          server-password: nexus_password
+          server-username: MAVEN_NEXUS_USER
+          server-password: MAVEN_NEXUS_PASSWORD
       # - name: Release Maven package
       #  uses: samuelmeuli/action-maven-publish@v1.3.1
       #  with:
