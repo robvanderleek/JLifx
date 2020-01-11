@@ -9,13 +9,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-          server-id: ossrh
-          server-username: MAVEN_NEXUS_USER
-          server-password: MAVEN_NEXUS_PASSWORD
       - name: checkout
         uses: actions/checkout@v1
       - uses: actions/cache@v1
@@ -24,14 +17,21 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      # - name: setup-maven-settings
-      #   uses: s4u/maven-settings-action@v1
-       #  with:
-        #  servers: '[{"id": "github", "username": "x-access-token", "password": "${GITHUB_TOKEN}"}]'
-      # - name: deploy
-        # env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # run: mvn -Dmaven.wagon.http.pool=false clean deploy
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mvn -Dmaven.wagon.http.pool=false clean deploy
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+          server-id: ossrh
+          server-username: nexus_username
+          server-password: nexus_password
       # - name: Release Maven package
       #  uses: samuelmeuli/action-maven-publish@v1.3.1
       #  with:
@@ -43,6 +43,6 @@ jobs:
         run: echo "${{ secrets.gpg_private_key }}" > private-key.txt && gpg --import --no-tty --batch --yes private-key.txt
       - name: Deploy to Maven Central respository
         env:
-          MAVEN_NEXUS_USER: ${{ secrets.MAVEN_NEXUS_USER }}
-          MAVEN_NEXUS_PASSWORD: ${{ secrets.MAVEN_NEXUS_PASSWORD }}
+          MAVEN_NEXUS_USER: ${{ secrets.nexus_username }}
+          MAVEN_NEXUS_PASSWORD: ${{ secrets.nexus_password }}
         run: mvn clean deploy -Dgpg.passphrase=${{ secrets.gpg_passphrase }} -DskipTests -P deploy
