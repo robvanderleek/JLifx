@@ -24,5 +24,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         echo "<settings><servers><server><id>github</id><username>OWNER</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        ls
+        ls target
         jar=`ls target/*.jar | grep -v dependencies`
         mvn -DskipTests deploy:deploy-file -DrepositoryId=github -Dfile=$jar -Durl=https://maven.pkg.github.com/robvanderleek/JLifx -DpomFile=pom.xml
