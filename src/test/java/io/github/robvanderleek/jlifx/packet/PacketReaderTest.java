@@ -69,7 +69,7 @@ public class PacketReaderTest extends AbstractJLifxTestCase {
     public void testTwoPackets() throws Exception {
         List<Packet> packets = new ArrayList<Packet>();
         packets.add(new StatusRequestPacket());
-        packets.add(new PowerManagementPacket(TEST_MAC_ADDRESS_1, true));
+        packets.add(new PowerManagementPacket(TEST_MAC_ADDRESS, true));
         PacketReader packetReader = new PacketReader(new DatagramSocketStub(packets));
         packetReader.start();
         Thread.sleep(500);

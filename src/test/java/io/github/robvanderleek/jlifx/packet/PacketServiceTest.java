@@ -1,17 +1,16 @@
 package io.github.robvanderleek.jlifx.packet;
 
 import io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase;
-import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
+import io.github.robvanderleek.jlifx.bulb.Bulb;
+import io.github.robvanderleek.jlifx.common.Color;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.awt.*;
 
 public class PacketServiceTest extends AbstractJLifxTestCase {
 
     @Test
     public void testSendPowerManagementPacket() throws Exception {
-        GatewayBulb bulb = getMockedGatewayBulb();
+        Bulb bulb = getMockedBulb();
 
         new PacketService().sendPowerManagementPacket(bulb, true);
 
@@ -20,7 +19,7 @@ public class PacketServiceTest extends AbstractJLifxTestCase {
 
     @Test
     public void testSendColorManagementPacket() throws Exception {
-        GatewayBulb bulb = getMockedGatewayBulb();
+        Bulb bulb = getMockedBulb();
 
         new PacketService().sendColorManagementPacket(bulb, Color.BLUE, 3, 0.5F);
 
@@ -29,7 +28,7 @@ public class PacketServiceTest extends AbstractJLifxTestCase {
 
     @Test
     public void testSendSetDimAbsolutePacket() throws Exception {
-        GatewayBulb bulb = getMockedGatewayBulb();
+        Bulb bulb = getMockedBulb();
 
         new PacketService().sendSetDimAbsolutePacket(bulb, 0.5F);
 
@@ -38,7 +37,7 @@ public class PacketServiceTest extends AbstractJLifxTestCase {
 
     @Test
     public void testSendStatusRequestPacket() throws Exception {
-        GatewayBulb bulb = getMockedGatewayBulb();
+        Bulb bulb = getMockedBulb();
 
         new PacketService().sendStatusRequestPacket(bulb);
 
@@ -47,7 +46,7 @@ public class PacketServiceTest extends AbstractJLifxTestCase {
 
     @Test
     public void testSendWifiInfoRequestPacket() throws Exception {
-        GatewayBulb bulb = getMockedGatewayBulb();
+        Bulb bulb = getMockedBulb();
 
         new PacketService().sendWifiInfoRequestPacket(bulb);
 

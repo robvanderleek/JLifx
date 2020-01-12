@@ -1,9 +1,9 @@
 package io.github.robvanderleek.jlifx.commandline;
 
+import io.github.robvanderleek.jlifx.common.Color;
 import io.github.robvanderleek.jlifx.common.MacAddress;
 import org.apache.commons.lang3.Validate;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,8 +81,9 @@ public final class Utils {
      * @return String with MAC address
      */
     public static String getMacAddressAsString(byte[] macAddress) {
-        return String.format("%02x:%02x:%02x:%02x:%02x:%02x", macAddress[0], macAddress[1], macAddress[2],
-                macAddress[3], macAddress[4], macAddress[5]);
+        return String
+                .format("%02x:%02x:%02x:%02x:%02x:%02x", macAddress[0], macAddress[1], macAddress[2], macAddress[3],
+                        macAddress[4], macAddress[5]);
     }
 
     /**
@@ -165,6 +166,17 @@ public final class Utils {
         value += ((long) bytes[6] & 0xffL) << (48);
         value += ((long) bytes[7] & 0xffL) << (56);
         return value;
+    }
+
+    public static String getIpAddressAsString(byte[] rawBytes) {
+        StringBuilder ipAddress = new StringBuilder();
+        for (int i = 0; i < rawBytes.length; i++) {
+            ipAddress.append(rawBytes[i] & 0xFF);
+            if (i < rawBytes.length - 1) {
+                ipAddress.append(".");
+            }
+        }
+        return ipAddress.toString();
     }
 
 }

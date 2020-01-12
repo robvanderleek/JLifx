@@ -7,6 +7,7 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.Collections;
 
@@ -14,19 +15,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class AbstractJLifxTestCase {
-    public static final MacAddress TEST_MAC_ADDRESS_1 = new MacAddress(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05, 0x06});
-    public static final MacAddress TEST_MAC_ADDRESS_2 = new MacAddress(new byte[]{0x06, 0x05, 0x04, 0x03, 0x02, 0x01});
-    private final Bulb mockedBulb = mock(Bulb.class);
+    public static final InetAddress TEST_INET_ADDRESS = InetAddress.getLoopbackAddress();
+    public static final MacAddress TEST_MAC_ADDRESS = new MacAddress(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05, 0x06});
 
     protected Bulb getMockedBulb() {
-        return mockedBulb;
-    }
-
-    protected GatewayBulb getMockedGatewayBulb() {
-        GatewayBulb result = mock(GatewayBulb.class);
-        when(result.getMacAddress()).thenReturn(TEST_MAC_ADDRESS_1);
-        when(result.getGatewayBulb()).thenReturn(result);
-        return result;
+        Bulb mock = mock(Bulb.class);
+        when(mock.getMacAddress()).thenReturn(TEST_MAC_ADDRESS);
+        return mock;
     }
 
     PacketService getMockedPacketService() {
@@ -52,5 +47,4 @@ public class AbstractJLifxTestCase {
         }
         return result;
     }
-
 }

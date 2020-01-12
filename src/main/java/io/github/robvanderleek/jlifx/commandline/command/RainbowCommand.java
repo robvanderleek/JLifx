@@ -1,6 +1,5 @@
 package io.github.robvanderleek.jlifx.commandline.command;
 
-import java.awt.Color;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +8,7 @@ import java.util.List;
 import io.github.robvanderleek.jlifx.bulb.Bulb;
 import io.github.robvanderleek.jlifx.commandline.AbstractBulbCommand;
 import io.github.robvanderleek.jlifx.commandline.Utils;
+import io.github.robvanderleek.jlifx.common.Color;
 
 public class RainbowCommand extends AbstractBulbCommand {
 
@@ -17,7 +17,7 @@ public class RainbowCommand extends AbstractBulbCommand {
         startTerminatorThread(commandArgs, out);
         List<Color> spectrumColors = getSpectrumColors();
         int i = 0;
-        while (!isInterrupted()) {
+        while (isNotInterrupted()) {
             if (i >= spectrumColors.size()) {
                 i = 0;
             }

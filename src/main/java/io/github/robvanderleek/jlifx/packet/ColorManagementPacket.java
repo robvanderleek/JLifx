@@ -1,13 +1,12 @@
 package io.github.robvanderleek.jlifx.packet;
 
+import io.github.robvanderleek.jlifx.common.Color;
 import io.github.robvanderleek.jlifx.common.MacAddress;
-
-import java.awt.Color;
 
 class ColorManagementPacket extends Packet {
 
     ColorManagementPacket(MacAddress targetMacAddress, Color color, int fadetime, float brightness) {
-        float[] hsbValues = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+        float[] hsbValues = Color.rgbToHsb(color.getRed(), color.getGreen(), color.getBlue());
         setType((byte) 0x66);
         setTargetMac(targetMacAddress);
         byte streaming = 0x00;

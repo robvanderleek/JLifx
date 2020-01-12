@@ -2,10 +2,9 @@ package io.github.robvanderleek.jlifx.commandline.command;
 
 import io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase;
 import io.github.robvanderleek.jlifx.bulb.Bulb;
+import io.github.robvanderleek.jlifx.common.Color;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.awt.*;
 
 import static org.mockito.AdditionalMatchers.gt;
 import static org.mockito.Mockito.atLeastOnce;

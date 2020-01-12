@@ -35,10 +35,11 @@ public class BulbDiscoveryServiceTest extends AbstractJLifxTestCase {
         GatewayBulbMock gatewayBulbMock = new GatewayBulbMock(testDiscoveryPort);
         gatewayBulbMock.run();
 
-        GatewayBulb result = BulbDiscoveryService.discoverGatewayBulb();
+        List<Bulb> result = BulbDiscoveryService.discoverBulbs();
 
         assertNotNull(result);
-        assertEquals(TEST_MAC_ADDRESS_1, result.getMacAddress());
+        assertEquals(1, result.size());
+        assertEquals(TEST_MAC_ADDRESS, result.get(0).getMacAddress());
 
         gatewayBulbMock.stop();
     }
@@ -48,12 +49,11 @@ public class BulbDiscoveryServiceTest extends AbstractJLifxTestCase {
         GatewayBulbMock gatewayBulbMock = new GatewayBulbMock(testDiscoveryPort);
         gatewayBulbMock.run();
 
-        GatewayBulb gatewayBulb = BulbDiscoveryService.discoverGatewayBulb();
-        Optional<Bulb> result = BulbDiscoveryService.discoverBulbByName(gatewayBulb, "hello");
+        Optional<Bulb> result = BulbDiscoveryService.discoverBulbByName("hello");
 
         assertTrue(result.isPresent());
         assertEquals("hello", result.get().getName());
-        assertEquals(TEST_MAC_ADDRESS_1, result.get().getMacAddress());
+        assertEquals(TEST_MAC_ADDRESS, result.get().getMacAddress());
 
         gatewayBulbMock.stop();
     }
@@ -63,12 +63,11 @@ public class BulbDiscoveryServiceTest extends AbstractJLifxTestCase {
         GatewayBulbMock gatewayBulbMock = new GatewayBulbMock(testDiscoveryPort);
         gatewayBulbMock.run();
 
-        GatewayBulb gatewayBulb = BulbDiscoveryService.discoverGatewayBulb();
-        Optional<Bulb> result = BulbDiscoveryService.discoverBulbByName(gatewayBulb, "Hello");
+        Optional<Bulb> result = BulbDiscoveryService.discoverBulbByName("Hello");
 
         assertTrue(result.isPresent());
         assertEquals("hello", result.get().getName());
-        assertEquals(TEST_MAC_ADDRESS_1, result.get().getMacAddress());
+        assertEquals(TEST_MAC_ADDRESS, result.get().getMacAddress());
 
         gatewayBulbMock.stop();
     }

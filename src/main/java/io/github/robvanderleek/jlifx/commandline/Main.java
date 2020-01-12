@@ -38,11 +38,11 @@ public final class Main {
         OUT.println("  daemon (starts Boblight daemon)");
         OUT.println("  scan");
         OUT.println("  status");
-        OUT.println("  switch  <mac-address|bulb name|gateway|all> <on|off>");
-        OUT.println("  color   <mac-address|bulb name|gateway|all> [brightness (0.0 - 1.0)]");
+        OUT.println("  switch  <ip-address|bulb name|all> <on|off>");
+        OUT.println("  color   <ip-address|bulb name|all> [brightness (0.0 - 1.0)]");
         // OUT.println("  dim     [-gw <ip-address> <mac-address>] <mac-address|gateway|all> <0.0 - 1.0>");
-        OUT.println("  blink   <mac-address|bulb name|gateway|all> [times]");
-        OUT.println("  rainbow <mac-address|bulb name|gateway|all> [duration (sec)]");
+        OUT.println("  blink   <ip-address|bulb name|all> [times]");
+        OUT.println("  rainbow <ip-address|bulb name|all> [duration (sec)]");
         OUT.println("");
         printExamples();
     }
@@ -53,8 +53,7 @@ public final class Main {
         OUT.println("  java -jar jlifx.jar color all red");
         OUT.println("  java -jar jlifx.jar color livingroom red");
         // OUT.println("  java -jar jlifx.jar dim all 0.5");
-        OUT.println("  java -jar jlifx.jar blink gateway");
-        OUT.println("  java -jar jlifx.jar blink AA:BB:CC:DD:EE:FF 3");
+        OUT.println("  java -jar jlifx.jar blink 192.168.178.41 3");
         OUT.println("  java -jar jlifx.jar rainbow all");
         OUT.println("  java -jar jlifx.jar rainbow all 30");
     }
@@ -64,9 +63,7 @@ public final class Main {
             printUsage();
         } else {
             CommandLineCommand command = commands.get(args[0].toLowerCase());
-            if (command != null && command.execute(args, OUT)) {
-                return;
-            } else {
+            if (command == null || !command.execute(args, OUT)) {
                 printUsage();
             }
         }

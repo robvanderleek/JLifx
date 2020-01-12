@@ -2,17 +2,15 @@ package io.github.robvanderleek.jlifx.commandline;
 
 import io.github.robvanderleek.jlifx.bulb.Bulb;
 import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
-import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
-import io.github.robvanderleek.jlifx.common.MacAddress;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.InetAddress;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractBulbCommand implements CommandLineCommand {
     private boolean interrupted = false;
@@ -48,8 +46,8 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
 
     }
 
-    protected boolean isInterrupted() {
-        return interrupted;
+    protected boolean isNotInterrupted() {
+        return !interrupted;
     }
 
     protected void startKeyListenerThread(PrintStream out) {
@@ -66,55 +64,37 @@ public abstract class AbstractBulbCommand implements CommandLineCommand {
         if (args.length < 2) {
             return false;
         }
-        GatewayBulb gatewayBulb;
-        if (args[1].equals("-gw") && Utils.isValidIpv4Address(args[2]) && Utils.isValidMacAddress(args[3])) {
-            gatewayBulb = new GatewayBulb(InetAddress.getByAddress(Utils.parseIpv4Address(args[2])),
-                    Utils.parseMacAddress(args[3]));
-            args = ArrayUtils.removeAll(args, 1, 2, 3);
-        } else {
-            gatewayBulb = BulbDiscoveryService.discoverGatewayBulb();
-        }
-        if (gatewayBulb == null) {
-            out.println("Could not discover a gateway bulb!");
-            System.exit(0);
-        }
         String[] commandArgs = getCommandArgs(args);
-        boolean result = dispatchExecute(gatewayBulb, commandArgs, out);
-        gatewayBulb.disconnect();
+        return dispatchExecute(commandArgs, out);
+    }
+
+    private boolean dispatchExecute(String[] commandArgs, PrintStream out) throws Exception {
+        if (commandArgs[0].equalsIgnoreCase("all")) {
+            return executeForAllBulbs(commandArgs, out);
+        } else {
+            return executeForSingleBulb(commandArgs, out);
+        }
+    }
+
+    private boolean executeForAllBulbs(String[] commandArgs, PrintStream out) throws Exception {
+        List<Bulb> bulbs = BulbDiscoveryService.discoverBulbs();
+        boolean result = execute(bulbs, commandArgs, out);
+        bulbs.forEach(Bulb::disconnect);
         return result;
     }
 
-    private boolean dispatchExecute(GatewayBulb gatewayBulb, String[] commandArgs, PrintStream out) throws Exception {
-        if (commandArgs[0].equalsIgnoreCase("all")) {
-            return executeForAllBulbs(gatewayBulb, commandArgs, out);
-        } else if (commandArgs[0].equalsIgnoreCase("gateway")) {
-            return executeForGatewayBulb(gatewayBulb, commandArgs, out);
-        } else {
-            return executeForSingleBulb(gatewayBulb, commandArgs, out);
-        }
-    }
-
-    private boolean executeForAllBulbs(GatewayBulb gatewayBulb, String[] commandArgs,
-                                       PrintStream out) throws Exception {
-        return execute(BulbDiscoveryService.discoverAllBulbs(gatewayBulb), commandArgs, out);
-    }
-
-    private boolean executeForGatewayBulb(GatewayBulb gatewayBulb, String[] commandArgs,
-                                          PrintStream out) throws Exception {
-        return execute(Collections.singletonList(gatewayBulb), commandArgs, out);
-    }
-
-    private boolean executeForSingleBulb(GatewayBulb gatewayBulb, String[] commandArgs,
-                                         PrintStream out) throws Exception {
+    private boolean executeForSingleBulb(String[] commandArgs, PrintStream out) throws Exception {
         Bulb bulb;
-        if (Utils.isValidMacAddress(commandArgs[0])) {
-            MacAddress macAddress = Utils.parseMacAddress(commandArgs[0]);
-            bulb = new Bulb(macAddress, gatewayBulb);
+        if (Utils.isValidIpv4Address(commandArgs[0])) {
+            bulb = BulbDiscoveryService.discoverBulbByIpAddress(commandArgs[0])
+                                       .orElseThrow(() -> new RuntimeException("Bulb not found: " + commandArgs[0]));
         } else {
-            bulb = BulbDiscoveryService.discoverBulbByName(gatewayBulb, commandArgs[0])
+            bulb = BulbDiscoveryService.discoverBulbByName(commandArgs[0])
                                        .orElseThrow(() -> new RuntimeException("Bulb not found: " + commandArgs[0]));
         }
-        return execute(Collections.singletonList(bulb), commandArgs, out);
+        boolean result = execute(Collections.singletonList(bulb), commandArgs, out);
+        bulb.disconnect();
+        return result;
     }
 
     private String[] getCommandArgs(String[] args) {

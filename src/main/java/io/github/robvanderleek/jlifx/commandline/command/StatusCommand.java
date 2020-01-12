@@ -3,7 +3,6 @@ package io.github.robvanderleek.jlifx.commandline.command;
 import io.github.robvanderleek.jlifx.bulb.Bulb;
 import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
 import io.github.robvanderleek.jlifx.bulb.BulbMeshFirmwareStatus;
-import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
 import io.github.robvanderleek.jlifx.commandline.CommandLineCommand;
 import io.github.robvanderleek.jlifx.commandline.Utils;
 
@@ -14,25 +13,18 @@ public class StatusCommand implements CommandLineCommand {
 
     @Override
     public boolean execute(String[] args, PrintStream out) throws Exception {
-        GatewayBulb gatewayBulb = BulbDiscoveryService.discoverGatewayBulb();
-        if (gatewayBulb == null) {
-            out.println("No LIFX gateway bulb found!");
-            out.println("");
-            return false;
-        }
-
-        Iterator<Bulb> bulbIterator = BulbDiscoveryService.discoverAllBulbs(gatewayBulb).iterator();
+        Iterator<Bulb> bulbIterator = BulbDiscoveryService.discoverBulbs().iterator();
         while (bulbIterator.hasNext()) {
             Bulb bulb = bulbIterator.next();
             printBulbStatus(out, bulb);
+            BulbMeshFirmwareStatus firmwareStatus = bulb.getMeshFirmwareStatus();
+            out.println("Firmware version : " + firmwareStatus.getVersion());
+            out.println("Firmware build time: " + firmwareStatus.getBuildTimestamp());
             if (bulbIterator.hasNext()) {
                 out.println();
             }
+            bulb.disconnect();
         }
-        BulbMeshFirmwareStatus firmwareStatus = gatewayBulb.getMeshFirmwareStatus();
-        out.println();
-        out.println("Mesh firmware version : " + firmwareStatus.getVersion());
-        out.println("Mesh firmware build time: " + firmwareStatus.getBuildTimestamp());
         return true;
     }
 

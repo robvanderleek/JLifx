@@ -18,7 +18,7 @@ public class BlinkCommand extends AbstractBulbCommand {
             }
         } else {
             startKeyListenerThread(out);
-            while (!isInterrupted()) {
+            while (isNotInterrupted()) {
                 blinkBulbs(bulbs);
             }
         }

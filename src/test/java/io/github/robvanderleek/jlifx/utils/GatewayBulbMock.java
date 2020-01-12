@@ -8,7 +8,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import static io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase.TEST_MAC_ADDRESS_1;
+import static io.github.robvanderleek.jlifx.bulb.AbstractJLifxTestCase.TEST_MAC_ADDRESS;
 
 public class GatewayBulbMock {
     private final DatagramSocket socket;
@@ -29,7 +29,7 @@ public class GatewayBulbMock {
                     DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
                     socket.receive(datagramPacket);
                     StatusResponsePacket packet = StatusResponsePacketTest.makeTestPacket();
-                    packet.setTargetMac(TEST_MAC_ADDRESS_1);
+                    packet.setTargetMac(TEST_MAC_ADDRESS);
                     socket.send(packet.toDatagramPacket(datagramPacket.getAddress(), datagramPacket.getPort()));
                 } catch (IOException e) {
                     keepRunning = false;

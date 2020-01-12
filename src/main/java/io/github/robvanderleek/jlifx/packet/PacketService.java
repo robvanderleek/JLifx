@@ -2,11 +2,10 @@ package io.github.robvanderleek.jlifx.packet;
 
 import io.github.robvanderleek.jlifx.bulb.Bulb;
 import io.github.robvanderleek.jlifx.bulb.BulbMeshFirmwareStatus;
-import io.github.robvanderleek.jlifx.bulb.GatewayBulb;
+import io.github.robvanderleek.jlifx.common.Color;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -17,13 +16,13 @@ public class PacketService {
 
     public void sendPowerManagementPacket(Bulb bulb, boolean on) throws IOException {
         Packet packet = new PowerManagementPacket(bulb.getMacAddress(), on);
-        bulb.getGatewayBulb().sendPacket(packet);
+        bulb.sendPacket(packet);
     }
 
     public void sendColorManagementPacket(Bulb bulb, Color color, int fadetime, float brightness) {
         Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color, fadetime, brightness);
         try {
-            bulb.getGatewayBulb().sendPacket(packet);
+            bulb.sendPacket(packet);
         } catch (IOException e) {
             LOG.error(e);
         }
@@ -31,10 +30,10 @@ public class PacketService {
 
     public void sendSetDimAbsolutePacket(Bulb bulb, float brightness) throws IOException {
         Packet packet = new SetDimAbsolutePacket(brightness);
-        bulb.getGatewayBulb().sendPacket(packet);
+        bulb.sendPacket(packet);
     }
 
-    public List<StatusResponsePacket> sendStatusRequestPacket(GatewayBulb bulb) {
+    public List<StatusResponsePacket> sendStatusRequestPacket(Bulb bulb) {
         Packet packet = new StatusRequestPacket();
         try {
             List<Packet> responsePackets = bulb.sendPacketAndGetResponses(packet);
@@ -45,12 +44,12 @@ public class PacketService {
         }
     }
 
-    void sendWifiInfoRequestPacket(GatewayBulb bulb) throws IOException {
+    void sendWifiInfoRequestPacket(Bulb bulb) throws IOException {
         Packet packet = new WifiInfoRequestPacket();
         bulb.sendPacketAndGetResponse(packet);
     }
 
-    public BulbMeshFirmwareStatus getMeshFirmwareStatus(GatewayBulb bulb) throws IOException {
+    public BulbMeshFirmwareStatus getMeshFirmwareStatus(Bulb bulb) throws IOException {
         Packet packet = new MeshFirmwareRequestPacket();
         Packet responsePacket = bulb.sendPacketAndGetResponse(packet);
         return BulbMeshFirmwareStatus.fromPacket(responsePacket);

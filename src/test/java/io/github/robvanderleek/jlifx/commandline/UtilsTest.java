@@ -67,7 +67,7 @@ class UtilsTest {
 
     @Test
     void testGetMacAddressAsString() {
-        assertEquals("01:02:03:04:05:06", AbstractJLifxTestCase.TEST_MAC_ADDRESS_1.toString());
+        assertEquals("01:02:03:04:05:06", AbstractJLifxTestCase.TEST_MAC_ADDRESS.toString());
     }
 
     @Test

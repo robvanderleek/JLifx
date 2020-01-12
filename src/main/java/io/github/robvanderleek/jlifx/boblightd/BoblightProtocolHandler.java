@@ -1,13 +1,13 @@
 package io.github.robvanderleek.jlifx.boblightd;
 
 import io.github.robvanderleek.jlifx.bulb.Bulb;
+import io.github.robvanderleek.jlifx.common.Color;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.StringTokenizer;

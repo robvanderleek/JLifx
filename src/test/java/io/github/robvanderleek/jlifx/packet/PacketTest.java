@@ -1,10 +1,10 @@
 package io.github.robvanderleek.jlifx.packet;
 
 import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
+import io.github.robvanderleek.jlifx.common.Color;
 import io.github.robvanderleek.jlifx.common.MacAddress;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
@@ -42,8 +42,8 @@ public class PacketTest {
         Packet packet = new Packet(TEST_MAC_ADDRESS, TEST_TYPE);
         InetAddress address = InetAddress.getLoopbackAddress();
 
-        DatagramPacket datagramPacket = packet.toDatagramPacket(address,
-                BulbDiscoveryService.getGatewayDiscoveryPort());
+        DatagramPacket datagramPacket =
+                packet.toDatagramPacket(address, BulbDiscoveryService.getGatewayDiscoveryPort());
 
         assertNotNull(datagramPacket);
         assertEquals(address, datagramPacket.getAddress());
