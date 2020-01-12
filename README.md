@@ -22,7 +22,7 @@ Run the `build.sh` script to build the packaged JAR shell script.
 
 ### Library
 
-For Maven, add the following entry to your `pom.xml`:
+For Maven, add the following entry to your `pom.xml` (check https://search.maven.org/artifact/io.github.robvanderleek/jlifx for latest `$VERSION`):
 
 ```xml
     ...
@@ -31,7 +31,7 @@ For Maven, add the following entry to your `pom.xml`:
         <dependency>
             <groupId>io.github.robvanderleek</groupId>
             <artifactId>jlifx</artifactId>
-            <version>VERSION</version>
+            <version>$VERSION</version>
         </dependency>
     </dependencies>
     ...
