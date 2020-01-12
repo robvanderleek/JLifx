@@ -53,28 +53,16 @@ public class Bulb {
         return Utils.getIpAddressAsString(address.getAddress());
     }
 
-    public void switchOn() {
-        try {
-            getPacketService().sendPowerManagementPacket(this, true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void switchOn() throws IOException {
+        getPacketService().sendPowerManagementPacket(this, true);
     }
 
-    public void switchOff() {
-        try {
-            getPacketService().sendPowerManagementPacket(this, false);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void switchOff() throws IOException {
+        getPacketService().sendPowerManagementPacket(this, false);
     }
 
-    public void colorize(Color color, int fadetime, float brightness) {
-        try {
-            getPacketService().sendColorManagementPacket(this, color, fadetime, brightness);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void colorize(Color color, int fadetime, float brightness) throws IOException {
+        getPacketService().sendColorManagementPacket(this, color, fadetime, brightness);
     }
 
     private StatusResponsePacket getStatus() {

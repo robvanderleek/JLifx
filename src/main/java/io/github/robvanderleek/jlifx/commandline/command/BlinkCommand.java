@@ -2,6 +2,8 @@ package io.github.robvanderleek.jlifx.commandline.command;
 
 import io.github.robvanderleek.jlifx.bulb.Bulb;
 import io.github.robvanderleek.jlifx.commandline.AbstractBulbCommand;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -10,6 +12,7 @@ import java.util.Collection;
 import static io.github.robvanderleek.jlifx.commandline.Utils.safeSleep;
 
 public class BlinkCommand extends AbstractBulbCommand {
+    private static final Log LOG = LogFactory.getLog(BlinkCommand.class);
 
     @Override
     public boolean execute(Collection<Bulb> bulbs, String[] commandArgs, PrintStream out) throws Exception {
@@ -41,11 +44,19 @@ public class BlinkCommand extends AbstractBulbCommand {
 
     public void blinkBulbs(Bulb... bulbs) {
         for (Bulb bulb : bulbs) {
-            bulb.switchOff();
+            try {
+                bulb.switchOff();
+            } catch (IOException e) {
+                LOG.error(e);
+            }
         }
         safeSleep(500);
         for (Bulb bulb : bulbs) {
-            bulb.switchOn();
+            try {
+                bulb.switchOn();
+            } catch (IOException e) {
+                LOG.error(e);
+            }
         }
         safeSleep(500);
     }
