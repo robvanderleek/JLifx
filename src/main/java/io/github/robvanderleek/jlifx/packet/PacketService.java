@@ -19,13 +19,9 @@ public class PacketService {
         bulb.sendPacket(packet);
     }
 
-    public void sendColorManagementPacket(Bulb bulb, Color color, int fadetime, float brightness) {
+    public void sendColorManagementPacket(Bulb bulb, Color color, int fadetime, float brightness) throws IOException {
         Packet packet = new ColorManagementPacket(bulb.getMacAddress(), color, fadetime, brightness);
-        try {
-            bulb.sendPacket(packet);
-        } catch (IOException e) {
-            LOG.error(e);
-        }
+        bulb.sendPacket(packet);
     }
 
     public void sendSetDimAbsolutePacket(Bulb bulb, float brightness) throws IOException {

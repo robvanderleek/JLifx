@@ -17,14 +17,15 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
-    - name: Run tests
-      run: mvn -DskipTests install
+    - name: Run tests and build jar
+      run: mvn install
+    - name: setup-maven-settings
+      uses: s4u/maven-settings-action@v1
+      with:
+        servers: '[{"id": "github", "username": "x-access-token", "password": "${GITHUB_TOKEN}"}]'
     - name: Deploy to Github Package Registry
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo "<settings><servers><server><id>github</id><username>OWNER</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-        ls
-        ls target
         jar=`ls target/*.jar | grep -v dependencies`
         mvn -DskipTests deploy:deploy-file -DrepositoryId=github -Dfile=$jar -Durl=https://maven.pkg.github.com/robvanderleek/JLifx -DpomFile=pom.xml

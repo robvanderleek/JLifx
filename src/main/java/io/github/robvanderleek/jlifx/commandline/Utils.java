@@ -65,6 +65,18 @@ public final class Utils {
     }
 
     /**
+     * Sleep as we know it but without the checked exception.
+     */
+    public static void safeSleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
      * Returns a string containing the hex value of a word.
      *
      * @param w Word value
