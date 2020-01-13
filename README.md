@@ -59,3 +59,4 @@ Examples that show how to use the API:
 - Discover a bulb by name and set color: [ColorBulbByName.java](https://github.com/robvanderleek/JLifx/blob/master/src/test/java/io/github/robvanderleek/jlifx/examples/ColorBulbByName.java)
 - Discover a bulb by IP address and set color: [ColorBulbByIpAddress.java](https://github.com/robvanderleek/JLifx/blob/master/src/test/java/io/github/robvanderleek/jlifx/examples/ColorBulbByIpAddress.java)
 - Discover a bulb by name and make it blink: [BlinkBulbByName.java](https://github.com/robvanderleek/JLifx/blob/master/src/test/java/io/github/robvanderleek/jlifx/examples/BlinkBulbByName.java)
+- Connect to bulb using IP and MAC address: [ConnectWithIpAddressAndMacAddress](ttps://github.com/robvanderleek/JLifx/blob/master/src/test/java/io/github/robvanderleek/jlifx/examples/ConnectWithIpAddressAndMacAddress)

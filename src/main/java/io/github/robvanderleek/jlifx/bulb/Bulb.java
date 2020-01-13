@@ -25,7 +25,6 @@ public class Bulb {
     private PacketService packetService = new PacketService();
     private byte packetSequenceNumber = 0x00;
     private final MacAddress macAddress;
-    private StatusResponsePacket status;
     private BulbMeshFirmwareStatus meshFirmwareStatus;
 
     public Bulb(InetAddress address, MacAddress macAddress) {
@@ -50,7 +49,7 @@ public class Bulb {
     }
 
     public String getIpAddress() {
-        return Utils.getIpAddressAsString(address.getAddress());
+        return Utils.getIpAddressAsString(address);
     }
 
     public void switchOn() throws IOException {
@@ -61,39 +60,41 @@ public class Bulb {
         getPacketService().sendPowerManagementPacket(this, false);
     }
 
+    public void colorize(Color color) throws IOException {
+        colorize(color, 0, 1);
+    }
+
     public void colorize(Color color, int fadetime, float brightness) throws IOException {
         getPacketService().sendColorManagementPacket(this, color, fadetime, brightness);
     }
 
-    private StatusResponsePacket getStatus() {
-        return status;
+    private StatusResponsePacket getStatus() throws IOException {
+        Optional<StatusResponsePacket> optionalPacket = new PacketService().sendStatusRequestPacket(this);
+        return optionalPacket.orElseThrow(
+                () -> new IOException(String.format("Could not get status for bulb: %s!", getIpAddress())));
     }
 
-    void setStatus(StatusResponsePacket status) {
-        this.status = status;
-    }
-
-    public String getName() {
+    public String getName() throws IOException {
         return getStatus().getBulbName();
     }
 
-    public int getHue() {
+    public int getHue() throws IOException {
         return getStatus().getHue();
     }
 
-    public int getSaturation() {
+    public int getSaturation() throws IOException {
         return getStatus().getSaturation();
     }
 
-    public int getBrightness() {
+    public int getBrightness() throws IOException {
         return getStatus().getBrightness();
     }
 
-    public int getKelvin() {
+    public int getKelvin() throws IOException {
         return getStatus().getKelvin();
     }
 
-    public int getDim() {
+    public int getDim() throws IOException {
         return getStatus().getDim();
     }
 
@@ -101,7 +102,7 @@ public class Bulb {
         getPacketService().sendSetDimAbsolutePacket(this, brightness);
     }
 
-    public int getPower() {
+    public int getPower() throws IOException {
         return getStatus().getPower();
     }
 

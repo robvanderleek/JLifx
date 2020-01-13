@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PacketService {
@@ -29,14 +30,15 @@ public class PacketService {
         bulb.sendPacket(packet);
     }
 
-    public List<StatusResponsePacket> sendStatusRequestPacket(Bulb bulb) {
+    public Optional<StatusResponsePacket> sendStatusRequestPacket(Bulb bulb) {
         Packet packet = new StatusRequestPacket();
         try {
             List<Packet> responsePackets = bulb.sendPacketAndGetResponses(packet);
-            return responsePackets.stream().map(StatusResponsePacket::new).collect(Collectors.toList());
+            return responsePackets.stream().map(StatusResponsePacket::new)
+                                  .filter(p -> p.getType() == StatusResponsePacket.TYPE).findFirst();
         } catch (IOException e) {
             LOG.error(e);
-            return Collections.emptyList();
+            return Optional.empty();
         }
     }
 

@@ -4,12 +4,13 @@ import io.github.robvanderleek.jlifx.bulb.Bulb;
 import io.github.robvanderleek.jlifx.bulb.BulbDiscoveryService;
 import io.github.robvanderleek.jlifx.commandline.CommandLineCommand;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
 public class ScanCommand implements CommandLineCommand {
 
-    public boolean execute(String[] args, PrintStream out) {
+    public boolean execute(String[] args, PrintStream out) throws IOException {
         out.println("Discovering LIFX bulbs...");
         List<Bulb> bulbs = BulbDiscoveryService.discoverBulbs();
         if (bulbs.isEmpty()) {

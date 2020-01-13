@@ -5,8 +5,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ public class BulbDiscoveryServiceTest extends AbstractJLifxTestCase {
     }
 
     @Test
-    public void testDiscoverGatewayBulb() throws SocketException {
+    public void testDiscoverGatewayBulb() throws IOException {
         GatewayBulbMock gatewayBulbMock = new GatewayBulbMock(testDiscoveryPort);
         gatewayBulbMock.run();
 
@@ -45,7 +45,7 @@ public class BulbDiscoveryServiceTest extends AbstractJLifxTestCase {
     }
 
     @Test
-    public void discoverBulbByName() throws SocketException {
+    public void discoverBulbByName() throws IOException {
         GatewayBulbMock gatewayBulbMock = new GatewayBulbMock(testDiscoveryPort);
         gatewayBulbMock.run();
 
@@ -59,7 +59,7 @@ public class BulbDiscoveryServiceTest extends AbstractJLifxTestCase {
     }
 
     @Test
-    public void discoverBulbByNameIsCaseInsensitive() throws SocketException {
+    public void discoverBulbByNameIsCaseInsensitive() throws IOException {
         GatewayBulbMock gatewayBulbMock = new GatewayBulbMock(testDiscoveryPort);
         gatewayBulbMock.run();
 

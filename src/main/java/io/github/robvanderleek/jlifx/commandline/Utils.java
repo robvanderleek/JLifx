@@ -4,6 +4,7 @@ import io.github.robvanderleek.jlifx.common.Color;
 import io.github.robvanderleek.jlifx.common.MacAddress;
 import org.apache.commons.lang3.Validate;
 
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,10 @@ public final class Utils {
     private Utils() {
     }
 
-    static MacAddress parseMacAddress(String macAddress) {
+    /**
+     * Converts valid MAC address string (e.g.: AA:BB:CC:DD:EE:FF) to a MacAddress object.
+     */
+    public static MacAddress parseMacAddress(String macAddress) {
         byte[] result = new byte[6];
         result[0] = (byte) (Integer.parseInt(macAddress.substring(0, 2), 16));
         result[1] = (byte) (Integer.parseInt(macAddress.substring(3, 5), 16));
@@ -180,7 +184,8 @@ public final class Utils {
         return value;
     }
 
-    public static String getIpAddressAsString(byte[] rawBytes) {
+    public static String getIpAddressAsString(InetAddress inetAddress) {
+        byte[] rawBytes = inetAddress.getAddress();
         StringBuilder ipAddress = new StringBuilder();
         for (int i = 0; i < rawBytes.length; i++) {
             ipAddress.append(rawBytes[i] & 0xFF);

@@ -1,8 +1,6 @@
 package io.github.robvanderleek.jlifx.bulb;
 
 import io.github.robvanderleek.jlifx.packet.Packet;
-import io.github.robvanderleek.jlifx.packet.PacketService;
-import io.github.robvanderleek.jlifx.packet.StatusResponsePacket;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,26 +30,12 @@ public final class BulbDiscoveryService {
     /**
      * Returns Gateway bulbs discovered in any of the networks.
      */
-    public static List<Bulb> discoverBulbs() {
+    public static List<Bulb> discoverBulbs() throws IOException {
         List<Bulb> result = new ArrayList<>();
         List<InetAddress> networkBroadcastAddresses = getNetworkBroadcastAddresses();
         for (InetAddress broadcastAddress : networkBroadcastAddresses) {
-            try {
-                Set<Bulb> bulbs = discoverBulbsOnNetwork(broadcastAddress);
-                for (Bulb bulb : bulbs) {
-                    List<StatusResponsePacket> packets = new PacketService().sendStatusRequestPacket(bulb);
-                    for (StatusResponsePacket packet : packets) {
-                        if (packet.getType() == 0x6B) {
-                            bulb.setStatus(packet);
-                        }
-                    }
-                    bulb.disconnect();
-                }
-                result.addAll(bulbs);
-            } catch (IOException e) {
-                LOG.error(e);
-                throw new RuntimeException(e);
-            }
+            Set<Bulb> bulbs = discoverBulbsOnNetwork(broadcastAddress);
+            result.addAll(bulbs);
         }
         return result;
     }
@@ -59,15 +43,25 @@ public final class BulbDiscoveryService {
     /**
      * Returns the bulb with the given name if it can be discovered, empty otherwise.
      */
-    public static Optional<Bulb> discoverBulbByName(String name) {
-        return discoverBulbs().stream().filter(b -> b.getName().equalsIgnoreCase(name)).findAny();
+    public static Optional<Bulb> discoverBulbByName(String name) throws IOException {
+        for (Bulb b : discoverBulbs()) {
+            if (b.getName().equalsIgnoreCase(name)) {
+                return Optional.of(b);
+            }
+        }
+        return Optional.empty();
     }
 
     /**
      * Returns the bulb with the given IP address if it can be discovered, empty otherwise.
      */
-    public static Optional<Bulb> discoverBulbByIpAddress(String ipAddress) {
-        return discoverBulbs().stream().filter(b -> b.getIpAddress().equalsIgnoreCase(ipAddress)).findAny();
+    public static Optional<Bulb> discoverBulbByIpAddress(String ipAddress) throws IOException {
+        for (Bulb b : discoverBulbs()) {
+            if (b.getIpAddress().equalsIgnoreCase(ipAddress)) {
+                return Optional.of(b);
+            }
+        }
+        return Optional.empty();
     }
 
     private static Set<Bulb> discoverBulbsOnNetwork(InetAddress broadcastAddress) throws IOException {
@@ -149,5 +143,4 @@ public final class BulbDiscoveryService {
     static void setIgnoreGatewaysOnLocalhost(boolean ignore) {
         ignoreGatewaysOnLocalhost = ignore;
     }
-
 }

@@ -1,6 +1,7 @@
 package io.github.robvanderleek.jlifx.packet;
 
 public class StatusResponsePacket extends Packet {
+    public static final byte TYPE = 0x6B;
 
     StatusResponsePacket(Packet p) {
         super(p.getTargetMac(), p.getType());
