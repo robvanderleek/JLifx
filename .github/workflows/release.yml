@@ -17,14 +17,6 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      # - name: Set up JDK 1.8
-      #  uses: actions/setup-java@v1
-      #  with:
-      #    java-version: 1.8
-      # - name: deploy
-      #  env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  run: mvn -Dmaven.wagon.http.pool=false clean deploy
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
@@ -32,13 +24,6 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_NEXUS_USER
           server-password: MAVEN_NEXUS_PASSWORD
-      # - name: Release Maven package
-      #  uses: samuelmeuli/action-maven-publish@v1.3.1
-      #  with:
-      #    gpg_private_key: ${{ secrets.gpg_private_key }}
-      #    gpg_passphrase: ${{ secrets.gpg_passphrase }}
-      #    nexus_username: ${{ secrets.nexus_username }}
-      #    nexus_password: ${{ secrets.nexus_password }}
       - name: Copy GPG Private key
         run: echo "${{ secrets.gpg_private_key }}" > private-key.txt && gpg --import --no-tty --batch --yes private-key.txt
       - name: Deploy to Maven Central respository
