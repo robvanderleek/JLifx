@@ -14,7 +14,7 @@ import java.util.Map;
 
 public final class Main {
     private static final PrintStream OUT = System.out;
-    private static Map<String, CommandLineCommand> commands = new HashMap<String, CommandLineCommand>();
+    private static final Map<String, CommandLineCommand> commands = new HashMap<>();
 
     static {
         commands.put("daemon", new BoblightDaemonCommand());
@@ -22,7 +22,6 @@ public final class Main {
         commands.put("status", new StatusCommand());
         commands.put("switch", new SwitchCommand());
         commands.put("color", new ColorCommand());
-        // commands.put("dim", new DimCommand());
         commands.put("blink", new BlinkCommand());
         commands.put("rainbow", new RainbowCommand());
     }
@@ -33,17 +32,16 @@ public final class Main {
     private static void printUsage() {
         OUT.println("Usage:");
         OUT.println("  java -jar jlifx.jar <command>");
-        OUT.println("");
+        OUT.println();
         OUT.println("Where command can be:");
         OUT.println("  daemon (starts Boblight daemon)");
         OUT.println("  scan");
         OUT.println("  status");
         OUT.println("  switch  <ip-address|bulb name|all> <on|off>");
         OUT.println("  color   <ip-address|bulb name|all> [brightness (0.0 - 1.0)]");
-        // OUT.println("  dim     [-gw <ip-address> <mac-address>] <mac-address|gateway|all> <0.0 - 1.0>");
         OUT.println("  blink   <ip-address|bulb name|all> [times]");
         OUT.println("  rainbow <ip-address|bulb name|all> [duration (sec)]");
-        OUT.println("");
+        OUT.println();
         printExamples();
     }
 
@@ -52,7 +50,6 @@ public final class Main {
         OUT.println("  java -jar jlifx.jar switch all off");
         OUT.println("  java -jar jlifx.jar color all red");
         OUT.println("  java -jar jlifx.jar color livingroom red");
-        // OUT.println("  java -jar jlifx.jar dim all 0.5");
         OUT.println("  java -jar jlifx.jar blink 192.168.178.41 3");
         OUT.println("  java -jar jlifx.jar rainbow all");
         OUT.println("  java -jar jlifx.jar rainbow all 30");

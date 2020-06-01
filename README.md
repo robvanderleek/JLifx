@@ -18,7 +18,7 @@ Implementation is based on the specification by LIFX Labs (https://lan.developer
 
 ### Command line tool
 
-Run the `build.sh` script to build the packaged JAR shell script.
+Run the `build-cli.sh` script to build the executable JAR `jlifx`.
 
 ### Library
 
@@ -40,7 +40,8 @@ For Maven, add the following entry to your `pom.xml` (check https://search.maven
 ## Usage
 
 ### As command line tool
-Build the packaged JAR shell script and run it from the command line, this will display the supported commands:
+Build the executable JAR and run it from the command line, this will display 
+the supported commands:
 
 	$ ./jlifx
 
