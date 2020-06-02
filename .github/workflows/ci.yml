@@ -23,9 +23,10 @@ jobs:
       uses: s4u/maven-settings-action@v1
       with:
         servers: '[{"id": "github", "username": "x-access-token", "password": "${GITHUB_TOKEN}"}]'
-    - name: Deploy to Github Package Registry
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        jar=`ls target/*.jar | grep -v dependencies`
-        mvn -DskipTests deploy:deploy-file -DrepositoryId=github -Dfile=$jar -Durl=https://maven.pkg.github.com/robvanderleek/JLifx -DpomFile=pom.xml
+    ## Somehow this is broken for SNAPSHOT builds, disabeling for now
+    # - name: Deploy to Github Package Registry
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   run: |
+    #     jar=`ls target/*.jar | grep -v dependencies`
+    #     mvn -DskipTests deploy:deploy-file -DrepositoryId=github -Dfile=$jar -Durl=https://maven.pkg.github.com/robvanderleek/JLifx -DpomFile=pom.xml
