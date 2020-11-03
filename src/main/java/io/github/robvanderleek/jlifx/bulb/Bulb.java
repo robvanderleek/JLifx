@@ -3,10 +3,7 @@ package io.github.robvanderleek.jlifx.bulb;
 import io.github.robvanderleek.jlifx.commandline.Utils;
 import io.github.robvanderleek.jlifx.common.Color;
 import io.github.robvanderleek.jlifx.common.MacAddress;
-import io.github.robvanderleek.jlifx.packet.Packet;
-import io.github.robvanderleek.jlifx.packet.PacketReader;
-import io.github.robvanderleek.jlifx.packet.PacketService;
-import io.github.robvanderleek.jlifx.packet.StatusResponsePacket;
+import io.github.robvanderleek.jlifx.packet.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -66,6 +63,19 @@ public class Bulb {
 
     public void colorize(Color color, int fadetime, float brightness) throws IOException {
         getPacketService().sendColorManagementPacket(this, color, fadetime, brightness);
+    }
+
+    public void colorizeZone(short firstZone, short lastZone, Color color) throws IOException {
+        colorizeZone(0, firstZone, lastZone, color, 1, PacketService.Apply.APPLY);
+    }
+
+    public void colorizeZone(short firstZone, short lastZone, Color color, float brightness) throws IOException {
+        colorizeZone(0, firstZone, lastZone, color, brightness, PacketService.Apply.APPLY);
+    }
+
+    public void colorizeZone(int fadetime, short firstZone, short lastZone, Color color, float brightness,
+                             PacketService.Apply apply) throws IOException {
+        getPacketService().sendSetColorZonePacket(this, fadetime, firstZone, lastZone, color, brightness, apply);
     }
 
     private StatusResponsePacket getStatus() throws IOException {

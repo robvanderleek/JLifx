@@ -86,6 +86,10 @@ public class Packet {
         this.type = new byte[]{type, 0x00};
     }
 
+    void setType(byte[] type) {
+        this.type = type;
+    }
+
     public byte[] getPayload() {
         return payload;
     }
