@@ -78,6 +78,11 @@ public class Bulb {
         getPacketService().sendSetColorZonePacket(this, fadetime, firstZone, lastZone, color, brightness, apply);
     }
 
+    public void multiZoneEffect(SetMultiZoneEffect.Type type, int speed, long duration,
+                                SetMultiZoneEffect.SpeedDirection speedDirection) throws IOException {
+        getPacketService().sendMultiZoneEffectPacket(this, type, speed, duration, speedDirection);
+    }
+
     private StatusResponsePacket getStatus() throws IOException {
         Optional<StatusResponsePacket> optionalPacket = new PacketService().sendStatusRequestPacket(this);
         return optionalPacket.orElseThrow(

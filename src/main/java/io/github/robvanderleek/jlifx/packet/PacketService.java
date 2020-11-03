@@ -53,6 +53,12 @@ public class PacketService {
         bulb.sendPacket(packet);
     }
 
+    public void sendMultiZoneEffectPacket(Bulb bulb, SetMultiZoneEffect.Type type, int speed, long duration,
+                                          SetMultiZoneEffect.SpeedDirection speedDirection) throws IOException {
+        Packet packet = new SetMultiZoneEffect(bulb.getMacAddress(), type, speed, duration, speedDirection);
+        bulb.sendPacket(packet);
+    }
+
     public BulbMeshFirmwareStatus getMeshFirmwareStatus(Bulb bulb) throws IOException {
         Packet packet = new MeshFirmwareRequestPacket();
         Packet responsePacket = bulb.sendPacketAndGetResponse(packet);
