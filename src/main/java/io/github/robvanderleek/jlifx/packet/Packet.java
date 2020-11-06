@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.nio.ByteBuffer;
 
 
 public class Packet {
@@ -143,6 +144,22 @@ public class Packet {
         if (data.length > 36) {
             result.setPayload(ArrayUtils.subarray(data, 36, data.length));
         }
+        return result;
+    }
+
+    byte[] longToBytes(long x) {
+        return ByteBuffer.allocate(8).putLong(x).array();
+    }
+
+    byte[] intToBytes(int i) {
+        return ByteBuffer.allocate(4).putInt(i).array();
+    }
+
+    byte[] floatToBytes(float f) {
+        int byteValue = (int) (f * 65535);
+        byte[] result = new byte[2];
+        result[0] = (byte) (byteValue >> 8);
+        result[1] = (byte) byteValue;
         return result;
     }
 

@@ -24,12 +24,4 @@ class ColorManagementPacket extends Packet {
         setPayload(payload);
     }
 
-    private byte[] floatToBytes(float f) {
-        int byteValue = (int) (f * 65535);
-        byte[] result = new byte[2];
-        result[0] = (byte) (byteValue >> 8);
-        result[1] = (byte) byteValue;
-        return result;
-    }
-
 }
