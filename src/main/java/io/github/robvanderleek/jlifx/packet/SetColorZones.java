@@ -3,24 +3,26 @@ package io.github.robvanderleek.jlifx.packet;
 import io.github.robvanderleek.jlifx.common.Color;
 import io.github.robvanderleek.jlifx.common.MacAddress;
 
-class ColorManagementPacket extends Packet {
+public class SetColorZones extends Packet {
 
-    ColorManagementPacket(MacAddress targetMacAddress, Color color, int fadetime, float brightness) {
+    SetColorZones(MacAddress targetMacAddress, short startIndex, short endIndex, Color color, int fadetime,
+                  PacketService.Apply apply, float brightness) {
         float[] hsbValues = Color.rgbToHsb(color.getRed(), color.getGreen(), color.getBlue());
-        setType((byte) 0x66);
+        setType(new byte[]{(byte) 0xF5, (byte) 0x01});
         setTargetMac(targetMacAddress);
-        byte streaming = 0x00;
         byte[] hueBytes = floatToBytes(hsbValues[0]);
         byte[] saturationBytes = floatToBytes(hsbValues[1]);
         byte[] brightnessBytes = floatToBytes(brightness);
         byte[] kelvin = new byte[]{0x0a, (byte) 0xf0};
-        byte[] payload = new byte[]{streaming, //
+        byte[] duration = intToBytes(fadetime);
+        byte[] payload = new byte[]{(byte) startIndex, (byte) endIndex, //
                 hueBytes[1], hueBytes[0], //
                 saturationBytes[1], saturationBytes[0], //
                 brightnessBytes[1], brightnessBytes[0], //
-                kelvin[1], //
-                kelvin[0], //
-                0x00, (byte) fadetime, 0x00, 0x00};
+                kelvin[1], kelvin[0], //
+                duration[3], duration[2], duration[1], duration[0], //
+                (byte) (apply == PacketService.Apply.NO_APPLY ? 0x0 : apply == PacketService.Apply.APPLY ? 0x1 : 0x2)};
+
         setPayload(payload);
     }
 

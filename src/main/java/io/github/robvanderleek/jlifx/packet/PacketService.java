@@ -47,10 +47,26 @@ public class PacketService {
         bulb.sendPacketAndGetResponse(packet);
     }
 
+    public void sendSetColorZonePacket(Bulb bulb, int fadetime, short firstZone, short lastZone, Color color,
+                                       float brightness, Apply apply) throws IOException {
+        Packet packet = new SetColorZones(bulb.getMacAddress(), firstZone, lastZone, color, fadetime, apply, brightness);
+        bulb.sendPacket(packet);
+    }
+
+    public void sendMultiZoneEffectPacket(Bulb bulb, SetMultiZoneEffect.Type type, int speed, long duration,
+                                          SetMultiZoneEffect.SpeedDirection speedDirection) throws IOException {
+        Packet packet = new SetMultiZoneEffect(bulb.getMacAddress(), type, speed, duration, speedDirection);
+        bulb.sendPacket(packet);
+    }
+
     public BulbMeshFirmwareStatus getMeshFirmwareStatus(Bulb bulb) throws IOException {
         Packet packet = new MeshFirmwareRequestPacket();
         Packet responsePacket = bulb.sendPacketAndGetResponse(packet);
         return BulbMeshFirmwareStatus.fromPacket(responsePacket);
+    }
+
+    public enum Apply {
+        NO_APPLY, APPLY, APPLY_ONLY
     }
 
 }
