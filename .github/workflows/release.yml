@@ -24,6 +24,8 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_NEXUS_USER
           server-password: MAVEN_NEXUS_PASSWORD
+      - name: Run tests and build jar
+        run: mvn install
       - name: Copy GPG Private key
         run: echo "${{ secrets.gpg_private_key }}" > private-key.txt && gpg --import --no-tty --batch --yes private-key.txt
       - name: Deploy to Maven Central respository
@@ -31,3 +33,9 @@ jobs:
           MAVEN_NEXUS_USER: ${{ secrets.nexus_username }}
           MAVEN_NEXUS_PASSWORD: ${{ secrets.nexus_password }}
         run: mvn clean deploy -Dgpg.passphrase=${{ secrets.gpg_passphrase }} -DskipTests -P deploy
+      - name: Deploy to Github Package Registry
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          jar=`ls target/*.jar | grep -v dependencies`
+          mvn -DskipTests deploy:deploy-file -DrepositoryId=github -Dfile=$jar -Durl=https://maven.pkg.github.com/robvanderleek/JLifx -DpomFile=pom.xml
