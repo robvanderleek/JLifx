@@ -6,20 +6,35 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
+    - name: 'Checkout repo'
+      uses: actions/checkout@v1
+
+    - name: 'Set up JDK 1.8'
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - uses: actions/cache@v1
+
+    - name: 'Load Maven cache'
+      uses: actions/cache@v1
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
-    - name: Run tests and build jar
+
+    - name: 'Run tests and build jar'
       run: mvn install
+
     - name: setup-maven-settings
       uses: s4u/maven-settings-action@v1
       with:
         servers: '[{"id": "github", "username": "x-access-token", "password": "${GITHUB_TOKEN}"}]'
+  merge_me:
+    name: 'Auto-merge dependabot PRs'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Merge dependabot PR branch'
+        uses: ridedott/merge-me-action@master
+        with:
+          GITHUB_LOGIN: dependabot[bot]
