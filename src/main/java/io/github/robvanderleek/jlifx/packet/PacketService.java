@@ -42,6 +42,19 @@ public class PacketService {
         }
     }
 
+    public Optional<GroupResponsePacket> sendGroupRequestPacket(Bulb bulb) {
+        Packet packet = new GroupRequestPacket();
+        try {
+            List<Packet> responsePackets = bulb.sendPacketAndGetResponses(packet);
+            return responsePackets.stream().map(GroupResponsePacket::new)
+                    .filter(p -> p.getType() == GroupResponsePacket.TYPE).findFirst();
+        } catch (IOException e) {
+            e.printStackTrace();
+            LOG.error(e);
+            return Optional.empty();
+        }
+    }
+
     void sendWifiInfoRequestPacket(Bulb bulb) throws IOException {
         Packet packet = new WifiInfoRequestPacket();
         bulb.sendPacketAndGetResponse(packet);
