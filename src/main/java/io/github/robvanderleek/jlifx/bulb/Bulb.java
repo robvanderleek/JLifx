@@ -128,6 +128,24 @@ public class Bulb {
         return meshFirmwareStatus;
     }
 
+    private GroupResponsePacket getGroup() throws IOException {
+        Optional<GroupResponsePacket> optionalPacket = new PacketService().sendGroupRequestPacket(this);
+        return optionalPacket.orElseThrow(
+                () -> new IOException(String.format("Could not get group for bulb: %s!", getIpAddress())));
+    }
+
+    public byte[] getGroupId() throws IOException {
+        return getGroup().getId();
+    }
+
+    public String getGroupLabel() throws IOException {
+        return getGroup().getLabel();
+    }
+
+    public long getGroupUpdatedAt() throws IOException {
+        return getGroup().getUpdatedAt();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Bulb))
