@@ -7,10 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class PacketService {
     private static final Log LOG = LogFactory.getLog(PacketService.class);
@@ -47,9 +45,8 @@ public class PacketService {
         try {
             List<Packet> responsePackets = bulb.sendPacketAndGetResponses(packet);
             return responsePackets.stream().map(GroupResponsePacket::new)
-                    .filter(p -> p.getType() == GroupResponsePacket.TYPE).findFirst();
+                                  .filter(p -> p.getType() == GroupResponsePacket.TYPE).findFirst();
         } catch (IOException e) {
-            e.printStackTrace();
             LOG.error(e);
             return Optional.empty();
         }
@@ -62,7 +59,8 @@ public class PacketService {
 
     public void sendSetColorZonePacket(Bulb bulb, int fadetime, short firstZone, short lastZone, Color color,
                                        float brightness, Apply apply) throws IOException {
-        Packet packet = new SetColorZones(bulb.getMacAddress(), firstZone, lastZone, color, fadetime, apply, brightness);
+        Packet packet =
+                new SetColorZones(bulb.getMacAddress(), firstZone, lastZone, color, fadetime, apply, brightness);
         bulb.sendPacket(packet);
     }
 

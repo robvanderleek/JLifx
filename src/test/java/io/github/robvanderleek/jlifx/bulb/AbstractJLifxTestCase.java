@@ -18,6 +18,10 @@ public class AbstractJLifxTestCase {
     public static final InetAddress TEST_INET_ADDRESS = InetAddress.getLoopbackAddress();
     public static final MacAddress TEST_MAC_ADDRESS = new MacAddress(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05, 0x06});
 
+    Bulb getNewTestBulb() {
+        return new Bulb(TEST_INET_ADDRESS, TEST_MAC_ADDRESS);
+    }
+
     protected Bulb getMockedBulb() {
         Bulb mock = mock(Bulb.class);
         when(mock.getMacAddress()).thenReturn(TEST_MAC_ADDRESS);
