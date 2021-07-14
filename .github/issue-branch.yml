@@ -1,4 +1,4 @@
-branchhName: '${issue.title,}--issue-${issue.number}^'
+branchName: '${issue.title,}--issue-${issue.number}^'
 mode: auto
 defaultBranch: 'master'
 branches:
