@@ -1,8 +1,6 @@
-branchName: '${issue.title,}--issue-${issue.number}^'
 mode: auto
-defaultBranch: 'master'
 branches:
   - label: question
     skip: true
   - label: *
-    name: master
+    name: main
