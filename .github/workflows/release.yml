@@ -8,3 +8,5 @@ on:
 jobs:
   release:
     uses: robvanderleek/repo-meister/.github/workflows/java-maven-release-to-nexus.yml@main
+    secrets:
+      gpg_private_key: ${{ secrets.gpg_private_key }}
