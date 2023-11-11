@@ -2,8 +2,7 @@
 
 ![Screenshot](screenshot.png)
 
-[![BCH compliancy](https://bettercodehub.com/edge/badge/robvanderleek/JLifx)](https://bettercodehub.com)
-[![Build Status](https://github.com/robvanderleek/JLifx/workflows/main/badge.svg)](https://github.com/robvanderleek/JLifx/actions)
+[![main](https://github.com/robvanderleek/JLifx/actions/workflows/main.yml/badge.svg)](https://github.com/robvanderleek/JLifx/actions/workflows/main.yml)
 [![Build Status](https://github.com/robvanderleek/JLifx/workflows/Release/badge.svg)](https://github.com/robvanderleek/JLifx/actions)
 [![Coverage Status](https://coveralls.io/repos/robvanderleek/JLifx/badge.svg?branch=master)](https://coveralls.io/r/robvanderleek/JLifx?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.robvanderleek/jlifx/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.robvanderleek/jlifx)
