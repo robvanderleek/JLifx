@@ -3,25 +3,5 @@ name: main
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: 'Checkout repo'
-      uses: actions/checkout@v1
-
-    - name: 'Set up JDK'
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: 17
-
-    - name: 'Load Maven cache'
-      uses: actions/cache@v1
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-
-    - name: 'Run tests and build jar'
-      run: mvn install
+  test:
+    uses: robvanderleek/repo-meister/.github/workflows/java-maven-test.yml
