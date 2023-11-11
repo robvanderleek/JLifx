@@ -4,4 +4,4 @@ on: [push, pull_request]
 
 jobs:
   test:
-    uses: robvanderleek/repo-meister/.github/workflows/java-maven-test.yml
+    uses: robvanderleek/repo-meister/.github/workflows/java-maven-test.yml@main
