@@ -7,9 +7,36 @@ on:
 
 jobs:
   release:
-    uses: robvanderleek/repo-meister/.github/workflows/java-maven-release-to-nexus.yml@main
-    secrets:
-      gpg_private_key: ${{ secrets.gpg_private_key }}
-      gpg_passphrase: ${{ secrets.gpg_passphrase }}
-      nexus_username: ${{ secrets.nexus_username }}
-      nexus_password: ${{ secrets.nexus_password }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
+
+      - name: "Set up JDK"
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: 17
+          server-id: ossrh
+          server-username: MAVEN_NEXUS_USER
+          server-password: MAVEN_NEXUS_PASSWORD
+
+      - name: "Load Maven cache"
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: "Build and run tests"
+        run: mvn install
+
+      - name: "Import GPG private key"
+        run: echo "${{ secrets.gpg_private_key }}" > private-key.txt && gpg --import --no-tty --batch --yes private-key.txt
+
+      - name: "Deploy to Maven Central respository"
+        env:
+          MAVEN_NEXUS_USER: ${{ secrets.nexus_username }}
+          MAVEN_NEXUS_PASSWORD: ${{ secrets.nexus_password }}
+        run: mvn clean deploy -Dgpg.passphrase=${{ secrets.gpg_passphrase }} -DskipTests -P deploy
